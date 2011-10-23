@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+    <global-method-security secured-annotations="enabled" />
+
+    <!-- We assume that spring security is applied only for *.action in the web.xml -->
+    <http>
+
+        <!-- Anonymous -->
+        <intercept-url pattern="/sample/**" access="ROLE_ANONYMOUS,ROLE_USER" />
+
+        <anonymous />
+        <form-login login-page='/index.html'/>
+        <logout />
+        <remember-me user-service-ref="userDetailsService"/>
+    </http>
+
+    <authentication-manager alias="authenticationManager"/>
+
+    <beans:bean id="gwtFilter" class="com.gwtincubator.security.server.GWTAuthenticationProcessingFilter">
+        <custom-filter position="AUTHENTICATION_PROCESSING_FILTER"/>
+        <beans:property name="defaultTargetUrl" value="/" />
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+    </beans:bean>
+    <authentication-provider user-service-ref="userDetailsService" />
+
+
+  <!-- Servise ktera vraci uzivatele podle loginu z prihlasovaci stranky -->
+
+    <beans:bean id="userDetailsService" class="com.inspectime.spring.support.UserDetailsServiceImpl">
+        <beans:property name="userService" ref="userService"/>
+       <!-- <beans:property name="userGroupService" ref="userGroupService"/>-->
+    </beans:bean>
+
+    <!--
+
+    <user-service id="userDetailsService">
+        <user name="admin" password="admin" authorities="ROLE_USER,ROLE_SUPERVISOR,ROLE_ADMIN" />
+        <user name="superman" password="superman" authorities="ROLE_USER,ROLE_SUPERVISOR" />
+        <user name="user1" password="user1" authorities="ROLE_USER" />
+    </user-service>
+-->
+
+</beans:beans>

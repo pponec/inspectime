@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <properties>
+        <ujo.version>1.20.01-SNAPSHOT</ujo.version>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <scm>
+        <url>scm:svn:https://ujoframework.svn.sourceforge.net/svnroot/ujoframework/trunk/project-m2</url>
+        <connection>scm:svn:https://ujoframework.svn.sourceforge.net/svnroot/ujoframework/trunk/project-m2</connection>
+    </scm>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.inspectime</groupId>
+    <artifactId>ujo</artifactId>
+    <version>1.20.01-SNAPSHOT</version>
+    <name>Main UJO</name>
+    <packaging>pom</packaging>
+    <description>Ujorm common project</description>
+
+    <!-- SUB PROJECTS -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>ujo-gxt-core</module>
+        <module>ujo-gxt-crud</module>
+    </modules>
+
+
+    <!-- DEPENDENCES -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+</project>
+
+
+
+

@@ -1,0 +1,76 @@
+/** Add css rules here for your application. */
+a{
+    color: black;
+    font-size: 9pt;
+    text-decoration: none;
+}
+a:hover
+{
+    text-decoration: underline;
+}
+.gwt-Label-message {
+    color: red;
+}
+
+td.cujo-field input {
+    color: black !important;
+    background-color: white;
+    margin-right: 2px;
+}
+
+body, .hotTaskLabel, .loginInfo, #mainTabPanel .x-tab-strip-text {
+    font-family: tahoma,arial,helvetica,sans-serif;
+}
+
+#mainTabPanel .x-tab-strip-text, .hotTaskLabel {
+    font-size: 14px;
+}
+
+.loginInfo {
+    font-size: 12px;
+}
+
+.hotTaskLabel, label.standardLabel {
+    font-weight: bold;
+    color: #1d4c8c;
+}
+
+label.standardLabel {
+    font-size: 12px;
+}
+
+
+/* Bold font for selected TAB */
+#mainTabPanel .x-tab-strip-active span.x-tab-strip-text {
+    font-weight: bold;/
+    color: darkblue;
+}
+
+#instantAddEvent {
+    font-weight: bold;
+}
+
+/** White background for TABs */
+.x-tab-panel-header {
+    border:0 solid;
+}
+
+.x-tab-panel-header ul.x-tab-strip-top {
+    background-color:white;
+    background-image:none;
+}
+
+.largeLogo {
+    background: url('./resources/icons/largeLogo.png') no-repeat;
+    background-position: top center;
+}
+
+.logoutButton {
+    /* TODO: border: none !important; */
+}
+
+.commonMessageDialog div.x-window-mc {
+    font-size: 14px;
+    color: #4a7192;
+    background-color: white;
+}

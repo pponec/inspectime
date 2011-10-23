@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The Ujorm configuration file release 1.19.03-SNAPSHOT was created 2011/05/15 03:20 -->
+<body>
+    <database id="InspectimeDatabase">
+        <schema>inspectime</schema>
+        <dialect>org.ujorm.orm.dialect.MySqlDialect</dialect>
+        <jdbcUrl>jdbc:mysql://127.0.0.1:3306/</jdbcUrl>
+        <jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver>
+        <user>inspectime</user>
+        <sequencer>org.ujorm.orm.UjoSequencer</sequencer>
+        <table id="PARAMETER_COM">
+            <name>app_parameter</name>
+            <alias>app_parameter</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="key">
+                <name>pkey</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>64</maxLength>
+                <uniqueIndex>idx_parameter</uniqueIndex>
+            </column>
+            <column id="company">
+                <name>company</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_parameter</uniqueIndex>
+            </column>
+            <column id="value">
+                <name>text_value</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>256</maxLength>
+            </column>
+            <comment>Single Company Parameter</comment>
+        </table>
+        <table id="PARAMETER_USR">
+            <name>usr_parameter</name>
+            <alias>usr_parameter</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="key">
+                <name>pkey</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>64</maxLength>
+                <uniqueIndex>idx_usr_parameter</uniqueIndex>
+            </column>
+            <column id="user">
+                <name>id_user</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_usr_parameter</uniqueIndex>
+            </column>
+            <column id="value">
+                <name>text_value</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>256</maxLength>
+            </column>
+            <comment>Single User Parameter</comment>
+        </table>
+        <table id="DESCRIPTION">
+            <name>app_detail</name>
+            <alias>app_detail</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="content">
+                <name>content</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>256</maxLength>
+            </column>
+            <column id="more">
+                <name>more</name>
+            </column>
+            <comment>Description content for long texts</comment>
+        </table>
+        <table id="USER">
+            <name>usr_user</name>
+            <alias>usr_user</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_user</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="login">
+                <name>login</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>80</maxLength>
+                <uniqueIndex>idx_user</uniqueIndex>
+            </column>
+            <column id="email">
+                <name>email</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>80</maxLength>
+            </column>
+            <column id="timeZone">
+                <name>time_zone</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>1</maxLength>
+            </column>
+            <column id="company">
+                <name>company</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="passwordHash">
+                <name>password</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>50</maxLength>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>100</maxLength>
+                <comment>User&apos;s sure name and first name</comment>
+            </column>
+            <column id="workFundStafPerWeek">
+                <name>work_fund</name>
+                <dbType>SMALLINT</dbType>
+                <mandatory>true</mandatory>
+                <comment>Work  fund staff per week</comment>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="enabled">
+                <name>enabled</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="accountNonExpired">
+                <name>account_non_expired</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="credentialsNonExpired">
+                <name>credentials_non_expired</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="accountNonLocked">
+                <name>account_non_locked</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="contractDate">
+                <name>contract_date</name>
+                <dbType>DATE</dbType>
+                <comment>Date of confirmation of the contract</comment>
+            </column>
+            <column id="lastLoginDate">
+                <name>login_date</name>
+                <dbType>DATE</dbType>
+                <comment>The last login date</comment>
+            </column>
+            <column id="userGroup">
+                <name>userGroup</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="lockDate">
+                <name>lockDate</name>
+                <dbType>DATE</dbType>
+            </column>
+            <relation2m id="userRoles">
+                <name>userRoles</name>
+            </relation2m>
+            <comment>User of the Company</comment>
+        </table>
+        <table id="USER_GROUP">
+            <name>usr_group</name>
+            <alias>usr_group</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_userGroup</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>100</maxLength>
+                <uniqueIndex>idx_userGroup</uniqueIndex>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <relation2m id="users">
+                <name>users</name>
+            </relation2m>
+            <comment>User Group</comment>
+        </table>
+        <table id="USER_ROLE">
+            <name>usr_role</name>
+            <alias>usr_role</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="role">
+                <name>id_role</name>
+                <dbType>SMALLINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_userRole</uniqueIndex>
+            </column>
+            <column id="user">
+                <name>id_user</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_userRole</uniqueIndex>
+            </column>
+            <comment>Table for maping user roles</comment>
+        </table>
+        <table id="PRODUCT">
+            <name>jws_product</name>
+            <alias>jws_product</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="company">
+                <name>id_company</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_product</uniqueIndex>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_product</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="undefined">
+                <name>undefined_state</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="name">
+                <name>product_name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>100</maxLength>
+                <uniqueIndex>idx_product</uniqueIndex>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="created">
+                <name>created</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="createdBy">
+                <name>createdBy</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modifiedBy">
+                <name>modifiedBy</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="graphColor">
+                <name>graphColor</name>
+                <dbType>INT</dbType>
+                <mandatory>true</mandatory>
+                <comment>Graph Color</comment>
+            </column>
+            <comment>Product of Company</comment>
+        </table>
+        <table id="PROJECT">
+            <name>jws_project</name>
+            <alias>jws_project</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_project</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="finished">
+                <name>finished</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>100</maxLength>
+                <uniqueIndex>idx_project</uniqueIndex>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="product">
+                <name>id_product</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_project</uniqueIndex>
+            </column>
+            <column id="customer">
+                <name>id_customer</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="completionDate">
+                <name>completion_date</name>
+                <dbType>DATE</dbType>
+                <comment>Completion date</comment>
+            </column>
+            <column id="created">
+                <name>created</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="createdBy">
+                <name>createdBy</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+                <comment>Timestamp of the last modification</comment>
+            </column>
+            <column id="modifiedBy">
+                <name>modifiedBy</name>
+                <dbType>BIGINT</dbType>
+                <comment>Modified by user</comment>
+            </column>
+            <column id="graphColor">
+                <name>graphColor</name>
+                <dbType>INT</dbType>
+                <mandatory>true</mandatory>
+                <comment>Graph Color</comment>
+            </column>
+            <relation2m id="events">
+                <name>events</name>
+            </relation2m>
+            <comment>Project of the Product for Customer</comment>
+        </table>
+        <table id="CUSTOMER">
+            <name>jws_customer</name>
+            <alias>jws_customer</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_customer</uniqueIndex>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>100</maxLength>
+                <uniqueIndex>idx_customer</uniqueIndex>
+            </column>
+            <column id="company">
+                <name>id_company</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_customer</uniqueIndex>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="created">
+                <name>created</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="createdBy">
+                <name>createdBy</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modifiedBy">
+                <name>modifiedBy</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="graphColor">
+                <name>graphColor</name>
+                <dbType>INT</dbType>
+                <mandatory>true</mandatory>
+                <comment>Graph Color</comment>
+            </column>
+            <relation2m id="projects">
+                <name>projects</name>
+            </relation2m>
+        </table>
+        <table id="COMPANY">
+            <name>jws_company</name>
+            <alias>jws_company</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+                <comment>Primary Key</comment>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>100</maxLength>
+                <comment>Company name can&apos;t be unique.</comment>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+                <comment>Description</comment>
+            </column>
+            <column id="taskCodeSeq">
+                <name>taskCodeSeq</name>
+                <dbType>INT</dbType>
+                <mandatory>true</mandatory>
+                <comment>Task Code sequence contains the value to next assign</comment>
+            </column>
+            <relation2m id="products">
+                <name>products</name>
+            </relation2m>
+            <comment>Company</comment>
+        </table>
+        <table id="MSG_CONTENT">
+            <name>jws_content</name>
+            <alias>jws_content</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="content">
+                <name>content</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>256</maxLength>
+            </column>
+            <column id="more">
+                <name>more</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <comment>Description content for long texts</comment>
+        </table>
+        <table id="REL_PROJ_USRGROUP">
+            <name>rel_proj_usrgroup</name>
+            <alias>rel_proj_usrgroup</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="project">
+                <name>id_project</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="userGroup">
+                <name>id_user_group</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <comment>Relation: Project-UserGroup</comment>
+        </table>
+        <table id="TASK_ACTION">
+            <name>rel_task_action</name>
+            <alias>rel_task_action</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>1000</maxLength>
+            </column>
+            <column id="created">
+                <name>created</name>
+                <dbType>TIMESTAMP</dbType>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+            </column>
+            <column id="taskState">
+                <name>taskState</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>2</maxLength>
+            </column>
+            <column id="actionScope">
+                <name>actionScope</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>2</maxLength>
+            </column>
+            <column id="user">
+                <name>id_user</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <comment>The Action of the task</comment>
+        </table>
+        <table id="EVENT">
+            <name>jws_event</name>
+            <alias>jws_event</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+                <comment>Primary Key</comment>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <index>idx_event</index>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="user">
+                <name>id_user</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <index>idx_event</index>
+            </column>
+            <column id="day">
+                <name>day_value</name>
+                <dbType>DATE</dbType>
+                <mandatory>true</mandatory>
+                <index>idx_event</index>
+            </column>
+            <column id="startTime">
+                <name>start_time</name>
+                <dbType>SMALLINT</dbType>
+                <mandatory>true</mandatory>
+                <index>idx_event</index>
+            </column>
+            <column id="period">
+                <name>period</name>
+                <dbType>SMALLINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="timeZone">
+                <name>time_zone</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>1</maxLength>
+            </column>
+            <column id="utcDayTime">
+                <name>utc_day_time</name>
+                <dbType>TIMESTAMP</dbType>
+            </column>
+            <column id="task">
+                <name>task</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>256</maxLength>
+            </column>
+            <comment>User Event</comment>
+        </table>
+        <table id="USER_TASK">
+            <name>usr_task</name>
+            <alias>usr_task</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="user">
+                <name>id_user</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_usr_task</uniqueIndex>
+            </column>
+            <column id="task">
+                <name>task</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_usr_task</uniqueIndex>
+            </column>
+            <column id="order">
+                <name>task_order</name>
+                <dbType>SMALLINT</dbType>
+            </column>
+            <comment>User Task</comment>
+        </table>
+        <table id="EVENT_LOCK">
+            <name>usr_event_lock</name>
+            <alias>usr_event_lock</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+                <comment>Primary Key</comment>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="user">
+                <name>id_user</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <index>idx_period_lock</index>
+            </column>
+            <column id="lockDate">
+                <name>lockDate</name>
+                <dbType>DATE</dbType>
+                <mandatory>true</mandatory>
+                <index>idx_period_lock</index>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modifiedBy">
+                <name>modifiedBy</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <comment>Lock for a user period</comment>
+        </table>
+        <table id="RELEASE">
+            <name>jws_release</name>
+            <alias>jws_release</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_release</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="wfStarted">
+                <name>wfStarted</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>60</maxLength>
+                <uniqueIndex>idx_release</uniqueIndex>
+            </column>
+            <column id="releaseDate">
+                <name>releaseDate</name>
+                <dbType>TIMESTAMP</dbType>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="project">
+                <name>id_project</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_release</uniqueIndex>
+            </column>
+            <comment>Release of the Project</comment>
+        </table>
+        <table id="PRJ_TASK">
+            <name>jws_task</name>
+            <alias>jws_task</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_task</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="finished">
+                <name>finished</name>
+                <dbType>BOOLEAN</dbType>
+                <mandatory>true</mandatory>
+                <comment>Is the task finished?</comment>
+            </column>
+            <column id="code">
+                <name>code</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>128</maxLength>
+                <uniqueIndex>idx_task</uniqueIndex>
+                <comment>Task Code</comment>
+            </column>
+            <column id="title">
+                <name>title</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>128</maxLength>
+                <comment>Task Title</comment>
+            </column>
+            <column id="company">
+                <name>company</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_task</uniqueIndex>
+            </column>
+            <column id="created">
+                <name>created</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+                <comment>Timestamp of creation</comment>
+            </column>
+            <column id="createdBy">
+                <name>createdBy</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modifiedBy">
+                <name>modifiedBy</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="release">
+                <name>id_release</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="project">
+                <name>id_project</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="account">
+                <name>id_account</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="taskState">
+                <name>taskState</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>2</maxLength>
+            </column>
+            <column id="type">
+                <name>type_enum</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>2</maxLength>
+            </column>
+            <column id="parent">
+                <name>id_parent</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <comment>Project Task is unique for properties $ACTIVE, CODE, COMPANY</comment>
+        </table>
+        <table id="ENV_ACCOUNT">
+            <name>jws_account</name>
+            <alias>jws_account</alias>
+            <schema>inspectime</schema>
+            <column id="id">
+                <name>id</name>
+                <primaryKey>true</primaryKey>
+                <dbType>BIGINT</dbType>
+                <comment>Primary Key</comment>
+            </column>
+            <column id="active">
+                <name>active</name>
+                <dbType>BOOLEAN</dbType>
+                <uniqueIndex>idx_account</uniqueIndex>
+                <comment>Not deleted. The null value means a logical deleted state</comment>
+            </column>
+            <column id="name">
+                <name>name</name>
+                <dbType>VARCHAR</dbType>
+                <mandatory>true</mandatory>
+                <maxLength>60</maxLength>
+                <uniqueIndex>idx_account</uniqueIndex>
+            </column>
+            <column id="company">
+                <name>company</name>
+                <dbType>BIGINT</dbType>
+                <mandatory>true</mandatory>
+                <uniqueIndex>idx_account</uniqueIndex>
+            </column>
+            <column id="description">
+                <name>description</name>
+                <dbType>VARCHAR</dbType>
+                <maxLength>250</maxLength>
+            </column>
+            <column id="privateState">
+                <name>privateState</name>
+                <dbType>BOOLEAN</dbType>
+            </column>
+            <column id="created">
+                <name>created</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="createdBy">
+                <name>createdBy</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="modified">
+                <name>modified</name>
+                <dbType>TIMESTAMP</dbType>
+                <mandatory>true</mandatory>
+            </column>
+            <column id="modifiedBy">
+                <name>modifiedBy</name>
+                <dbType>BIGINT</dbType>
+            </column>
+            <column id="graphColor">
+                <name>graphColor</name>
+                <dbType>INT</dbType>
+                <mandatory>true</mandatory>
+                <comment>Graph Color</comment>
+            </column>
+            <comment>Account to calculate costs of taks</comment>
+        </table>
+        <table id="inspectime">
+            <name>jws_account</name>
+            <alias>jws_account</alias>
+            <schema>inspectime</schema>
+            <relation2m id="PARAMETER_COM">
+                <name>PARAMETER_COM</name>
+            </relation2m>
+            <relation2m id="PARAMETER_USR">
+                <name>PARAMETER_USR</name>
+            </relation2m>
+            <relation2m id="DESCRIPTION">
+                <name>DESCRIPTION</name>
+            </relation2m>
+            <relation2m id="USER">
+                <name>USER</name>
+            </relation2m>
+            <relation2m id="USER_GROUP">
+                <name>USER_GROUP</name>
+            </relation2m>
+            <relation2m id="USER_ROLE">
+                <name>USER_ROLE</name>
+            </relation2m>
+            <relation2m id="PRODUCT">
+                <name>PRODUCT</name>
+            </relation2m>
+            <relation2m id="PROJECT">
+                <name>PROJECT</name>
+            </relation2m>
+            <relation2m id="CUSTOMER">
+                <name>CUSTOMER</name>
+            </relation2m>
+            <relation2m id="COMPANY">
+                <name>COMPANY</name>
+            </relation2m>
+            <relation2m id="MSG_CONTENT">
+                <name>MSG_CONTENT</name>
+            </relation2m>
+            <relation2m id="REL_PROJ_USRGROUP">
+                <name>REL_PROJ_USRGROUP</name>
+            </relation2m>
+            <relation2m id="TASK_ACTION">
+                <name>TASK_ACTION</name>
+            </relation2m>
+            <relation2m id="EVENT">
+                <name>EVENT</name>
+            </relation2m>
+            <relation2m id="USER_TASK">
+                <name>USER_TASK</name>
+            </relation2m>
+            <relation2m id="EVENT_LOCK">
+                <name>EVENT_LOCK</name>
+            </relation2m>
+            <relation2m id="RELEASE">
+                <name>RELEASE</name>
+            </relation2m>
+            <relation2m id="PRJ_TASK">
+                <name>PRJ_TASK</name>
+            </relation2m>
+            <relation2m id="ENV_ACCOUNT">
+                <name>ENV_ACCOUNT</name>
+            </relation2m>
+        </table>
+    </database>
+    <parameters></parameters>
+</body>

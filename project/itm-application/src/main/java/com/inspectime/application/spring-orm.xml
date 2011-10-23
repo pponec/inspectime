@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <!--orm support-->
+    <bean id="ormHandler" class="org.ujorm.orm.OrmHandler"
+          scope="singleton">
+    </bean>
+
+    <!-- mapovani auto session okolo balicku jobs-->
+    <aop:config  proxy-target-class="false">
+        <aop:pointcut id="serviceAroundSession" expression="execution(* com.inspectime.application.jobs.def..*(..))" />
+        <aop:aspect id="aroundSession" ref="ujoSessionFactory" order="10" >
+            <aop:around pointcut-ref="serviceAroundSession" method="aroundSession" />
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="ujoSessionFactory" class="org.ujorm.orm.support.UjoSessionFactoryImpl">
+        <property name="handler" ref="ormHandler"/>
+    </bean>
+
+    <!--rizeni transakci anotaci transactional-->
+    <bean id="txManager" class="org.ujorm.orm.support.UjormTransactionManager">
+        <property name="ujoSessionFactory" ref="ujoSessionFactory"/>
+    </bean>
+    <!-- enable the configuration of transactional behavior based on annotations 
+    <tx:annotation-driven transaction-manager="txManager"/>
+    -->
+
+    <!-- mapovani auto transakci okolo servisniho(services) balicku-->
+    <!-- orm auto transaction -->
+    <!-- -->
+    <aop:config  proxy-target-class="false">
+        <aop:pointcut id="serviceAroundTransaction" expression="execution(* com.inspectime.service.def..*(..))" />
+        <aop:aspect id="aroundTransaction" ref="aroundServiceTransaction" order="10" >
+            <aop:around pointcut-ref="serviceAroundTransaction" method="aroundFilter" />
+        </aop:aspect>
+    </aop:config>
+    <bean id="aroundServiceTransaction" class="org.ujorm.orm.support.AroundServiceTransaction" >
+        <constructor-arg ref="ujoSessionFactory" />
+    </bean>
+    <!-- -->
+</beans>
