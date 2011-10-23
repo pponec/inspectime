@@ -1,0 +1,45 @@
+<!DOCTYPE module PUBLIC "//gwt-module/" "http://google-web-toolkit.googlecode.com/svn/tags/1.6.2/distro-source/core/src/gwt-module.dtd">
+<module>
+
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User'/>
+    
+    <!--  inherit css based theme -->
+    <inherits name='com.extjs.gxt.ui.GXT'/>
+    <inherits name='com.extjs.gxt.charts.Chart'/>
+    <inherits name="com.gwtincubator.security.IncubatorSecurity" />
+
+    <inherits name="org.ujorm.gxt.Ujo4GXT" />
+
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='com.inspectime.application.client.Application'/>
+
+    <!-- Specify the application specific style sheet.              -->
+    <stylesheet src='Application.css' />
+
+    <!-- Relative package with client source code -->
+    <source path='client' />
+
+    <!-- Relative package with resources (public static web) -->
+    <public path='staticweb' />
+
+    <!-- User Agent: =BUILD= -->
+    <set-property name="user.agent" value="gecko1_8" />
+    <!-- -->
+
+    <!-- Bug v GWT, v případech použití generik v rpc se automaticky přidávají do kompilovaného kodu třídy, které jsou deprecated -->
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.ChangeListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.ClickListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.FocusListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.FormHandlerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.KeyboardListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.LoadListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.MouseListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.MouseWheelListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.PopupListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.ScrollListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.TabListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.TableListenerCollection"/>
+    <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.TreeListenerCollection"/>
+
+</module>

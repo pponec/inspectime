@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Clean and Build no test</actionName>
+            <displayName>Clean and Build no test</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <gwt.style>PRETTY</gwt.style>
+            </properties>
+        </action>
+    </actions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+    <context:component-scan base-package="com.inspectime.service.impl, com.inspectime.application.server.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+    <!-- Service configurations -->
+    <bean id="appParamService" class="com.inspectime.service.impl.ParamCompServiceImpl">
+        <property name="appVersion" value="${inspectime-app.version}"/>
+    </bean>
+   <bean id="messageService" class="com.inspectime.service.impl.MessageServiceImpl" scope="session">
+        <property name="baseName" value="com.inspectime.commons.message.message"/>
+        <property name="sessionContext" ref="sessionContext"/>
+    </bean>
+    <bean id="sysParamService" class="com.inspectime.service.impl.ParamSystemServiceImpl"
+          init-method="init">
+    </bean>
+
+    <!-- Beans -->
+    <bean id="sessionContext" class="com.inspectime.application.server.core.SessionContext" scope="session" />
+    <bean id="serverClassConfig" class="com.inspectime.application.server.core.ServerClassConfig"  />
+
+
+</beans>

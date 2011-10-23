@@ -1,0 +1,18 @@
+The Inspectime startup
+**********************
+
+Default database connection parameters:
+- database: MySQL 5.0+
+- user....: inspectime
+- password: inspectime
+
+Parameters can be changed by the configuration file:
+$HOME/.inspectime/config.properties
+
+The first login to the application:
+- login...: admin 
+- password: admin
+
+ 
+--
+Created: 2010-07-04 Pavel Ponec
