@@ -1,5 +1,10 @@
-The Inspectime startup
-**********************
+The Inspectime
+**************
+
+License: GNU/GPL v3 (see detail on http://www.gnu.org/licenses/gpl.html).
+         If you need a commercial license, please contact support@inspectime.com.
+
+Support: support@ujorm.com - for both technical or business information
 
 Default database connection parameters:
 - database: MySQL 5.0+
