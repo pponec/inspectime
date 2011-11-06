@@ -247,9 +247,9 @@
                 <executions>
                     <execution>
                         <goals>
-                            <!-- =BUILD= -.->
+                            <!-- =BUILD= -->
                             <goal>compile</goal>
-                            <!-.- -->
+                            <!-- -->
                             
                             <!--  -.->
                             <goal>generateAsync</goal>
