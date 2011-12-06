@@ -500,6 +500,16 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
             @Override
             public void componentSelected(ButtonEvent ce) {
 
+                String currentUser = CParam4User.getInstance().getLogin();
+                if ("test@test.com".equals(currentUser)) {
+                    // The common demo user case:
+                    String msg = "The common test user "+currentUser+" can't approve events. Create you own user, please.";
+                    final MessageDialog d = new MessageDialog(msg);
+                    d.setButtons(Dialog.OK);
+                    d.show();
+                    return;
+                }
+
                 String message = "All events to the selected day will be approved. Are you sure?";
                 final MessageDialog d = new MessageDialog(message);
                 d.setButtons(Dialog.OKCANCEL);
