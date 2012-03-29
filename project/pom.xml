@@ -12,7 +12,7 @@
     <properties>
         <!--verze cele aplikace vcetne vsech jejich modulu-->
         <!--zmena takova aby znamenala povyseni verze nektereho modulu povisuje tuto verzi-->
-        <ujorm.version>1.21</ujorm.version>
+        <ujorm.version>1.22</ujorm.version>
         <gwt.version>2.0.3</gwt.version>
         <gxt.version>2.1.1</gxt.version>
         <maven.compiler.source>1.6</maven.compiler.source>
@@ -240,7 +240,7 @@
             <dependency>
                 <groupId>org.ujoframework</groupId>
                 <artifactId>ujo-orm-spring</artifactId>
-                <version>1.20</version>
+                <version>${ujorm.version}</version>
                 <scope>compile</scope>
                 <exclusions>
                     <exclusion>
