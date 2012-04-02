@@ -59,7 +59,7 @@ public class AccountTable<CUJO extends CAccount> extends AbstractTable<CUJO> {
     @Override
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CAccount> result = CQuery.newInstance(CAccount.class, createTableColumns());
-        CCriterion<CAccount> crn = CCriterion.where(CAccount.active, true);
+        CCriterion<CAccount> crn = CAccount.active.whereEq(true);
         result.setCriterion(crn);
         result.orderBy(CAccount.name);
 

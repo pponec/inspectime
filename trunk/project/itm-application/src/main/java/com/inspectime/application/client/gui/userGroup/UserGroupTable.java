@@ -63,7 +63,7 @@ public class UserGroupTable<CUJO extends CUserGroup> extends AbstractTable<CUJO>
     @Override
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CUserGroup> result = CQuery.newInstance(CUserGroup.class, createTableColumns());
-        CCriterion<CUserGroup> crn = CCriterion.where(CUserGroup.active, true);
+        CCriterion<CUserGroup> crn = CUserGroup.active.whereEq( true);
         result.setCriterion(crn);
         result.orderBy(CUserGroup.name);
         return result;
@@ -112,7 +112,7 @@ public class UserGroupTable<CUJO extends CUserGroup> extends AbstractTable<CUJO>
         CUserGroup userGroup = selectedProject ;
 
         ProjectUsrGroupTable table = new ProjectUsrGroupTable();
-        table.addCriterion(CCriterion.where(CRelProjUsGroup.userGroup, userGroup));
+        table.addCriterion(CRelProjUsGroup.userGroup.whereEq(userGroup));
 
         TableListDialog result = new TableListDialog(table, null);
         table.setSelectMode(null, result);

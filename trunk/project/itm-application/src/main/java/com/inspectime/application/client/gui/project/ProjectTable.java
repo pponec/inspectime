@@ -55,7 +55,7 @@ public class ProjectTable<CUJO extends CProject> extends AbstractTable<CUJO> {
     public ProjectTable(CProduct productFilter) {
         if (productFilter!=null) {
             this.productFilter = productFilter;
-            CCriterion<? super CUJO> crn = CCriterion.where(CProject.product, productFilter);
+            CCriterion<? super CUJO> crn = CProject.product.whereEq(productFilter);
             addCriterion(crn);
         }
     }
@@ -103,7 +103,7 @@ public class ProjectTable<CUJO extends CProject> extends AbstractTable<CUJO> {
 
         CCriterion<CProject> crn = isSelectMode()
             ? createProjectCriterion()
-            : CCriterion.where(CProject.active, true)
+            : CProject.active.whereEq(true)
             ;
 
         result.setCriterion(crn);
@@ -126,11 +126,11 @@ public class ProjectTable<CUJO extends CProject> extends AbstractTable<CUJO> {
 
     /** Create Criterion for select a valid Projects. */
     public static CCriterion<CProject> createProjectCriterion() {
-            CCriterion<CProject> crn, crn1, crn2, crn3, crn4;
-            crn1 = CCriterion.where(CProject.active, true);
-            crn2 = CCriterion.where(CProject.finished, false);
-            crn3 = CCriterion.where(CProject.product.add(CProduct.active), true) ;
-            crn4 = CCriterion.where(CProject.customer.add(CCustomer.active), true) ;
+            final CCriterion<CProject> crn, crn1, crn2, crn3, crn4;
+            crn1 = CProject.active.whereEq(true);
+            crn2 = CProject.finished.whereEq( false);
+            crn3 = CProject.product.add(CProduct.active).whereEq( true) ;
+            crn4 = CProject.customer.add(CCustomer.active).whereEq( true) ;
             crn  = crn1.and(crn2).and(crn3).and(crn4);
 
             return crn;

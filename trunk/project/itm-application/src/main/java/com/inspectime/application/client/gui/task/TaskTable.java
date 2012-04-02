@@ -80,7 +80,7 @@ public class TaskTable<CUJO extends CTask> extends AbstractTable<CUJO> {
     public TaskTable setProject(CProject projectFilter) {
         if (projectFilter!=null) {
             this.projectFilter = projectFilter;
-            CCriterion<? super CUJO> crn = CCriterion.where(CTask.project, projectFilter);
+            CCriterion<? super CUJO> crn = CTask.project.whereEq(projectFilter);
             addCriterion(crn);
         }
         return this;
@@ -134,17 +134,17 @@ public class TaskTable<CUJO extends CTask> extends AbstractTable<CUJO> {
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CTask> result = CQuery.newInstance(CTask.class, createTableColumns());
 
-        CCriterion<CTask> crn = CCriterion.where(CTask.active, true);
+        CCriterion<CTask> crn = CTask.active.whereEq(true);
         if (projectFilter!=null) {
-            crn = crn.and(CCriterion.where(CTask.project, projectFilter));
+            crn = crn.and(CTask.project.whereEq(projectFilter));
         }
         else if(isSelectMode()) {
-            CCriterion<CTask> crn1, crn2, crn3, crn4, crn5;
-            crn1 = CCriterion.where(CTask.finished, false) ;
-            crn2 = CCriterion.where(CTask.project.add(CProject.active), true);
-            crn3 = CCriterion.where(CTask.project.add(CProject.finished), false) ;
-            crn4 = CCriterion.where(CTask.project.add(CProject.product).add(CProduct.active), true) ;
-            crn5 = CCriterion.where(CTask.account.add(CAccount.active), true);
+            final CCriterion<CTask> crn1, crn2, crn3, crn4, crn5;
+            crn1 = CTask.finished.whereEq(false) ;
+            crn2 = CTask.project.add(CProject.active).whereEq( true);
+            crn3 = CTask.project.add(CProject.finished).whereEq( false) ;
+            crn4 = CTask.project.add(CProject.product).add(CProduct.active).whereEq( true) ;
+            crn5 = CTask.account.add(CAccount.active).whereEq( true);
             crn  = crn.and(crn1).and(crn2).and(crn3).and(crn4).and(crn5);
         }
 

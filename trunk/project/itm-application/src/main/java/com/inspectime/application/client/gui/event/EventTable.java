@@ -201,7 +201,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         CQuery<CEvent> result = CQuery.newInstance(CEvent.class, createTableColumns());
         Date selectedDay = calendar != null ? calendar.getValue() : new Date();
 
-        CCriterion<CEvent> crn1 = CCriterion.where(CEvent.active, true);
+        CCriterion<CEvent> crn1 = CEvent.active.whereEq(true);
         CCriterion<CEvent> crn2 = CCriterion.where((CujoProperty) CEvent.day, selectedDay); // Hack: http://code.google.com/p/google-web-toolkit/issues/detail?id=87
         result.setCriterion(crn1.and(crn2));
         result.setRelations(2);
@@ -584,7 +584,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                 CQuery<CProject> projectQuery = new CQuery<CProject>(CProject.class);
                 projectQuery.addOrderBy(CProject.name);
                 CCriterion<CProject> crn = ProjectTable.createProjectCriterion();
-                crn = crn.and(CCriterion.where(CProject.finished, false));
+                crn = crn.and(CProject.finished.whereEq(false));
                 projectQuery.setCriterion(crn);
                 return projectQuery;
             }
@@ -603,9 +603,9 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                 CQuery<CTask> projectQuery = new CQuery<CTask>(CTask.class);
                 projectQuery.addOrderBy(CTask.DISPLAY_PROPERTY);
                 final CCriterion<CTask> crn1, crn2, crn3;
-                crn1 = CCriterion.where(CTask.active, true);
-                crn2 = CCriterion.where(CTask.finished, false);
-                crn3 = CCriterion.where(CTask.project, projectBox.getValue());
+                crn1 = CTask.active.whereEq(true);
+                crn2 = CTask.finished.whereEq(false);
+                crn3 = CTask.project.whereEq(projectBox.getValue());
                 projectQuery.setCriterion(crn1.and(crn2).and(crn2).and(crn3));
                 return projectQuery;
             }

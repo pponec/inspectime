@@ -117,7 +117,7 @@ public class LiveEventPanel<CUJO extends CEvent> extends AbstractEventTable<CUJO
         CQuery<CEvent> result = CQuery.newInstance(CEvent.class, createTableColumns());
         Date selectedDay = new Date();
 
-        CCriterion<CEvent> crn1 = CCriterion.where(CEvent.active, true);
+        CCriterion<CEvent> crn1 = CEvent.active.whereEq(true);
         CCriterion<CEvent> crn2 = CCriterion.where((CujoProperty) CEvent.day, selectedDay); // Hack: http://code.google.com/p/google-web-toolkit/issues/detail?id=87
         result.setCriterion(crn1.and(crn2));
         result.setRelations(2);

@@ -124,7 +124,7 @@ public class ProductTable<CUJO extends CProduct> extends AbstractTable<CUJO> {
         CQuery<CProduct> result = CQuery.newInstance(CProduct.class, createTableColumns());
         //
         result.addOrderBy(CProduct.id); // Default orderBy
-        result.setCriterion(CCriterion.where(CProduct.active, true));
+        result.setCriterion(CProduct.active.whereEq(true));
         result.getColumnConfig(CProduct.active).setHidden(true);
         result.getColumnConfig(CProduct.company).setHidden(true);
         result.getColumnConfig(CProduct.created).setHidden(true);

@@ -99,9 +99,9 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
                 CQuery<CTask> projectQuery = new CQuery<CTask>(CTask.class);
                 projectQuery.addOrderBy(CTask.DISPLAY_PROPERTY);
                 final CCriterion<CTask> crn1, crn2, crn3;
-                crn1 = CCriterion.where(CTask.active, true);
-                crn2 = CCriterion.where(CTask.finished, false);
-                crn3 = CCriterion.where(CTask.project, projectBox.getValue());
+                crn1 = CTask.active.whereEq(true);
+                crn2 = CTask.finished.whereEq(false);
+                crn3 = CTask.project.whereEq(projectBox.getValue());
                 projectQuery.setCriterion(crn1.and(crn2).and(crn2).and(crn3));
                 return projectQuery;
             }

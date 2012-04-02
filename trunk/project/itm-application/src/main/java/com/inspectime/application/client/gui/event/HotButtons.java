@@ -56,7 +56,7 @@ public class HotButtons {
     /** Init buttons */
     public void init() {
         CQuery<CUserTask> query = CQuery.newInstance(CUserTask.class);
-        CCriterion<CUserTask> crn = CCriterion.where(CUserTask._isFinished, false);
+        CCriterion<CUserTask> crn = CUserTask._isFinished.whereEq(false);
         query.setCriterion(crn);
         query.orderBy(CUserTask.order, CUserTask.id);
         //

@@ -49,7 +49,7 @@ public class CompanyTable<CUJO extends CCompany> extends AbstractTable<CUJO> {
         CQuery<CCompany> result = CQuery.newInstance(CCompany.class, createTableColumns());
         //
         result.addOrderBy(CCompany.id); // Default orderBy
-        result.setCriterion(CCriterion.where(CCompany.active, true));
+        result.setCriterion(CCompany.active.whereEq(true));
         result.getColumnConfig(CCompany.active).setHidden(true);
         return result;
     }

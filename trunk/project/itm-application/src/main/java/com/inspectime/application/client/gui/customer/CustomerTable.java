@@ -59,7 +59,7 @@ public class CustomerTable<CUJO extends CCustomer> extends AbstractTable<CUJO> {
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CCustomer> result = CQuery.newInstance(CCustomer.class, createTableColumns());
         result.addOrderBy(CCustomer.name);
-        CCriterion<CCustomer> crn = CCriterion.where(CCustomer.active, true);
+        CCriterion<CCustomer> crn = CCustomer.active.whereEq(true);
         result.setCriterion(crn);
 
         // Properties
