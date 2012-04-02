@@ -44,8 +44,8 @@ abstract public class UserCombo extends OldCujoBox<CUser> {
     public CQuery getDefaultCQuery() {
         CQuery<CUser> userQuery = new CQuery<CUser>(CUser.class);
         CCriterion<CUser> crn1, crn2;
-        crn1 = CCriterion.where(CUser.active, true);
-        crn2 = CCriterion.where(CUser.enabled, true);
+        crn1 = CUser.active.whereEq( true);
+        crn2 = CUser.enabled.whereEq( true);
         userQuery.setCriterion(crn1.and(crn2));
         userQuery.addOrderBy(CUser.name);
         return userQuery;

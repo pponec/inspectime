@@ -35,9 +35,9 @@ abstract public class ProjectCombo extends OldCujoBox<CProject> {
     public CQuery getDefaultCQuery() {
         CQuery<CProject> projectQuery = new CQuery<CProject>(CProject.class);
         CCriterion<CProject> crn1, crn2, crn3;
-        crn1 = CCriterion.where(CProject.active, true);
-        crn2 = CCriterion.where(CProject.finished, false);
-        crn3 = CCriterion.where(CProject.product.add(CProduct.active), true);
+        crn1 = CProject.active.whereEq(true);
+        crn2 = CProject.finished.whereEq(false);
+        crn3 = CProject.product.add(CProduct.active).whereEq(true);
         projectQuery.setCriterion(crn1.and(crn2).and(crn3));
         projectQuery.addOrderBy(CProject.name);
         return projectQuery;

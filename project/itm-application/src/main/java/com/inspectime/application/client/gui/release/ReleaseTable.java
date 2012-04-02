@@ -50,7 +50,7 @@ public class ReleaseTable<CUJO extends CRelease> extends AbstractTable<CUJO> {
     public ReleaseTable(CProject projectFilter) {
         if (projectFilter!=null) {
             this.projectFilter = projectFilter;
-            CCriterion<? super CUJO> crn = CCriterion.where(CRelease.project, projectFilter);
+            CCriterion<? super CUJO> crn = CRelease.project.whereEq(projectFilter);
             addCriterion(crn);
         }
     }
@@ -116,7 +116,7 @@ public class ReleaseTable<CUJO extends CRelease> extends AbstractTable<CUJO> {
     @Override
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CRelease> result = CQuery.newInstance(CRelease.class, createTableColumns());
-        CCriterion<CRelease> crn = CCriterion.where(CRelease.active, true);
+        CCriterion<CRelease> crn = CRelease.active.whereEq(true);
         result.setCriterion(crn);
         result.orderBy(CRelease.name);
         return result;

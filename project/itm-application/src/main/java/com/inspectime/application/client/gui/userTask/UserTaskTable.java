@@ -54,7 +54,7 @@ public class UserTaskTable<CUJO extends CUserTask> extends AbstractTable<CUJO> {
     public UserTaskTable setTask(CTask taskFilter) {
         if (taskFilter!=null) {
             this.taskFilter = taskFilter;
-            CCriterion<? super CUJO> crn = CCriterion.where(CUserTask.task, taskFilter);
+            CCriterion<? super CUJO> crn = CUserTask.task.whereEq(taskFilter);
             addCriterion(crn);
         }
         return this;
@@ -110,7 +110,7 @@ public class UserTaskTable<CUJO extends CUserTask> extends AbstractTable<CUJO> {
     @Override
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CUserTask> result = CQuery.newInstance(CUserTask.class, createTableColumns());
-        CCriterion<CUserTask> crn = CCriterion.where(CUserTask._isFinished, false);
+        CCriterion<CUserTask> crn = CUserTask._isFinished.whereEq(false);
         result.setCriterion(crn);
         result.orderBy(CUserTask.order, CUserTask.id);
 

@@ -82,7 +82,7 @@ public class EventLockTable<CUJO extends CEventLock> extends AbstractTable<CUJO>
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CEventLock> result = CQuery.newInstance(CEventLock.class, createTableColumns());
 
-        CCriterion<CEventLock> crn = adminRole ? null : CCriterion.where(CEventLock.active, true);
+        CCriterion<CEventLock> crn = adminRole ? null : CEventLock.active.whereEq(true);
         result.setCriterion(crn);
         result.orderBy
                 ( CEventLock.lockDate.descending()

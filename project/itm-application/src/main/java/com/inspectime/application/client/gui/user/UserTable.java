@@ -95,7 +95,7 @@ public class UserTable<CUJO extends CUser> extends AbstractTable<CUJO> {
         result.addOrderBy(CUser.enabled.descending());
         result.addOrderBy(CUser.pid);
         result.addOrderBy(CUser.login);
-        result.setCriterion(CCriterion.where(CUser.active, true).and(CCriterion.where(CUser.login, COperator.NOT_EQ, "admin")));
+        result.setCriterion(CUser.active.whereEq(true).and(CUser.login.where(COperator.NOT_EQ, "admin")));
 
         // GUI:
         result.getColumnConfig(CUser.workFundStafPerWeek).setWidth(50);
