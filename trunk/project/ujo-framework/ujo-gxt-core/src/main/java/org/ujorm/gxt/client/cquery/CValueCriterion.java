@@ -196,7 +196,7 @@ public class CValueCriterion<UJO extends Cujo> extends CCriterion<UJO> implement
     /** Test a value is instance of CharSequence or a type CujoProperty is type of CharSequence.
      * If property is not valid than throw Exception.
      */
-    protected void makeCharSequenceTest(Object value) throws IllegalArgumentException {
+    protected final void makeCharSequenceTest(Object value) throws IllegalArgumentException {
         if (value instanceof String 
         ||  value instanceof CujoProperty && ((CujoProperty) value).isTypeOf(String.class)) {
             return;

@@ -10,7 +10,10 @@
 package org.ujorm.gxt.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import org.ujorm.gxt.client.cquery.CCriterion;
+import org.ujorm.gxt.client.cquery.COperator;
 
 /**
  * A <strong>CPathProperty</strong> class is an composite of a CujoProperty objects.
@@ -22,7 +25,7 @@ import java.util.List;
  * @author Pavel Ponec
  * @since 0.81
  */
-final public class CPathProperty<UJO extends Cujo, VALUE> implements CujoProperty<UJO, VALUE> {
+final public class CPathProperty<UJO extends Cujo, VALUE> implements CujoProperty<UJO, VALUE>, CCriterionProvider<UJO, VALUE> {
 
     /** Array of <strong>direct</strong> properties */
     private final CujoProperty[] properties;
@@ -413,4 +416,107 @@ final public class CPathProperty<UJO extends Cujo, VALUE> implements CujoPropert
     public static <UJO extends Cujo, VALUE> CPathProperty<UJO, VALUE> create(CujoProperty<UJO, ? extends Object>... properties) {
         return new CPathProperty(properties);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> where(COperator operator, VALUE value) {
+        return CCriterion.where(this, operator, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereEq(VALUE value) {
+        return CCriterion.where(this, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereIn(Collection<VALUE> list) {
+        return CCriterion.whereIn(this, list);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereNotIn(Collection<VALUE> list) {
+        return CCriterion.whereNotIn(this, list);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereIn(VALUE... list) {
+        return CCriterion.whereIn(this, list);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereNotIn(VALUE... list) {
+        return CCriterion.whereNotIn(this, list);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereEq(CujoProperty<UJO, VALUE> value) {
+        return CCriterion.where(this, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereNull() {
+        return CCriterion.where(this, COperator.EQ, (VALUE)null);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereNotNull() {
+        return CCriterion.where(this, COperator.NOT_EQ, (VALUE)null);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereNeq(VALUE value) {
+        return CCriterion.where(this, COperator.NOT_EQ, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereGt(VALUE value) {
+        return CCriterion.where(this, COperator.GT, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereGe(VALUE value) {
+        return CCriterion.where(this, COperator.GE, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereLt(VALUE value) {
+        return CCriterion.where(this, COperator.LT, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> whereLe(VALUE value) {
+        return CCriterion.where(this, COperator.LE, value);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> forAll() {
+        return CCriterion.constantTrue(this);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CCriterion<UJO> forNone() {
+        return CCriterion.constantFalse(this);
+    }
+
+    @Override
+    public CCriterion<UJO> where(COperator COperator, CujoProperty<?, VALUE> value) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
 }
