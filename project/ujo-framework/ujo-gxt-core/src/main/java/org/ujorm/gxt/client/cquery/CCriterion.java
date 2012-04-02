@@ -11,6 +11,9 @@ package org.ujorm.gxt.client.cquery;
 import org.ujorm.gxt.client.Cujo;
 import org.ujorm.gxt.client.CujoProperty;
 import java.io.Serializable;
+import java.util.Collection;
+import org.ujorm.criterion.Criterion;
+import org.ujorm.criterion.ValueCriterion;
 
 /**
  * An abstract criterion provides a basic interface and static factory methods. You can use it:
@@ -164,5 +167,65 @@ public abstract class CCriterion<UJO extends Cujo> implements Serializable {
     public static <UJO extends Cujo> CCriterion<UJO> constantFalse(CujoProperty<UJO, ?> property) {
         return new CValueCriterion<UJO>(property, COperator.XFIXED, false);
     }
+
+    /**
+     * Create new Criterion for operator IN to compare value to a list of constants.
+     * @param property A direct or indeirect Ujo property
+     * @param list A collection of the values. The collection argument can be the EMPTY, the Criterion result will be FALSE in this case.
+     * @return A the new immutable Criterion.
+     */
+    public static <UJO extends Cujo, TYPE> CCriterion<UJO> whereIn
+        ( CujoProperty<UJO,TYPE> property
+        , Collection<TYPE> list
+        ) {
+
+        if (list.isEmpty()) {
+            return CCriterion.constantFalse(property);
+        } else {
+            return new CValueCriterion<UJO>(property, COperator.IN, list.toArray());
+        }
+    }
+
+    /**
+     * Create new Criterion for operator IN to compare value to a list of constants.
+     * @param property A direct or indeirect Ujo property
+     * @param list A collection of the values. The collection argument can be the EMPTY, the Criterion result will be TRUE in this case.
+     * @return A the new immutable Criterion.
+     */
+    public static <UJO extends Cujo, TYPE> CCriterion<UJO> whereNotIn
+        ( CujoProperty<UJO,TYPE> property
+        , Collection<TYPE> list
+        ) {
+        return null; //new CValueCriterion<UJO>(property, COperator.NOT_IN, list.toArray());
+    }
+
+    /**
+     * Create new Criterion for operator IN to compare value to a list of constants
+     * @param property A reference to a related entity
+     * @param list A collection of the values. The collection argument can be the EMPTY, the Criterion result will be FALSE in this case.
+     * @return A the new immutable Criterion
+     */
+    public static <UJO extends Cujo, TYPE> CCriterion<UJO> whereIn
+        ( CujoProperty<UJO,TYPE> property
+        , TYPE... list
+        ) {
+        return new CValueCriterion<UJO>(property, COperator.IN, list);
+    }
+
+    /**
+     * Create new Criterion for operator IN to compare value to a list of constants.
+     * @param property A property direct or indeirect Ujo property
+     * @param list A collection of the values. The collection argument can be the EMPTY, the Criterion result will be TRUE in this case.
+     * @return A the new immutable Criterion.
+     */
+    public static <UJO extends Cujo, TYPE> CCriterion<UJO> whereNotIn
+        ( CujoProperty<UJO,TYPE> property
+        , TYPE... list
+        ) {
+        return new CValueCriterion<UJO>(property, COperator.NOT_IN, (Object)list);
+    }
+
+
+
 
 }
