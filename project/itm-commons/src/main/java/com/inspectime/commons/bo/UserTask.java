@@ -8,7 +8,7 @@
 
 package com.inspectime.commons.bo;
 
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.annot.Transient;
 import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
@@ -54,15 +54,15 @@ final public class UserTask extends AbstractBo {
 
     /** Task Code */
     @Transient
-    public static final UjoProperty<UserTask, String> _taskCode = task.add(Task.code);
+    public static final Key<UserTask, String> _taskCode = task.add(Task.code);
 
     /** Task Code */
     @Transient
-    public static final UjoProperty<UserTask, String> _taskTitle = task.add(Task.title);
+    public static final Key<UserTask, String> _taskTitle = task.add(Task.title);
 
     /** Project name */
     @Transient
-    public static final UjoProperty<UserTask, String> _projectName = task.add(Task.project).add(Project.name);
+    public static final Key<UserTask, String> _projectName = task.add(Task.project).add(Project.name);
 
     /** Property initialization */
     static {
@@ -74,7 +74,7 @@ final public class UserTask extends AbstractBo {
     }
 
     @Override
-    public Object readValue(UjoProperty property) {
+    public Object readValue(Key property) {
         if (property == name) {
             return _taskCode.of(this);
         } else if (property == projectName) {

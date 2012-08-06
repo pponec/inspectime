@@ -23,9 +23,9 @@
     <!-- Relative package with resources (public static web) -->
     <public path='staticweb' />
 
-    <!-- User Agent: =BUILD= -.->
+    <!-- User Agent: =BUILD= -->
     <set-property name="user.agent" value="gecko1_8" />
-    <!-.- -->
+    <!-- -->
 
     <!-- Bug v GWT, v případech použití generik v rpc se automaticky přidávají do kompilovaného kodu třídy, které jsou deprecated -->
     <extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.ui.ChangeListenerCollection"/>

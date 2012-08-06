@@ -8,7 +8,7 @@
 
 package com.inspectime.commons.bo;
 
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
@@ -44,7 +44,7 @@ final public class Release extends AbstractBo {
     public static final Property<Release, Project> project = newProperty(Project.class);
 
     /** Project Company */
-    public static final UjoProperty<Release, Company> _company = project.add(Project._company);
+    public static final Key<Release, Company> _company = project.add(Project._company);
 
     /** Property initialization */
     static {

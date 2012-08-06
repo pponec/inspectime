@@ -10,7 +10,7 @@ package com.inspectime.service.impl;
 
 import com.inspectime.commons.WQuery;
 import java.util.Map;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.gxt.client.ao.ValidationMessage;
 import com.inspectime.commons.bo.SingleUsrParam;
 import com.inspectime.service.def.ParamUserService;
@@ -88,7 +88,7 @@ public class SingleUsrParamServiceImpl extends AbstractServiceImpl<SingleUsrPara
 
     @Override
     public void update(SingleUsrParam bo) {
-        UjoProperty p = appParamService.readProperties().find(bo.getKey(), true);
+        Key p = appParamService.readProperties().find(bo.getKey(), true);
         appParamService.setText(p, bo.getValue());
     }
 

@@ -10,7 +10,7 @@ package com.inspectime.service.def;
 
 import com.inspectime.commons.bo.Company;
 import java.util.Calendar;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.extensions.Property;
 import org.ujorm.extensions.UjoMiddle;
 
@@ -36,8 +36,8 @@ public interface ParamCompService extends UjoMiddle<ParamCompService> {
     public Company getUserCompany();
 
     /** Get a company parameter value. */
-    public <T> T getValue(UjoProperty<ParamCompService,T> property, Company company);
+    public <T> T getValue(Key<ParamCompService,T> property, Company company);
 
     /** Set a company parameter value. */
-    public <T> void setValue(UjoProperty<ParamCompService,T> property, T value, Company company);
+    public <T> void setValue(Key<ParamCompService,T> property, T value, Company company);
 }

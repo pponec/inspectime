@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.UjoPropertyList;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.criterion.Operator;
@@ -129,13 +129,13 @@ public class ReportServiceImpl extends AbstractServiceImpl<Event> implements Rep
         UjoPropertyList properties = new Event().readProperties();
         CujoPropertyList cProperties = new CEvent().readProperties();
 
-        UjoProperty[] orderBy = new UjoProperty[reportRequest.getEventProperties().length];
-        UjoProperty[] orderBase = new UjoProperty[reportRequest.getEventProperties().length];
+        Key[] orderBy = new Key[reportRequest.getEventProperties().length];
+        Key[] orderBase = new Key[reportRequest.getEventProperties().length];
         CujoProperty[] cOrderBase = new CujoProperty[reportRequest.getEventProperties().length];
 
         for (int i = orderBy.length-1; i>=0; i--) {
             String propertyString = reportRequest.getEventProperties()[i];
-            UjoProperty p = properties.findIndirect(propertyString, true);
+            Key p = properties.findIndirect(propertyString, true);
             orderBy[i] = p;
 
             if (AbstractBo.class.isAssignableFrom(p.getType())) {
@@ -143,7 +143,7 @@ public class ReportServiceImpl extends AbstractServiceImpl<Event> implements Rep
             } else {
                 int j = propertyString.lastIndexOf('.');
                 propertyString = propertyString.substring(0, j);
-                UjoProperty pb = properties.findIndirect(propertyString, true);
+                Key pb = properties.findIndirect(propertyString, true);
                 orderBase[i] = pb;
             }
 
@@ -176,7 +176,7 @@ public class ReportServiceImpl extends AbstractServiceImpl<Event> implements Rep
     }
 
     /** Create report. */
-    private ReportData createReport(List<Event> events, UjoProperty[] orderBase, CujoProperty[] cOrderBase, ReportRequest reportRequest) {
+    private ReportData createReport(List<Event> events, Key[] orderBase, CujoProperty[] cOrderBase, ReportRequest reportRequest) {
 
         CReport lastReport = null;
         int totalPeriod = 0;
@@ -186,8 +186,8 @@ public class ReportServiceImpl extends AbstractServiceImpl<Event> implements Rep
         Map<Long, AbstractCujo> mapB = new HashMap<Long, AbstractCujo>();
         List<ReportChartItem> chartItems = new ArrayList<ReportChartItem>(180);
 
-        UjoProperty propertyBaseA = orderBase.length>=0 ? orderBase[0] : null ;
-        UjoProperty propertyBaseB = orderBase.length>=1 ? orderBase[1] : null ;
+        Key propertyBaseA = orderBase.length>=0 ? orderBase[0] : null ;
+        Key propertyBaseB = orderBase.length>=1 ? orderBase[1] : null ;
         CujoProperty cPropertyBaseA = cOrderBase.length>=0 ? cOrderBase[0] : null ;
         CujoProperty cPropertyBaseB = cOrderBase.length>=1 ? cOrderBase[1] : null ;
 
@@ -243,7 +243,7 @@ public class ReportServiceImpl extends AbstractServiceImpl<Event> implements Rep
 
 
     /** Are event keys the sama like report ? */
-    private boolean isEventKeyEqualsLastReport(CReport lastReport, Event event, UjoProperty propertyBaseA, UjoProperty propertyBaseB) {
+    private boolean isEventKeyEqualsLastReport(CReport lastReport, Event event, Key propertyBaseA, Key propertyBaseB) {
         if (lastReport==null) {
             return false;
         }

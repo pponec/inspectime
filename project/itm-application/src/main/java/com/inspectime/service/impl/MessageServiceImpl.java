@@ -18,7 +18,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.transaction.annotation.Transactional;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.orm.OrmHandler;
 import org.ujorm.orm.metaModel.MetaRelation2Many;
 
@@ -74,23 +74,23 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public String getSideLabel(UjoProperty property) {
+    public String getSideLabel(Key property) {
         return get(property, MessageSuffix.SIDE_LABEL);
     }
 
     @Override
-    public String getColumnLabel(UjoProperty property) {
+    public String getColumnLabel(Key property) {
         return get(property, MessageSuffix.COLUMN);
     }
 
     @Override
-    public String getDescription(UjoProperty property) {
+    public String getDescription(Key property) {
         return get(property, MessageSuffix.DESCR);
     }
 
     @Override
     @SuppressWarnings("fallthrough")
-    public String get(UjoProperty property, MessageSuffix suffix) {
+    public String get(Key property, MessageSuffix suffix) {
         if (suffix == null) {
             suffix = MessageSuffix.SIDE_LABEL;
 

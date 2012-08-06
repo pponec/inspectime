@@ -10,7 +10,7 @@
 package com.inspectime.commons;
 
 import java.util.List;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.gxt.client.cquery.CQuery;
 import org.ujorm.orm.Query;
@@ -58,16 +58,16 @@ final public class WQuery {
     }
 
     /** Returns true if order is the same like parameter. */
-    public boolean isOrderBy(UjoProperty ... properties) {
-        List<UjoProperty> myProperties = query.getOrderBy();
+    public boolean isOrderBy(Key ... properties) {
+        List<Key> myProperties = query.getOrderBy();
 
         if (properties.length!=myProperties.size()) {
             return false;
         }
 
         for (int i = properties.length-1; i>=0; --i) {
-            final UjoProperty p1 = properties[i];
-            final UjoProperty p2 = myProperties.get(i);
+            final Key p1 = properties[i];
+            final Key p2 = myProperties.get(i);
             if (!p1.toString().equals(p2.toString())) {
                 return false;
             }
@@ -76,7 +76,7 @@ final public class WQuery {
     }
 
     /** Set new OrderBy */
-    public void setOrderBy(UjoProperty ... properties) {
+    public void setOrderBy(Key ... properties) {
         query.orderByMany(properties);
     }
 

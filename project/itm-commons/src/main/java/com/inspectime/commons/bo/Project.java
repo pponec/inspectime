@@ -10,7 +10,7 @@ package com.inspectime.commons.bo;
 
 import java.awt.Color;
 import java.util.Date;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.extensions.Property;
 import org.ujorm.implementation.orm.RelationToMany;
@@ -90,7 +90,7 @@ final public class Project extends AbstractBo {
     public static final RelationToMany<Project, Event> events = newRelation(Event.class);
 
     /** Product Company */
-    public static final UjoProperty<Project, Company> _company = product.add(Product.company);
+    public static final Key<Project, Company> _company = product.add(Product.company);
 
 
     /** Property initialization */

@@ -10,7 +10,7 @@ package com.inspectime.commons.bo;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.implementation.orm.OrmTable;
 
 /**
@@ -34,7 +34,7 @@ public abstract class AbstractBo extends OrmTable<AbstractBo> implements Compara
     abstract public Long getId();
 
     @Override
-    public void writeValue(final UjoProperty p, final Object value) {
+    public void writeValue(final Key p, final Object value) {
         if ($ACTIVE==p.getName() && Boolean.FALSE.equals(value)) {
             String msg = "The property '" + p + "' have got the unsupported value: " + value;
             LOGGER.log(Level.WARNING, msg);
@@ -47,7 +47,7 @@ public abstract class AbstractBo extends OrmTable<AbstractBo> implements Compara
 
     /** Returns a primary key value. */
     public Long getPrimaryKey() throws UnsupportedOperationException {
-        for (UjoProperty p : readProperties()) {
+        for (Key p : readProperties()) {
             if ($ID == p.getName()) {
                 return (Long) readValue(p);
             }
@@ -58,7 +58,7 @@ public abstract class AbstractBo extends OrmTable<AbstractBo> implements Compara
 
     @Override
      public int compareTo(AbstractBo ujo) {
-         final UjoProperty p = readProperties().get(0);
+         final Key p = readProperties().get(0);
          final Object c1 = p.getValue(this);
          final Object c2 = p.getValue(ujo);
 
