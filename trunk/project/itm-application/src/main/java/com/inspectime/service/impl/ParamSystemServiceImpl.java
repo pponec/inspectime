@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ujorm.Ujo;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.UjoPropertyList;
 import org.ujorm.core.UjoManager;
 import org.ujorm.core.UjoManagerRBundle;
@@ -62,7 +62,7 @@ public class ParamSystemServiceImpl extends MapUjo implements ParamSystemService
                 LOGGER.log(Level.INFO, "The JWS configuration is loaded from the file: " + paramFile.getCanonicalPath());
 
                 ParamSystemService ps = UjoManagerRBundle.getInstance(ParamSystemServiceImpl.class).loadResourceBundle(paramFile, false, this);
-                for (UjoProperty p : propertyList) {
+                for (Key p : propertyList) {
                     writeValue(p, p.of(ps));
                 }
             } else {
@@ -73,7 +73,7 @@ public class ParamSystemServiceImpl extends MapUjo implements ParamSystemService
                 a.append("# to restore default values - delete or rename this file and restart inspectime node\n\n");
                 a.append("#dbConfig=~/.inspectime/"+DB_CONFIG_FILE+"\n");
 
-                for (UjoProperty p : propertyList) {
+                for (Key p : propertyList) {
                     a.append("#");
                     a.append(p);
                     a.append("=");
@@ -130,17 +130,17 @@ public class ParamSystemServiceImpl extends MapUjo implements ParamSystemService
 
     }
 
-    /** Getter based on one UjoProperty */
+    /** Getter based on one Key */
     @Override
     @SuppressWarnings("unchecked")
-    public <UJO extends ParamSystemService, VALUE> VALUE get(UjoProperty<UJO, VALUE> property) {
+    public <UJO extends ParamSystemService, VALUE> VALUE get(Key<UJO, VALUE> property) {
         return property.of((UJO) this);
     }
 
-    /** Setter  based on UjoProperty. Type of value is checked in the runtime. */
+    /** Setter  based on Key. Type of value is checked in the runtime. */
     @Override
     @SuppressWarnings("unchecked")
-    public <UJO extends ParamSystemService, VALUE> Ujo set(UjoProperty<UJO, VALUE> property, VALUE value) {
+    public <UJO extends ParamSystemService, VALUE> Ujo set(Key<UJO, VALUE> property, VALUE value) {
         property.setValue((UJO) this, value);
         return this;
     }
@@ -154,7 +154,7 @@ public class ParamSystemServiceImpl extends MapUjo implements ParamSystemService
      * @return If property type is "container" then result is null.
      */
     @Override
-    public String getText(final UjoProperty property) {
+    public String getText(final Key property) {
         return readUjoManager().getText(this, property, null);
     }
 
@@ -165,12 +165,12 @@ public class ParamSystemServiceImpl extends MapUjo implements ParamSystemService
      * @param value String value
      */
     @Override
-    public void setText(final UjoProperty property, final String value) {
+    public void setText(final Key property, final String value) {
         readUjoManager().setText(this, property, value, null, null);
     }
 
     @Override
-    public void writeValue(UjoProperty property, Object value) {
+    public void writeValue(Key property, Object value) {
         if (lock) {
             throw new IllegalStateException("Parameters are locked");
         }

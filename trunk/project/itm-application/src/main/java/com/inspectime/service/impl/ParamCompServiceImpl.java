@@ -20,7 +20,8 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.ujorm.Ujo;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
+import org.ujorm.KeyList;
 import org.ujorm.UjoPropertyList;
 import org.ujorm.core.UjoManager;
 import org.ujorm.criterion.Criterion;
@@ -52,7 +53,7 @@ public class ParamCompServiceImpl extends MapUjo implements ParamCompService, Be
     }
 
     /** Make validation and encode an object into String */
-    protected String validateAndEncode(Object value, UjoProperty property) {
+    protected String validateAndEncode(Object value, Key property) {
         String result;
 
 //        // TODO:
@@ -68,12 +69,12 @@ public class ParamCompServiceImpl extends MapUjo implements ParamCompService, Be
     }
 
     /** Load parameter from DB */
-    private SingleComParam loadParam(UjoProperty property) {
+    private SingleComParam loadParam(Key property) {
         return loadParam(property, getUserCompany());
     }
 
     /** Load parameter from DB */
-    private SingleComParam loadParam(UjoProperty property, Company company) {
+    private SingleComParam loadParam(Key property, Company company) {
 
         Criterion<SingleComParam> crn1 = Criterion.where(SingleComParam.company, company);
         Criterion<SingleComParam> crn2 = Criterion.where(SingleComParam.key, property.getName());
@@ -84,11 +85,11 @@ public class ParamCompServiceImpl extends MapUjo implements ParamCompService, Be
     }
 
     @Override
-    public Object readValue(UjoProperty property) {
+    public Object readValue(Key property) {
         return readValue(property, getUserCompany());
     }
 
-    public Object readValue(UjoProperty property, Company company) {
+    public Object readValue(Key property, Company company) {
         try {
             SingleComParam param = loadParam(property, company);
             Object result = (param != null)
@@ -103,11 +104,11 @@ public class ParamCompServiceImpl extends MapUjo implements ParamCompService, Be
     }
 
     @Override
-    public void writeValue(UjoProperty property, Object value) {
+    public void writeValue(Key property, Object value) {
         writeValue(property, value, getUserCompany());
     }
 
-    public void writeValue(UjoProperty property, Object value, Company company) {
+    public void writeValue(Key property, Object value, Company company) {
         SingleComParam param = loadParam(property);
         if (param == null) {
             param = new SingleComParam();
@@ -122,30 +123,30 @@ public class ParamCompServiceImpl extends MapUjo implements ParamCompService, Be
     }
 
     @Override
-    public UjoPropertyList readProperties() {
+    public KeyList readKeys() {
         return propertyList;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <UJO extends ParamCompService, VALUE> VALUE get(UjoProperty<UJO, VALUE> property) {
+    public <UJO extends ParamCompService, VALUE> VALUE get(Key<UJO, VALUE> property) {
         return property.getValue((UJO) this);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <UJO extends ParamCompService, VALUE> Ujo set(UjoProperty<UJO, VALUE> property, VALUE value) {
+    public <UJO extends ParamCompService, VALUE> Ujo set(Key<UJO, VALUE> property, VALUE value) {
         property.setValue((UJO) this, value);
         return this;
     }
 
     @Override
-    public String getText(UjoProperty property) {
+    public String getText(Key property) {
         return readUjoManager().getText(this, property, null);
     }
 
     @Override
-    public void setText(UjoProperty property, String value) {
+    public void setText(Key property, String value) {
         readUjoManager().setText(this, property, value, null, null);
     }
 
@@ -185,13 +186,13 @@ public class ParamCompServiceImpl extends MapUjo implements ParamCompService, Be
 
     /** Get parameter value. */
     @Override
-    public <T> T getValue(UjoProperty<ParamCompService,T> property, Company company) {
+    public <T> T getValue(Key<ParamCompService,T> property, Company company) {
         return (T) readValue(property, company);
     }
 
     /** Set parameter value. */
     @Override
-    public <T> void setValue(UjoProperty<ParamCompService,T> property, T value, Company company) {
+    public <T> void setValue(Key<ParamCompService,T> property, T value, Company company) {
         writeValue(property, value, company);
     }
 

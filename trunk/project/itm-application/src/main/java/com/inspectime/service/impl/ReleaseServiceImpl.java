@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.ujorm.Ujo;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.criterion.Operator;
@@ -49,11 +49,11 @@ public class ReleaseServiceImpl extends AbstractServiceImpl<Release> implements 
     }
 
     private void copyProperties(Ujo oldB, Ujo newB) {
-        for (UjoProperty property : oldB.readProperties()) {
+        for (Key property : oldB.readProperties()) {
             if (!property.isTypeOf(RelationToMany.class)) {
                 if (!AbstractBo.$ID.equals(property.getName())) {
 
-                    for (UjoProperty proprty2 : newB.readProperties()) {
+                    for (Key proprty2 : newB.readProperties()) {
                         if (property.getName().equals(proprty2.getName())) {
                             newB.writeValue(proprty2, oldB.readValue(property));
                             break;

@@ -9,7 +9,7 @@
 package com.inspectime.commons.bo;
 
 import com.inspectime.commons.bo.item.Time;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.annot.Transient;
 import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
@@ -79,9 +79,9 @@ final public class Event extends AbstractBo {
     public static final Property<Event, String> description = newProperty(String.class);
 
     /** Project of the task */
-    public static final UjoProperty<Event, Project> _project = task.add(Task.project);
+    public static final Key<Event, Project> _project = task.add(Task.project);
     /** User's company */
-    public static final UjoProperty<Event, Company> _compay = user.add(User.company);
+    public static final Key<Event, Company> _compay = user.add(User.company);
 
     /** Property initialization */
     static {
@@ -93,7 +93,7 @@ final public class Event extends AbstractBo {
     }
 
     @Override
-    public Object readValue(UjoProperty property) {
+    public Object readValue(Key property) {
         if (property==project) {
             return _project.of(this);
         } else {

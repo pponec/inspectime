@@ -10,7 +10,7 @@
 package com.inspectime.service.def;
 
 import org.ujorm.gxt.client.ao.MessageSuffix;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 
 /**
  * Message Service in scope session
@@ -21,14 +21,14 @@ public interface MessageService {
     /** Returns a transl */
     public String get(String key);
     public String get(String key, Object... args);
-    public String get(UjoProperty property, MessageSuffix suffix);
+    public String get(Key property, MessageSuffix suffix);
     public String getNullable(String key, Object... args);
 
     /** Returns a localized side label */
-    public String getSideLabel(UjoProperty property);
+    public String getSideLabel(Key property);
     /** Returns a localized table column label */
-    public String getColumnLabel(UjoProperty property);
+    public String getColumnLabel(Key property);
     /** Returns localized descrition or tooltip */
-    public String getDescription(UjoProperty property);
+    public String getDescription(Key property);
 
 }

@@ -11,7 +11,7 @@ package com.inspectime.commons.bo;
 import com.inspectime.commons.bo.enums.TaskStateEnum;
 import com.inspectime.commons.bo.enums.TypeEnum;
 import java.util.Date;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.annot.Transient;
 import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
@@ -108,7 +108,7 @@ final public class Task extends AbstractBo {
 
     /** The non-commercial task */
     @Transient
-    public static final UjoProperty<Task,Boolean> _privateState = account.add(Account.privateState);
+    public static final Key<Task,Boolean> _privateState = account.add(Account.privateState);
 
 
     /** Property initialization */
@@ -119,7 +119,7 @@ final public class Task extends AbstractBo {
     }
 
     @Override
-    public Object readValue(UjoProperty property) {
+    public Object readValue(Key property) {
         if (property==privateState) {
             return _privateState.of(this);
         } else {

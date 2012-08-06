@@ -17,7 +17,7 @@
 package org.ujorm.gxt.client;
 
 import java.util.Collection;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.gxt.client.cquery.CCriterion;
 import org.ujorm.gxt.client.cquery.COperator;
 
@@ -28,7 +28,7 @@ public interface CCriterionProvider<UJO extends Cujo, VALUE> {
      * @param COperator COperator
      * <ul>
      * <li>VALUE - the parameter value</li>
-     * <li>UjoProperty - reference to a related entity</li>
+     * <li>Key - reference to a related entity</li>
      * <li>List&lt;TYPE&gt; - list of values (TODO - this type is planned in the future)</li>
      * </ul>
      * @return A new CCriterion
@@ -40,11 +40,11 @@ public interface CCriterionProvider<UJO extends Cujo, VALUE> {
 
     /**
      * Create a new CCriterion where this property is related to the value along the parameter {@link COperator}.
-     * @param property UjoProperty
+     * @param property Key
      * @param COperator COperator
      * <ul>
      * <li>VALUE - the parameter value</li>
-     * <li>UjoProperty - reference to a related entity</li>
+     * <li>Key - reference to a related entity</li>
      * <li>List&lt;TYPE&gt; - list of values (TODO - this type is planned in the future)</li>
      * </ul>
      * @return A new CCriterion
@@ -56,11 +56,11 @@ public interface CCriterionProvider<UJO extends Cujo, VALUE> {
 
     /**
      * Create a new CCriterion where this property equals the parameter value.
-     * @param property UjoProperty
+     * @param property Key
      * <ul>
      * <li>TYPE - parameter value</li>
      * <li>List&lt;TYPE&gt; - list of values</li>
-     * <li>UjoProperty - reference to a related entity</li>
+     * <li>Key - reference to a related entity</li>
      * </ul>
      * @return A the new immutable CCriterion
      */
@@ -68,7 +68,7 @@ public interface CCriterionProvider<UJO extends Cujo, VALUE> {
 
     /**
      * Create a new CCriterion where this property value equals the parameter value.
-     * @param property UjoProperty can be type a direct of indirect (for a relation) property
+     * @param property Key can be type a direct of indirect (for a relation) property
      * @return A the new immutable CCriterion
      */
     public CCriterion<UJO> whereEq(CujoProperty<UJO,VALUE> property);
@@ -139,8 +139,8 @@ public interface CCriterionProvider<UJO extends Cujo, VALUE> {
      * <pre class="pre">
      * Criterin.where(Order.NOTE_PROPERTY, COperator.EQ, (String) null) </pre>
      * for the String property type in this case.
-     * @param property UjoProperty
-     * @see #whereNotNull(org.ujorm.UjoProperty)
+     * @param property Key
+     * @see #whereNotNull(org.ujorm.Key)
      * @see COperator#EQ
      */
     public CCriterion<UJO> whereNull();
@@ -151,8 +151,8 @@ public interface CCriterionProvider<UJO extends Cujo, VALUE> {
      * <pre class="pre">
      * Criterin.where(Order.NOTE_PROPERTY, COperator.EQ, (String) null) </pre>
      * for the String property type in this case.
-     * @param property UjoProperty
-     * @see #whereNull(org.ujorm.UjoProperty)
+     * @param property Key
+     * @see #whereNull(org.ujorm.Key)
      * @see COperator#NOT_EQ
      */
     public CCriterion<UJO> whereNotNull();

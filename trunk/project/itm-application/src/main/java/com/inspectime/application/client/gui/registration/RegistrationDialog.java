@@ -67,7 +67,7 @@ public class RegistrationDialog extends LayoutContainer {
     private TextField<String> sureName;
     private CheckBox agreement;
 
-    /** Bind UjoProperty with a Field. */
+    /** Bind Key with a Field. */
     public Field bind(CujoProperty property, Field field) {
         if (property!=null) {
             binding.put(property, field);

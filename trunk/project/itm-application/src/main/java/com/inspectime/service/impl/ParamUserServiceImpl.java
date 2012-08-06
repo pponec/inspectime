@@ -20,7 +20,8 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.ujorm.Ujo;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
+import org.ujorm.KeyList;
 import org.ujorm.UjoPropertyList;
 import org.ujorm.core.UjoManager;
 import org.ujorm.criterion.Criterion;
@@ -52,7 +53,7 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
     }
 
     /** Make validation and encode an object into String */
-    protected String validateAndEncode(Object value, UjoProperty property) {
+    protected String validateAndEncode(Object value, Key property) {
         String result;
 
 //        // TODO:
@@ -68,12 +69,12 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
     }
 
     /** Load parameter from DB */
-    private SingleUsrParam loadParam(UjoProperty property) {
+    private SingleUsrParam loadParam(Key property) {
         return loadParam(property, getUser());
     }
 
     /** Load parameter from DB */
-    private SingleUsrParam loadParam(UjoProperty property, User user) {
+    private SingleUsrParam loadParam(Key property, User user) {
 
         Criterion<SingleUsrParam> crn1 = Criterion.where(SingleUsrParam.user, user);
         Criterion<SingleUsrParam> crn2 = Criterion.where(SingleUsrParam.key, property.getName());
@@ -85,12 +86,12 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
 
     /** Read default user parameter value */
     @Override
-    public Object readValue(UjoProperty property) {
+    public Object readValue(Key property) {
         return readValue(property, getUser());
     }
 
     /** Read a user parameter value */
-    public Object readValue(UjoProperty property, User user) {
+    public Object readValue(Key property, User user) {
         try {
             SingleUsrParam param = loadParam(property, user);
             Object result = (param != null)
@@ -106,12 +107,12 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
 
     /** Write default user parameter value */
     @Override
-    public void writeValue(UjoProperty property, Object value) {
+    public void writeValue(Key property, Object value) {
         writeValue(property, value, getUser());
     }
 
     /** Write a user parameter value */
-    public void writeValue(UjoProperty property, Object value, User user) {
+    public void writeValue(Key property, Object value, User user) {
         SingleUsrParam param = loadParam(property);
         if (param == null) {
             param = new SingleUsrParam();
@@ -126,30 +127,30 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
     }
 
     @Override
-    public UjoPropertyList readProperties() {
+    public KeyList readKeys() {
         return propertyList;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <UJO extends ParamUserService, VALUE> VALUE get(UjoProperty<UJO, VALUE> property) {
+    public <UJO extends ParamUserService, VALUE> VALUE get(Key<UJO, VALUE> property) {
         return property.getValue((UJO) this);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <UJO extends ParamUserService, VALUE> Ujo set(UjoProperty<UJO, VALUE> property, VALUE value) {
+    public <UJO extends ParamUserService, VALUE> Ujo set(Key<UJO, VALUE> property, VALUE value) {
         property.setValue((UJO) this, value);
         return this;
     }
 
     @Override
-    public String getText(UjoProperty property) {
+    public String getText(Key property) {
         return readUjoManager().getText(this, property, null);
     }
 
     @Override
-    public void setText(UjoProperty property, String value) {
+    public void setText(Key property, String value) {
         readUjoManager().setText(this, property, value, null, null);
     }
 
@@ -189,13 +190,13 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
 
     /** Read a user parameter value */
     @Override
-    public <T> T getValue(UjoProperty<ParamUserService, T> property, User company) {
+    public <T> T getValue(Key<ParamUserService, T> property, User company) {
         return (T) readValue(property, company);
     }
 
     /** Write a user parameter value */
     @Override
-    public <T> void setValue(UjoProperty<ParamUserService, T> property, T value, User company) {
+    public <T> void setValue(Key<ParamUserService, T> property, T value, User company) {
         writeValue(property, value, company);
     }
 

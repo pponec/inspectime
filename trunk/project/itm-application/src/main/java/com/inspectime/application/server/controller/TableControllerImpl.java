@@ -69,7 +69,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ujorm.Ujo;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.UjoManager;
 import org.ujorm.criterion.BinaryCriterion;
 import org.ujorm.criterion.Criterion;
@@ -204,8 +204,8 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
 
     /** Returns a sort property */
     @SuppressWarnings("fallthrough")
-    private UjoProperty getSorter(Class<? extends Ujo> type, PagingLoadConfig config) {
-        UjoProperty result = null;
+    private Key getSorter(Class<? extends Ujo> type, PagingLoadConfig config) {
+        Key result = null;
         try {
 
             boolean desc = false;
@@ -243,7 +243,7 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
         // userTaskService.assertServerContext();
         try {
             Class serverClass = serverClassConfig.getServerClass(cquery.getTypeName());
-            UjoProperty orderBy = getSorter(serverClass, cfg);
+            Key orderBy = getSorter(serverClass, cfg);
 
             Query query = serverClassConfig.translate(cquery, orderBy, cfg);
             List items = list(new WQuery(query, cquery));
@@ -318,7 +318,7 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
         List<CEnum> items = new ArrayList<CEnum>(16);
 
         // Add the persistent Enums:
-        for (UjoProperty p : ormHandler.findPropertiesByType(Enum.class)) {
+        for (Key p : ormHandler.findPropertiesByType(Enum.class)) {
             for (Object o : p.getType().getEnumConstants()) {
 
                 CEnum item = new CEnum();
@@ -381,7 +381,7 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
             switch (deleteActionType) {
                 case TableController.DELETE_AUTO:
                 case TableController.DELETE_LOGICAL:
-                    UjoProperty active = UjoManager.getInstance().readProperties(serverClass).find(User.active.getName(), false);
+                    Key active = UjoManager.getInstance().readProperties(serverClass).find(User.active.getName(), false);
                     if (active == null && deleteActionType == TableController.DELETE_AUTO) {
                         delete(cujos, TableController.DELETE_PHYSICAL);
                         return;
@@ -423,10 +423,10 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
                 QueryTranslator qt = new QueryTranslator(cQuery, ormHandler, serverClassConfig);
                 Criterion crn = qt.getCriterion();
 
-                List<UjoProperty> properties = new ArrayList<UjoProperty>(32);
+                List<Key> properties = new ArrayList<Key>(32);
                 extractProperty(crn, properties);
 
-                for (UjoProperty p : properties) {
+                for (Key p : properties) {
                     MetaColumn metaColumn = (MetaColumn) ormHandler.findColumnModel(p);
                     if (metaColumn != null) {
                         String columLabel = messageService.getColumnLabel(p);
@@ -461,7 +461,7 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
         return result;
     }
 
-    private void extractProperty(Criterion crn, List<UjoProperty> result) throws CMessageException {
+    private void extractProperty(Criterion crn, List<Key> result) throws CMessageException {
         if (crn.isBinary()) {
             Criterion crn1 = ((BinaryCriterion) crn).getLeftNode();
             Criterion crn2 = ((BinaryCriterion) crn).getRightNode();

@@ -19,7 +19,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.implementation.orm.OrmTable;
@@ -50,9 +50,9 @@ abstract public class AbstractServiceImpl<BO extends AbstractBo> implements Abst
     /** Spring bean factory */
     protected BeanFactory beanFactory;
     /** Ujo Company filter */
-    protected UjoProperty<BO,Company> PROPERTY_COMPANY_UNDEFINED = Property.newInstance("UNDEFINED", Company.class);
+    protected Key<BO,Company> PROPERTY_COMPANY_UNDEFINED = Property.newInstance("UNDEFINED", Company.class);
     /** Ujo Company filter */
-    protected UjoProperty<BO,Company> propertyCompany = PROPERTY_COMPANY_UNDEFINED;
+    protected Key<BO,Company> propertyCompany = PROPERTY_COMPANY_UNDEFINED;
 
 
     public UjoSessionFactory getUjoSessionFactory() {
@@ -69,12 +69,12 @@ abstract public class AbstractServiceImpl<BO extends AbstractBo> implements Abst
     abstract public Class<BO> getDefaultClass();
 
     /** Returns a relation to a user company. */
-    protected UjoProperty<BO,Company> getCompanyProperty() {
+    protected Key<BO,Company> getCompanyProperty() {
         if (propertyCompany==PROPERTY_COMPANY_UNDEFINED) {
             synchronized (this) {
                 if (propertyCompany==PROPERTY_COMPANY_UNDEFINED) try {
                     BO bo = getDefaultClass().newInstance();
-                    for (UjoProperty p : bo.readProperties()) {
+                    for (Key p : bo.readProperties()) {
                         if (AbstractBo.$COMPANY==p.getName()) {
                            propertyCompany = p;
                            return propertyCompany;
@@ -92,7 +92,7 @@ abstract public class AbstractServiceImpl<BO extends AbstractBo> implements Abst
 
     /** Returns company Criterion */
     protected Criterion<BO> getCompanyCriterion() {
-        UjoProperty<BO,Company> p = getCompanyProperty();
+        Key<BO,Company> p = getCompanyProperty();
         if (p!=null) {
             Company company = getApplContext().getUserCompany();
             Criterion<BO> result = Criterion.where(p, company);

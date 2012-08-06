@@ -11,7 +11,7 @@ package com.inspectime.service.def;
 import com.inspectime.commons.bo.User;
 import java.awt.Color;
 import java.util.Locale;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.extensions.Property;
 import org.ujorm.extensions.UjoMiddle;
 
@@ -59,9 +59,9 @@ public interface ParamUserService extends UjoMiddle<ParamUserService> {
     public User getUser();
 
     /** Get a user parameter value. */
-    public <T> T getValue(UjoProperty<ParamUserService,T> property, User company);
+    public <T> T getValue(Key<ParamUserService,T> property, User company);
 
     /** Set a user parameter value. */
-    public <T> void setValue(UjoProperty<ParamUserService,T> property, T value, User company);
+    public <T> void setValue(Key<ParamUserService,T> property, T value, User company);
 
 }

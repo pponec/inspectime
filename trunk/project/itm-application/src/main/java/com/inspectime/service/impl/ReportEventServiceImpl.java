@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.ujorm.UjoProperty;
+import org.ujorm.Key;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.criterion.Operator;
 import org.ujorm.gxt.client.AbstractCujo;
@@ -111,7 +111,7 @@ public class ReportEventServiceImpl extends AbstractReportEventServiceImpl imple
         List<ReportChartItem> chartItems = new ArrayList<ReportChartItem>(180);
         int totalPeriod = 0;
 
-        UjoProperty propertyBaseA = Event.task.add(Task.project);
+        Key propertyBaseA = Event.task.add(Task.project);
 
         UjoTranslator<AbstractCujo> translatorA = ServerClassConfig.getInstance(ormHandler).getTranslator(CProject.class, 0);
         UjoTranslator<AbstractCujo> translatorB = ServerClassConfig.getInstance(ormHandler).getTranslator(CEvent.class, 0);
