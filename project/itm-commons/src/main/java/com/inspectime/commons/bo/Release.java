@@ -24,24 +24,24 @@ final public class Release extends AbstractBo {
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Property<Release, Long> id = newProperty($ID, Long.class);
+    public static final Key<Release, Long> id = newKey($ID);
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex = INDEX_NAME)
-    public static final Property<Release, Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<Release, Boolean> active = newKey($ACTIVE);
     /*if workflow of release has been started*/
-    public static final Property<Release, Boolean> wfStarted = newProperty(false);
+    public static final Key<Release, Boolean> wfStarted = newKey(false);
     /** Relase name */
     @Column(length = 60, mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Property<Release, String> name = newProperty(String.class);
+    public static final Key<Release, String> name = newKey();
     /** Planned release date */
-    public static final Property<Release, java.util.Date> releaseDate = newProperty(java.util.Date.class);
+    public static final Key<Release, java.util.Date> releaseDate = newKey();
     /** Description */
     @Column(length = 250, mandatory = false)
-    public static final Property<Release, String> description = newProperty(String.class);
+    public static final Key<Release, String> description = newKey();
     /** Project */
     @Column(name = "id_project", mandatory = true, uniqueIndex = "idx_release")
-    public static final Property<Release, Project> project = newProperty(Project.class);
+    public static final Key<Release, Project> project = newKey();
 
     /** Project Company */
     public static final Key<Release, Company> _company = project.add(Project._company);

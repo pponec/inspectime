@@ -11,7 +11,6 @@ package com.inspectime.commons.bo;
 import com.inspectime.commons.bo.item.Time;
 import org.ujorm.Key;
 import org.ujorm.core.annot.Transient;
-import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 import com.inspectime.commons.bo.item.TimeZone;
@@ -35,48 +34,48 @@ final public class Event extends AbstractBo {
     /** Primary Key */
     @Comment("Primary Key")
     @Column(pk = true)
-    public static final Property<Event, Long> id = newProperty($ID, Long.class);
+    public static final Key<Event, Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(index=INDEX_NAME)
-    public static final Property<Event, Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<Event, Boolean> active = newKey($ACTIVE);
 
     /** Owner User of the Event */
     @Column(name = "id_user", mandatory = true, index=INDEX_NAME)
-    public static final Property<Event, User> user = newProperty(User.class);
+    public static final Key<Event, User> user = newKey();
 
     /** Local Event day */
     @Column(name="day_value", mandatory=true, index=INDEX_NAME)
-    public static final Property<Event, java.sql.Date> day = newProperty(java.sql.Date.class);
+    public static final Key<Event, java.sql.Date> day = newKey();
 
     /** Start time of the event */
     @Column(name="start_time", mandatory=true, index=INDEX_NAME)
-    public static final Property<Event, Short> startTime = newProperty( (short) new Time("8:00").getMinutes() );
+    public static final Key<Event, Short> startTime = newKey( (short) new Time("8:00").getMinutes() );
 
     /** Period [min] : only the last period is editable. */
     @Column(mandatory=true)
-    public static final Property<Event, Short> period = newProperty((short)0);
+    public static final Key<Event, Short> period = newKey((short)0);
 
     /** The Time Zone */
     @Column(name="time_zone", length=1, mandatory=true)
-    public static final Property<Event, TimeZone> timeZone = newProperty(new TimeZone());
+    public static final Key<Event, TimeZone> timeZone = newKey(new TimeZone());
 
     /** UTC Event day and time */
     @Column(name="utc_day_time", mandatory=!true /*, index=INDEX_UTC_DATE*/) // TODO: create index (?), MANDATORY = true
-    public static final Property<Event, java.util.Date> utcDayTime = newProperty(java.util.Date.class /*new java.util.Date(System.currentTimeMillis())*/);
+    public static final Key<Event, java.util.Date> utcDayTime = newKey();
 
     /** Project of tht task */
     @Transient
-    public static final Property<Event, Project> project = newProperty(Project.class);
+    public static final Key<Event, Project> project = newKey();
 
     /** Period [min] */
     @Column(mandatory=true)
-    public static final Property<Event, Task> task = newProperty(Task.class);
+    public static final Key<Event, Task> task = newKey();
 
     /** Event description */
     @Column(length = 256, mandatory = false)
-    public static final Property<Event, String> description = newProperty(String.class);
+    public static final Key<Event, String> description = newKey();
 
     /** Project of the task */
     public static final Key<Event, Project> _project = task.add(Task.project);

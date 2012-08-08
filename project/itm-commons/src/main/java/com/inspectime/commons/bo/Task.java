@@ -13,7 +13,6 @@ import com.inspectime.commons.bo.enums.TypeEnum;
 import java.util.Date;
 import org.ujorm.Key;
 import org.ujorm.core.annot.Transient;
-import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -28,83 +27,83 @@ final public class Task extends AbstractBo {
 
     /** Primary Key */
     @Column(pk=true)
-    public static final Property<Task,Long> id = newProperty($ID, Long.class);
+    public static final Key<Task,Long> id = newKey($ID);
 
     /* Not deleted */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex=INDEX_NAME)
-    public static final Property<Task, Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<Task, Boolean> active = newKey($ACTIVE);
 
     /* Is the task finished? */
     @Comment("Is the task finished?")
     @Column(mandatory=true)
-    public static final Property<Task, Boolean> finished = newProperty(false);
+    public static final Key<Task, Boolean> finished = newKey(false);
 
     /** Task Code */
     @Comment("Task Code")
     @Column(mandatory=true, uniqueIndex=INDEX_NAME)
-    public static final Property<Task, String> code = newProperty(String.class);
+    public static final Key<Task, String> code = newKey();
 
     /** Task Title */
     @Comment("Task Title")
     @Column(mandatory=true)
-    public static final Property<Task, String> title = newProperty(String.class);
+    public static final Key<Task, String> title = newKey();
 
     /** Created for Company <br>
      * This is duplicate information intended only to ensure data consistency.
      * The company is taken from a created user property value.
      */
     @Column(mandatory=true, uniqueIndex=INDEX_NAME)
-    public static final Property<Task, Company> company = newProperty($COMPANY, Company.class);
+    public static final Key<Task, Company> company = newKey($COMPANY);
 
     /** Timestamp of creation */
     @Comment("Timestamp of creation")
     @Column(mandatory=true)
-    public static final Property<Task, Date> created = newProperty(Date.class);
+    public static final Key<Task, Date> created = newKey();
 
     /** Created by user */
     @Column(mandatory=true)
-    public static final Property<Task, User> createdBy = newProperty(User.class);
+    public static final Key<Task, User> createdBy = newKey();
 
     /** Timestamp of the last modification */
     @Column(mandatory=true)
-    public static final Property<Task, Date> modified = newProperty(Date.class);
+    public static final Key<Task, Date> modified = newKey();
 
     /** Modified by user */
     @Column(mandatory=true)
-    public static final Property<Task, User> modifiedBy = newProperty(User.class);
+    public static final Key<Task, User> modifiedBy = newKey();
 
     /** Relation to Release */
     @Column(name="id_release", mandatory=!true)
-    public static final Property<Task,Release> release = newProperty(Release.class);
+    public static final Key<Task,Release> release = newKey();
 
     /** TODO: the future is the rleation via Release only ! */
     @Column(name="id_project", mandatory=true)
-    public static final Property<Task,Project> project = newProperty(Project.class);
+    public static final Key<Task,Project> project = newKey();
 
     /** Account */
     @Column(name="id_account", mandatory=true)
-    public static final Property<Task,Account> account = newProperty(Account.class);
+    public static final Key<Task,Account> account = newKey();
 
     /** Description */
     @Column(length=250)
-    public static final Property<Task,String> description = newProperty(String.class);
+    public static final Key<Task,String> description = newKey();
 
     /** Task State Enum */
     @Column("taskState")
-    public static final Property<Task,TaskStateEnum> taskState = newProperty(TaskStateEnum.NEW);
+    public static final Key<Task,TaskStateEnum> taskState = newKey(TaskStateEnum.NEW);
 
     /** Task State Enum */
     @Column("type_enum")
-    public static final Property<Task,TypeEnum> type = newProperty(TypeEnum.FEATURE);
+    public static final Key<Task,TypeEnum> type = newKey(TypeEnum.FEATURE);
 
     /** Task State Enum */
     @Column("id_parent")
-    public static final Property<Task,Task> parent = newProperty(Task.class);
+    public static final Key<Task,Task> parent = newKey();
 
     /** The non-commercial task */
     @Transient
-    public static final Property<Task,Boolean> privateState = newProperty("private", false);
+    public static final Key<Task,Boolean> privateState = newKey("private", false);
 
     /** The non-commercial task */
     @Transient

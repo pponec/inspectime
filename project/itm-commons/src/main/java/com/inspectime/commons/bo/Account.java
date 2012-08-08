@@ -10,7 +10,7 @@ package com.inspectime.commons.bo;
 
 import java.awt.Color;
 import java.util.Date;
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -26,48 +26,48 @@ final public class Account extends AbstractBo {
     /** Primary Key */
     @Comment("Primary Key")
     @Column(pk=true)
-    public static final Property<Account,Long> id = newProperty($ID, Long.class);
+    public static final Key<Account,Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex = INDEX_NAME)
-    public static final Property<Account,Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<Account,Boolean> active = newKey($ACTIVE);
 
     /** Account name / code */
     @Column(length=60, mandatory=true, uniqueIndex = INDEX_NAME)
-    public static final Property<Account,String> name = newProperty(String.class);
+    public static final Key<Account,String> name = newKey();
 
     /** Company relation */
     @Column(mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Property<User, Company> company = newProperty($COMPANY, Company.class);
+    public static final Key<User, Company> company = newKey($COMPANY);
 
     /** Description */
     @Column(length=250, mandatory=false)
-    public static final Property<Account,String> description = newProperty(String.class);
+    public static final Key<Account,String> description = newKey();
 
     /** The account for a non-commercial use */
-    public static final Property<Account,Boolean> privateState = newProperty(false);
+    public static final Key<Account,Boolean> privateState = newKey(false);
 
     /** Timestamp of creation */
     @Column(mandatory=true)
-    public static final Property<Account, Date> created = newProperty(Date.class);
+    public static final Key<Account, Date> created = newKey();
 
     /** Created by user */
     @Column(mandatory=!true)
-    public static final Property<Account, User> createdBy = newProperty(User.class);
+    public static final Key<Account, User> createdBy = newKey();
 
     /** Timestamp of the last modification */
     @Column(mandatory=true)
-    public static final Property<Account, Date> modified = newProperty(Date.class);
+    public static final Key<Account, Date> modified = newKey();
 
     /** Modified by user */
     @Column(mandatory=!true)
-    public static final Property<Account, User> modifiedBy = newProperty(User.class);
+    public static final Key<Account, User> modifiedBy = newKey();
 
     /** Graph Color */
     @Comment("Graph Color")
     @Column(mandatory=true)
-    public static final Property<Account, Color> graphColor = newProperty($GRAPH_COLOR, Color.RED);
+    public static final Key<Account, Color> graphColor = newKey($GRAPH_COLOR, Color.RED);
 
 
     /** Property initialization */

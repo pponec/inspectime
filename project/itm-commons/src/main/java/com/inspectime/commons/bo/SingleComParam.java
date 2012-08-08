@@ -8,8 +8,8 @@
 
 package com.inspectime.commons.bo;
 
+import org.ujorm.Key;
 import org.ujorm.core.annot.Transient;
-import org.ujorm.extensions.Property;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -25,31 +25,31 @@ final public class SingleComParam  extends AbstractBo {
 
     /** Primary Key */
     @Column(pk=true)
-    public static final Property<SingleComParam,Long> id = newProperty($ID, Long.class);
+    public static final Key<SingleComParam,Long> id = newKey($ID);
 
     /** Property name */
     @Column(name="pkey", mandatory=true, length=64, uniqueIndex=INDEX_NAME)
-    public static final Property<SingleComParam,String> key = newProperty(String.class);
+    public static final Key<SingleComParam,String> key = newKey();
 
     /** Company relation */
     @Column(mandatory=true, uniqueIndex=INDEX_NAME)
-    public static final Property<SingleComParam,Company> company = newProperty($COMPANY, Company.class);
+    public static final Key<SingleComParam,Company> company = newKey($COMPANY);
 
     /** Property value */
     @Column(length=256, name="text_value")
-    public static final Property<SingleComParam,String> value = newProperty(String.class);
+    public static final Key<SingleComParam,String> value = newKey();
 
     /** Property value */
     @Transient
-    public static final Property<SingleComParam,Integer> index = newProperty(Integer.class);
+    public static final Key<SingleComParam,Integer> index = newKey();
 
     /** Property value */
     @Transient
-    public static final Property<SingleComParam,String> type = newProperty(String.class);
+    public static final Key<SingleComParam,String> type = newKey();
 
     /** Property value */
     @Transient
-    public static final Property<SingleComParam,String> defaultValue = newProperty(String.class);
+    public static final Key<SingleComParam,String> defaultValue = newKey();
 
     // <editor-fold defaultstate="collapsed" desc="SET/GET">
 

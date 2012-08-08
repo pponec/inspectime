@@ -9,7 +9,7 @@
 package com.inspectime.commons.bo;
 
 import com.inspectime.commons.bo.enums.RoleEnum;
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -25,13 +25,13 @@ final public class UserRole extends AbstractBo {
 
     /** PrimaryKey */
     @Column(pk = true)
-    public static final Property<UserRole, Long> id = newProperty($ID, Long.class);
+    public static final Key<UserRole, Long> id = newKey($ID);
     /** User role */
     @Column(name = "id_role", mandatory = true, uniqueIndex=INDEX_NAME)
-    public static final Property<UserRole, RoleEnum> role = newProperty(RoleEnum.USER);
+    public static final Key<UserRole, RoleEnum> role = newKey(RoleEnum.USER);
     /** The user */
     @Column(name = "id_user", mandatory = true, uniqueIndex=INDEX_NAME)
-    public static final Property<UserRole, User> user = newProperty(User.class);
+    public static final Key<UserRole, User> user = newKey();
 
     static {
         init(UserRole.class);

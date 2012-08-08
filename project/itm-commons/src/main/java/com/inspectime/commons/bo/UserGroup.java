@@ -8,6 +8,7 @@
 
 package com.inspectime.commons.bo;
 
+import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.extensions.Property;
 import org.ujorm.implementation.orm.RelationToMany;
@@ -25,24 +26,24 @@ final public class UserGroup extends AbstractBo {
 
     /** PrimaryKey */
     @Column(pk=true)
-    public static final Property<UserGroup,Long> id = newProperty($ID, Long.class);
+    public static final Key<UserGroup,Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex=INDEX_NAME)
-    public static final Property<UserGroup,Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<UserGroup,Boolean> active = newKey($ACTIVE);
 
     /** Group Name */
     @Column(length=100, mandatory=true, uniqueIndex=INDEX_NAME)
-    public static final Property<UserGroup,String> name = newProperty(String.class);
+    public static final Key<UserGroup,String> name = newKey();
 
 //    /** Company Group Name */
 //    @Column(length=100, mandatory=true, uniqueIndex=INDEX_NAME)
-//    public static final Property<UserGroup,Company> company = newProperty(Company.class); // TODO
+//    public static final Key<UserGroup,Company> company = newKey(Company.class); // TODO
 
     /** Description */
     @Column(length = 250)
-    public static final Property<UserGroup, String> description = newProperty(String.class);
+    public static final Key<UserGroup, String> description = newKey();
 
     /** Returns all users */
     public static final RelationToMany<UserGroup,User> users = newRelation(User.class);
