@@ -8,7 +8,7 @@
 
 package com.inspectime.commons.bo;
 
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -21,15 +21,15 @@ final public class RelProjectUsGroup extends AbstractBo {
 
     /** Primary Key */
     @Column(pk=true)
-    public static final Property<RelProjectUsGroup,Long> id = newProperty($ID, Long.class);
+    public static final Key<RelProjectUsGroup,Long> id = newKey($ID);
 
     /** Project */
     @Column(mandatory=true, name="id_project")
-    public static final Property<RelProjectUsGroup,Project> project = newProperty(Project.class);
+    public static final Key<RelProjectUsGroup,Project> project = newKey();
 
     /** User Group */
     @Column(mandatory=true, name="id_user_group")
-    public static final Property<RelProjectUsGroup,UserGroup> userGroup = newProperty(UserGroup.class);
+    public static final Key<RelProjectUsGroup,UserGroup> userGroup = newKey();
 
 
     /** Property initialization */

@@ -9,7 +9,7 @@
 package com.inspectime.commons.bo;
 
 import org.apache.log4j.Logger;
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
 import org.ujorm.orm.DbType;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
@@ -26,13 +26,13 @@ final public class Description extends AbstractBo {
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Property<Description, Long> id = newProperty($ID, Long.class);
+    public static final Key<Description, Long> id = newKey($ID);
     /** Description content (text) */
     @Column(type=DbType.VARCHAR, length=CONTENT_LENGTH)
-    public static final Property<Description, String> content = newProperty("");
+    public static final Key<Description, String> content = newKey("");
     /** Description content (text) */
     @Column(mandatory=false)
-    public static final Property<Description, Description> more = newProperty(Description.class);
+    public static final Key<Description, Description> more = newKey();
 
     /** Property initialization */
     static {

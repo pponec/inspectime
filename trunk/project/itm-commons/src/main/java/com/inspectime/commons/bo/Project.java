@@ -32,60 +32,60 @@ final public class Project extends AbstractBo {
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Property<Project, Long> id = newProperty($ID, Long.class);
+    public static final Key<Project, Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex = INDEX_NAME)
-    public static final Property<Project, Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<Project, Boolean> active = newKey($ACTIVE);
 
     /** Is the project finished? */
     @Column()
-    public static final Property<Project, Boolean> finished = newProperty(false);
+    public static final Key<Project, Boolean> finished = newKey(false);
 
     /** Project name (login) */
     @Column(length = 100, mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Property<Project, String> name = newProperty(String.class);
+    public static final Key<Project, String> name = newKey();
 
     /** Product description */
     @Column(name = "description", length = 250, mandatory = false)
-    public static final Property<Project, String> description = newProperty(String.class);
+    public static final Key<Project, String> description = newKey();
 
     /** Product */
     @Column(name = "id_product", mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Property<Project, Product> product = newProperty(Product.class);
+    public static final Key<Project, Product> product = newKey($ACTIVE);
 
     /** Customer */
     @Column(name="id_customer", mandatory = true)
-    public static final Property<Project, Customer> customer = newProperty(DEFAULT_CUSTOMER);
+    public static final Key<Project, Customer> customer = newKey(DEFAULT_CUSTOMER);
 
     /** Completion date */
     @Comment("Completion date")
     @Column(name="completion_date", mandatory = false)
-    public static final Property<Project, java.sql.Date> completionDate = newProperty(java.sql.Date.class);
+    public static final Key<Project, java.sql.Date> completionDate = newKey();
 
     /** Timestamp of creation */
     @Column(mandatory=true)
-    public static final Property<Project, Date> created = newProperty(Date.class);
+    public static final Key<Project, Date> created = newKey();
 
     /** Created by user */
     @Column(mandatory=true)
-    public static final Property<Project, User> createdBy = newProperty(User.class);
+    public static final Key<Project, User> createdBy = newKey();
 
     /** Timestamp of the last modification */
     @Comment("Timestamp of the last modification")
     @Column(mandatory=true)
-    public static final Property<Project, Date> modified = newProperty(Date.class);
+    public static final Key<Project, Date> modified = newKey();
 
     /** Modified by user */
     @Comment("Modified by user")
     @Column(mandatory=!true)
-    public static final Property<Project, User> modifiedBy = newProperty(User.class);
+    public static final Key<Project, User> modifiedBy = newKey();
 
     /** Graph Color */
     @Comment("Graph Color")
     @Column(mandatory=true)
-    public static final Property<Project, Color> graphColor = newProperty($GRAPH_COLOR, Color.RED);
+    public static final Key<Project, Color> graphColor = newKey($GRAPH_COLOR, Color.RED);
 
     public static final RelationToMany<Project, Event> events = newRelation(Event.class);
 

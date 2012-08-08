@@ -8,7 +8,7 @@
 
 package com.inspectime.commons.bo;
 
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
 import org.ujorm.implementation.orm.RelationToMany;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
@@ -26,29 +26,29 @@ final public class Company extends AbstractBo {
     /** Primary Key */
     @Comment("Primary Key")
     @Column(pk=true)
-    public static final Property<Company,Long> id = newProperty($ID, Long.class);
+    public static final Key<Company,Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
-    public static final Property<Company,Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<Company,Boolean> active = newKey($ACTIVE);
 
     /** Company name can't be unique. */
     @Comment("Company name can't be unique.")
     @Column(length=100, mandatory=true)
-    public static final Property<Company,String> name = newProperty(String.class);
+    public static final Key<Company,String> name = newKey();
 
     /** Desccription */
     @Comment("Description")
     @Column(length=250)
-    public static final Property<Company,String> description = newProperty(String.class);
+    public static final Key<Company,String> description = newKey();
 
     /** Task Code sequence contains the value to next assign. */
     @Comment("Task Code sequence contains the value to next assign")
     @Column(mandatory=true)
-    public static final Property<Company,Integer> taskCodeSeq = newProperty(10000);
+    public static final Key<Company,Integer> taskCodeSeq = newKey(10000);
 
     /** All products of the Company */
-    public static final RelationToMany<Company,Product> products = newRelation(Product.class);
+    public static final RelationToMany<Company,Product> products = newRelation();
 
     /** Property initialization */
     static { init(Company.class); }

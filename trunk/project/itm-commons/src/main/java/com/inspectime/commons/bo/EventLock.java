@@ -9,7 +9,7 @@
 package com.inspectime.commons.bo;
 
 import java.util.Date;
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -25,27 +25,27 @@ final public class EventLock extends AbstractBo {
     /** Primary Key */
     @Comment("Primary Key")
     @Column(pk=true)
-    public static final Property<EventLock,Long> id = newProperty($ID, Long.class);
+    public static final Key<EventLock,Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
-    public static final Property<EventLock,Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<EventLock,Boolean> active = newKey($ACTIVE);
 
     /** Owner User of the Event */
     @Column(name = "id_user", mandatory = true, index=INDEX_NAME)
-    public static final Property<EventLock, User> user = newProperty(User.class);
+    public static final Key<EventLock, User> user = newKey();
 
     /** Date of lock, the last value is relevant. Locked are all days to the required one, include. */
     @Column(mandatory=true, index = INDEX_NAME)
-    public static final Property<EventLock,java.sql.Date> lockDate = newProperty(java.sql.Date.class);
+    public static final Key<EventLock,java.sql.Date> lockDate = newKey();
 
     /** Timestamp of the last modification */
     @Column(mandatory=true)
-    public static final Property<EventLock, Date> modified = newProperty(Date.class);
+    public static final Key<EventLock, Date> modified = newKey();
 
     /** Modified by user */
     @Column(mandatory=!true)
-    public static final Property<EventLock, User> modifiedBy = newProperty(User.class);
+    public static final Key<EventLock, User> modifiedBy = newKey();
 
     /** Property initialization */
     static { init(EventLock.class); }

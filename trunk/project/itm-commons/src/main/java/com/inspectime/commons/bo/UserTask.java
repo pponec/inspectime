@@ -26,31 +26,31 @@ final public class UserTask extends AbstractBo {
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Property<UserTask, Long> id = newProperty($ID, Long.class);
+    public static final Key<UserTask, Long> id = newKey($ID);
 
     /** Owner User of the Event */
     @Column(name = "id_user", mandatory = true, uniqueIndex=INDEX_NAME)
-    public static final Property<UserTask, User> user = newProperty(User.class);
+    public static final Key<UserTask, User> user = newKey();
 
     /** Task */
     @Column(mandatory=true, uniqueIndex=INDEX_NAME)
-    public static final Property<UserTask, Task> task = newProperty(Task.class);
+    public static final Key<UserTask, Task> task = newKey();
 
     /** Order */
     @Column(name = "task_order", mandatory=false)
-    public static final Property<UserTask, Short> order = newProperty(Short.class);
+    public static final Key<UserTask, Short> order = newKey();
 
     /** Name (Task code) [transient] */
     @Transient
-    public static final Property<UserTask, String> name = newProperty(String.class);
+    public static final Key<UserTask, String> name = newKey();
 
     /** Descripton (title + project name) [transient] */
     @Transient
-    public static final Property<UserTask, String> description = newProperty(String.class);
+    public static final Key<UserTask, String> description = newKey();
 
     /** Project name (title + project name) [transient] */
     @Transient
-    public static final Property<UserTask, String> projectName = newProperty(String.class);
+    public static final Key<UserTask, String> projectName = newKey();
 
     /** Task Code */
     @Transient

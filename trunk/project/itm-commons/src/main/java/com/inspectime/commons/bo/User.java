@@ -16,10 +16,10 @@ import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
+import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.core.annot.Transient;
 import org.ujorm.criterion.Criterion;
-import org.ujorm.extensions.Property;
 import org.ujorm.implementation.orm.RelationToMany;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
@@ -49,97 +49,97 @@ final public class User extends AbstractBo {
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Property<User, Long> id = newProperty($ID, Long.class);
+    public static final Key<User, Long> id = newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex = INDEX_NAME)
-    public static final Property<User, Boolean> active = newProperty($ACTIVE, Boolean.class);
+    public static final Key<User, Boolean> active = newKey($ACTIVE);
 
     /** Login must be an unique text in the all application */
     @Column(length = 80, mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Property<User, String> login = newProperty(String.class);
+    public static final Key<User, String> login = newKey();
 
     /** Email */
     @Column(length = 80, mandatory = true)
-    public static final Property<User, String> email = newProperty(String.class);
+    public static final Key<User, String> email = newKey();
 
     /** The Time Zone */
     @Comment("Time zone in [hours]")
     @Column(name="time_zone", length=1, mandatory=true)
-    public static final Property<User, TimeZone> timeZone = newProperty(new TimeZone(0));
+    public static final Key<User, TimeZone> timeZone = newKey(new TimeZone(0));
 
     /** Company is not part of the unique constraint
      * @see #login
      */
     @Column(mandatory = true /*, uniqueIndex = INDEX_NAME */)
-    public static final Property<User, Company> company = newProperty($COMPANY, Company.class);
+    public static final Key<User, Company> company = newKey($COMPANY);
 
     /** Password hash */
     @Column(length = 50, mandatory = true, name="password")
-    public static final Property<User, String> passwordHash = newProperty("passwordHash", String.class);
+    public static final Key<User, String> passwordHash = newKey("passwordHash");
 
     /** Password native */
     @Transient
-    public static final Property<User, String> passwordNative = newProperty("password", String.class);
+    public static final Key<User, String> passwordNative = newKey("password");
 
     /** User's sure name and first name */
     @Comment("User's sure name and first name")
     @Column(name = "name", length = 100)
-    public static final Property<User, String> name = newProperty(String.class);
+    public static final Key<User, String> name = newKey();
 
     /** User's personal id */
     @Column(name = "pid", length = 100)
-    public static final Property<User, String> pid = newProperty(String.class);
+    public static final Key<User, String> pid = newKey($ID);
 
     /** Work  fund staff per week. */
     @Comment("Work  fund staff per week")
     @Column(name = "work_fund", mandatory=true)
-    public static final Property<User, Short> workFundStafPerWeek = newProperty((short)(8*5));
+    public static final Key<User, Short> workFundStafPerWeek = newKey((short)(8*5));
 
     /** Description */
     @Column(length = 250)
-    public static final Property<User, String> description = newProperty(String.class);
+    public static final Key<User, String> description = newKey();
 
     /** Enabled */
-    public static final Property<User, Boolean> enabled = newProperty(Boolean.class);
+    public static final Key<User, Boolean> enabled = newKey();
 
     /** Account non expired */
     @Column(name = "account_non_expired")
-    public static final Property<User, Boolean> accountNonExpired = newProperty(Boolean.class);
+    public static final Key<User, Boolean> accountNonExpired = newKey();
 
     /** Credentials non expired */
     @Column(name = "credentials_non_expired")
-    public static final Property<User, Boolean> credentialsNonExpired = newProperty(Boolean.class);
+    public static final Key<User, Boolean> credentialsNonExpired = newKey();
 
     /** Account non locked */
     @Column(name = "account_non_locked")
-    public static final Property<User, Boolean> accountNonLocked = newProperty(Boolean.class);
+    public static final Key<User, Boolean> accountNonLocked = newKey();
 
     /** Date of confirmation with Term of use. The Date can be null if the useer has been created by an administrator. */
     @Comment("Date of confirmation of the contract")
     @Column(name = "contract_date", mandatory=false)
-    public static final Property<User, java.sql.Date> contractDate = newProperty(java.sql.Date.class);
+    public static final Key<User, java.sql.Date> contractDate = newKey();
 
     /** The last login date. The Date can be null if the useer has been created by an administrator. */
     @Comment("The last login date")
     @Column(name = "login_date", mandatory=false)
-    public static final Property<User, java.sql.Date> lastLoginDate = newProperty(java.sql.Date.class);
+    public static final Key<User, java.sql.Date> lastLoginDate = newKey();
 
     /** User group */
     @Column(mandatory = true)
-    public static final Property<User, UserGroup> userGroup = newProperty(UserGroup.class);
+    public static final Key<User, UserGroup> userGroup = newKey();
 
     /** Relation to the User roles */
     public static final RelationToMany<User, UserRole> userRoles = newRelation(UserRole.class);
 
     /** Transient user roles */
     @Transient
-    public static final Property<User, String> _userTextRoles = newProperty("roles", String.class);
+    public static final Key<User, String> _userTextRoles = newKey("roles");
 
     /** Date of lock, the last value is relevant. Locked are all days to the required one, include. */
     @Column(mandatory=false)
-    public static final Property<User,java.sql.Date> lockDate = newProperty(DEFAULT_LOCK_DATE);
+    public static final Key<User,java.sql.Date> lockDate = newKey(DEFAULT_LOCK_DATE);
 
     /** Property initialization */
     static {
