@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.inspectime</groupId>
             <artifactId>inspectime-commons</artifactId>
-            <version>0.9.04-SNAPSHOT</version>
+            <version>1.00</version>
        </dependency>
 
         <dependency>
@@ -169,18 +169,19 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
-
-
         <dependency>
-            <groupId>org.ujoframework</groupId>
+            <groupId>org.ujorm</groupId>
             <artifactId>ujo-orm</artifactId>
+            <version>1.30.RC2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.ujoframework</groupId>
-            <artifactId>ujo-orm-spring</artifactId>
+            <groupId>org.ujorm</groupId>
+            <artifactId>ujo-spring</artifactId>
+            <version>1.30.RC2</version>
             <scope>compile</scope>
         </dependency>
+        
         <dependency>
             <groupId>com.inspectime</groupId>
             <artifactId>ujo-gxt-core</artifactId>
@@ -191,6 +192,7 @@
             <artifactId>ujo-gxt-crud</artifactId>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
     <!-- http://java.dzone.com/articles/maven-profile-best-practices?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+javalobby%2Ffrontpage+%28Javalobby+%2F+Java+Zone%29  -->
@@ -337,7 +339,9 @@
             <url>file:///var/www/mavensites/inspectime</url>
         </site>
     </distributionManagement>
-    <properties></properties>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+    </properties>
 </project>
 
 

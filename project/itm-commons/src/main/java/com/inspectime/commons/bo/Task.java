@@ -126,7 +126,6 @@ final public class Task extends AbstractBo {
         }
     }
 
-
     // --- SETTERS / GETTERS --------------------
 
     // <editor-fold defaultstate="collapsed" desc="SET/GET">
