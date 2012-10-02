@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>inspectime</artifactId>
     <groupId>com.inspectime</groupId>
+    <artifactId>inspectime</artifactId>
     <version>1.00</version>
     <packaging>pom</packaging>
     <name>Inspectime</name>
@@ -12,7 +12,7 @@
     <properties>
         <!--verze cele aplikace vcetne vsech jejich modulu-->
         <!--zmena takova aby znamenala povyseni verze nektereho modulu povisuje tuto verzi-->
-        <ujorm.version>1.30.RC1-SNAPSHOT</ujorm.version>
+        <ujorm.version>1.30.RC2</ujorm.version>
         <gwt.version>2.0.3</gwt.version>
         <gxt.version>2.1.1</gxt.version>
         <maven.compiler.source>1.6</maven.compiler.source>
@@ -21,7 +21,6 @@
         <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
 
     <!-- SUB PROJECTS -->
     <build>
@@ -232,21 +231,16 @@
             </dependency>
 
             <dependency>
-                <groupId>org.ujoframework</groupId>
+                <groupId>org.ujorm</groupId>
                 <artifactId>ujo-orm</artifactId>
                 <version>${ujorm.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>org.ujoframework</groupId>
-                <artifactId>ujo-orm-spring</artifactId>
+                <groupId>org.ujorm</groupId>
+                <artifactId>ujo-spring</artifactId>
                 <version>${ujorm.version}</version>
                 <scope>compile</scope>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>ujo-orm</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.inspectime</groupId>
@@ -260,7 +254,12 @@
                 <version>1.00</version>
                 <scope>compile</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.inspectime</groupId>
+                <artifactId>ujo</artifactId>
+                <version>1.00</version>
+            </dependency>
+    
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

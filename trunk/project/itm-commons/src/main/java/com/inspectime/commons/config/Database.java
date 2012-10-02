@@ -26,59 +26,59 @@ public class Database extends OrmTable<Database> {
 
     /** Inspectime Parameter of The Company */
     @Table("app_parameter")
-    public static final RelationToMany<Database, SingleComParam> PARAMETER_COM = newRelation(SingleComParam.class);
+    public static final RelationToMany<Database, SingleComParam> PARAMETER_COM = newRelation();
     /** Inspectime Parameter of The User */
     @Table("usr_parameter")
-    public static final RelationToMany<Database, SingleUsrParam> PARAMETER_USR = newRelation(SingleUsrParam.class);
+    public static final RelationToMany<Database, SingleUsrParam> PARAMETER_USR = newRelation();
     /** Comon descripton table */
     @Table("app_detail") 
-    public static final RelationToMany<Database, Description> DESCRIPTION = newRelation(Description.class);
+    public static final RelationToMany<Database, Description> DESCRIPTION = newRelation();
     /** Inspectime User */
     @Table("usr_user")
-    public static final RelationToMany<Database, User> USER = newRelation(User.class);
+    public static final RelationToMany<Database, User> USER = newRelation();
     /** User Group */
     @Table("usr_group")
-    public static final RelationToMany<Database, UserGroup> USER_GROUP = newRelation(UserGroup.class);
+    public static final RelationToMany<Database, UserGroup> USER_GROUP = newRelation();
     /** User role */
     @Table("usr_role")
-    public static final RelationToMany<Database, UserRole> USER_ROLE = newRelation(UserRole.class);
+    public static final RelationToMany<Database, UserRole> USER_ROLE = newRelation();
     /** Product */
     @Table("jws_product")
-    public static final RelationToMany<Database, Product> PRODUCT = newRelation(Product.class);
+    public static final RelationToMany<Database, Product> PRODUCT = newRelation();
     /** Project */
     @Table("jws_project")
-    public static final RelationToMany<Database, Project> PROJECT = newRelation(Project.class);
+    public static final RelationToMany<Database, Project> PROJECT = newRelation();
     /** Customer */
     @Table("jws_customer")
-    public static final RelationToMany<Database, Customer> CUSTOMER = newRelation(Customer.class);
+    public static final RelationToMany<Database, Customer> CUSTOMER = newRelation();
     /** Company */
     @Table("jws_company")
-    public static final RelationToMany<Database, Company> COMPANY = newRelation(Company.class);
+    public static final RelationToMany<Database, Company> COMPANY = newRelation();
     /** File content **/
     @Table("jws_content")
-    public static final RelationToMany<Database, Description> MSG_CONTENT = newRelation(Description.class);
+    public static final RelationToMany<Database, Description> MSG_CONTENT = newRelation();
     /** Relation: Project - UserGroup **/
     @Table("rel_proj_usrgroup")
-    public static final RelationToMany<Database, RelProjectUsGroup> REL_PROJ_USRGROUP = newRelation(RelProjectUsGroup.class);
+    public static final RelationToMany<Database, RelProjectUsGroup> REL_PROJ_USRGROUP = newRelation();
     /** Project component */
     @Table("rel_task_action")
-    public static final RelationToMany<Database, TaskAction> TASK_ACTION = newRelation(TaskAction.class);
+    public static final RelationToMany<Database, TaskAction> TASK_ACTION = newRelation();
     /** Event */
     @Table("jws_event")
-    public static final RelationToMany<Database, Event> EVENT = newRelation(Event.class);
+    public static final RelationToMany<Database, Event> EVENT = newRelation();
     /** User Task */
     @Table("usr_task")
-    public static final RelationToMany<Database, UserTask> USER_TASK = newRelation(UserTask.class);
+    public static final RelationToMany<Database, UserTask> USER_TASK = newRelation();
     /** Period Lock */
     @Table("usr_event_lock")
-    public static final RelationToMany<Database, EventLock> EVENT_LOCK = newRelation(EventLock.class);
+    public static final RelationToMany<Database, EventLock> EVENT_LOCK = newRelation();
     /** Release */
     @Table("jws_release")
-    public static final RelationToMany<Database, Release> RELEASE = newRelation(Release.class);
+    public static final RelationToMany<Database, Release> RELEASE = newRelation();
     /** Task */
     @Table("jws_task")
-    public static final RelationToMany<Database, Task> PRJ_TASK = newRelation(Task.class);
+    public static final RelationToMany<Database, Task> PRJ_TASK = newRelation();
     /** Account */
     @Table("jws_account")
-    public static final RelationToMany<Database, Account> ENV_ACCOUNT = newRelation(Account.class);
+    public static final RelationToMany<Database, Account> ENV_ACCOUNT = newRelation();
 }

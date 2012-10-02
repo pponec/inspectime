@@ -8,6 +8,12 @@
     <name>ujo-gxt-core</name>
     <url>http://maven.apache.org</url>
 
+    <parent>
+        <groupId>com.inspectime</groupId>
+        <artifactId>ujo</artifactId>
+        <version>1.00</version>
+    </parent>
+    
     <licenses>
         <license>
             <name>GNU/GPL v3</name>
@@ -20,19 +26,13 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <parent>
-        <groupId>com.inspectime</groupId>
-        <artifactId>inspectime</artifactId>
-        <version>1.0</version>
-    </parent>
+    
     <properties>
-        <ujorm.version>1.30.RC1-SNAPSHOT</ujorm.version>
         <gwt.version>1.7.0</gwt.version>
         <gxt.version>2.1.1</gxt.version>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -47,6 +47,7 @@
     <build>
         <resources>
             <resource>
+                <filtering>true</filtering>
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
@@ -55,7 +56,6 @@
                     <include>**/*.gwt.xml</include>
                 </includes>
                 <directory>src/main/java</directory>
-                <filtering>true</filtering>
             </resource>
         </resources>
 
@@ -77,12 +77,11 @@
                     <filters></filters>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.ujoframework</groupId>
+            <groupId>org.ujorm</groupId>
             <artifactId>ujo-orm</artifactId>
         </dependency>
         <dependency>
