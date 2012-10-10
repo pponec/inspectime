@@ -50,9 +50,6 @@ public class TaskServiceImpl extends AbstractServiceImpl<Task> implements TaskSe
     @Autowired
     private UserTaskService userTaskService;
 
-    /** Is not the user deleted? */
-    protected static final Criterion<Task> crnActive = Criterion.where(Task.active, true);
-
     @Override
     public Class<Task> getDefaultClass() {
         return Task.class;

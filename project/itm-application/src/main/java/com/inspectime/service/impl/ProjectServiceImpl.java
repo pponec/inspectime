@@ -28,8 +28,6 @@ import org.ujorm.implementation.orm.OrmTable;
 public class ProjectServiceImpl extends AbstractServiceImpl<Project> implements ProjectService {
 
     static final private Logger LOGGER = Logger.getLogger(ProjectServiceImpl.class.getName());
-    /** Is not the user deleted? */
-    protected static final Criterion<Project> crnActive = Criterion.where(Project.active, true);
 
     @Override
     public Class<Project> getDefaultClass() {

@@ -27,8 +27,6 @@ import org.ujorm.implementation.orm.OrmTable;
 public class UserGroupServiceImpl extends AbstractServiceImpl<UserGroup> implements UserGroupService {
 
     static final private Logger LOGGER = Logger.getLogger(UserGroupServiceImpl.class.getName());
-    /** Is not the user deleted? */
-    protected static final Criterion<UserGroup> crnActive = Criterion.where(UserGroup.active, true);
 
     @Override
     public Class<UserGroup> getDefaultClass() {

@@ -27,6 +27,7 @@ import org.ujorm.gxt.client.ao.ValidationMessage;
 import com.inspectime.commons.bo.User;
 import com.inspectime.commons.bo.UserGroup;
 import com.inspectime.commons.bo.UserRole;
+import com.inspectime.commons.bo.User_TEST;
 import com.inspectime.commons.bo.enums.RoleEnum;
 import com.inspectime.service.def.ApplContextService;
 import com.inspectime.service.def.ParamCompService;
@@ -65,14 +66,18 @@ import org.ujorm.implementation.orm.OrmTable;
 @org.springframework.stereotype.Service("userService")
 public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
 
+    /** TODO: remove it */
+    public static final StringBuilder __$sb = new StringBuilder().append(User_TEST.ADMIN_LOGIN2); // TestCode
+
     /** Logger */
     static final private Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
     /** Is not the user deleted? */
-    protected static final Criterion<User> crnActive = Criterion.where(User.active, true);
+    private static Criterion<User> crnActive = User.active.whereEq(true);
     /** Prohibited Login */
     public static final String PROHIBITED_LOGIN = "roleAnonymous";
     /** Array of the Prohibited Logins */
     private final String[] prohibitedLogins = {PROHIBITED_LOGIN};
+    
 
     @Autowired
     private ParamSystemService sysParamService;
@@ -107,7 +112,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     @Override
     public User loadByLogin(String login) throws NoSuchElementException {
         Criterion<User> loginCrn = Criterion.where(User.login, login); // equals to
-        User user = getSession().createQuery(crnActive.and(loginCrn)).uniqueResult();
+        User user = getSession().createQuery(crnActive().and(loginCrn)).uniqueResult();
         return user;
     }
 
@@ -141,13 +146,13 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
         Criterion<User> crnName = Criterion.where(User.login, user.getLogin());
 
         if (create) {
-            boolean exists = getSession().createQuery(crnActive.and(crnName)).exists();
+            boolean exists = getSession().createQuery(crnActive().and(crnName)).exists();
             if (exists) {
                 result = new ValidationMessage(User.login, "Login is already used: " + user.getLogin());
             }
         } else {
             Criterion<User> crnExcludeId = Criterion.where(User.id, NOT_EQ, user.getId());
-            boolean exists = getSession().createQuery(crnActive.and(crnName).and(crnExcludeId)).exists();
+            boolean exists = getSession().createQuery(crnActive().and(crnName).and(crnExcludeId)).exists();
             if (exists) {
                 result = new ValidationMessage(User.login, "Login is already used: " + user.getLogin());
             }
@@ -577,5 +582,13 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     @Override
     public ApplContextService getApplContext() {
          return super.getApplContext();
+    }
+    
+    /** Criterion for User.active = TRUE */
+    private Criterion<User> crnActive() {
+        if (crnActive==null) {
+             crnActive = Criterion.where(User.active, true);
+        }
+        return crnActive;
     }
 }
