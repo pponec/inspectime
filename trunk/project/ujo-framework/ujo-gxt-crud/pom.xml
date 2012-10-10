@@ -88,7 +88,6 @@
         <dependency>
             <groupId>com.inspectime</groupId>
             <artifactId>ujo-gxt-core</artifactId>
-            <version>1.00</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -113,7 +112,6 @@
         <dependency>
             <groupId>com.gwtincubator</groupId>
             <artifactId>gwt-incubator-security</artifactId>
-            <version>1.0.1</version>
         </dependency>
     </dependencies>
 </project>

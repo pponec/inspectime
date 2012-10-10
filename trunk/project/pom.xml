@@ -28,6 +28,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>                
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -192,11 +193,6 @@
                 <version>2.5.6</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>2.5.6</version>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
                 <version>2.0.0</version>
@@ -232,15 +228,18 @@
 
             <dependency>
                 <groupId>org.ujorm</groupId>
+                <artifactId>ujo-core</artifactId>
+                <version>${ujorm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ujorm</groupId>
                 <artifactId>ujo-orm</artifactId>
                 <version>${ujorm.version}</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.ujorm</groupId>
                 <artifactId>ujo-spring</artifactId>
                 <version>${ujorm.version}</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.inspectime</groupId>
@@ -258,13 +257,6 @@
                 <groupId>com.inspectime</groupId>
                 <artifactId>ujo</artifactId>
                 <version>1.00</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>3.8.1</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
