@@ -44,9 +44,6 @@ public class EventLockServiceImpl extends AbstractServiceImpl<EventLock> impleme
     @Autowired
     private UserService userService;
 
-    /** Is not the user deleted? */
-    protected static final Criterion<EventLock> crnActive = Criterion.where(EventLock.active, true);
-
     @Override
     public Class<EventLock> getDefaultClass() {
         return EventLock.class;

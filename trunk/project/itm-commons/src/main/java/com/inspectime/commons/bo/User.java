@@ -30,9 +30,12 @@ import org.ujorm.orm.annot.Comment;
  */
 @Comment("User of the Company")
 final public class User extends AbstractBo {
-
+    
     private static final String INDEX_NAME = "idx_user";
     public static final String ADMIN_LOGIN = "admin";
+    
+    /** TEST CODE */
+    public static final StringBuilder ADMIN_LOGIN2 = new StringBuilder("TEST_CODE");
 
     public static final java.sql.Date DEFAULT_LOCK_DATE;
     static {
@@ -50,7 +53,7 @@ final public class User extends AbstractBo {
     /** Primary Key */
     @Column(pk = true)
     public static final Key<User, Long> id = newKey($ID);
-
+    
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex = INDEX_NAME)

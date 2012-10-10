@@ -41,8 +41,7 @@ import static org.ujorm.criterion.Operator.*;
 public class LiveEventServiceImpl extends AbstractServiceImpl<Event> implements LiveEventService {
 
     static final private Logger LOGGER = Logger.getLogger(LiveEventServiceImpl.class.getName());
-    /** Is not the user deleted? */
-    protected static final Criterion<Event> crnActive = Criterion.where(Event.active, true);
+
     @Autowired
     private UserService userService;
 

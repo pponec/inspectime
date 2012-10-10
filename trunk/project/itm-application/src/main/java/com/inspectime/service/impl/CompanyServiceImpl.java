@@ -25,9 +25,6 @@ public class CompanyServiceImpl extends AbstractServiceImpl<Company> implements 
 
     static final private Logger LOGGER = Logger.getLogger(CompanyServiceImpl.class.getName());
     
-    /** Is not the user deleted? */
-    protected static final Criterion<Customer> crnActive = Criterion.where(Customer.active, true);
-
     @Override
     public Class<Company> getDefaultClass() {
         return Company.class;

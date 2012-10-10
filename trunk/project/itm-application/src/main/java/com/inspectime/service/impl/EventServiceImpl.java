@@ -45,8 +45,6 @@ import org.ujorm.orm.utility.OrmTools;
 public class EventServiceImpl extends AbstractServiceImpl<Event> implements EventService {
 
     static final private Logger LOGGER = Logger.getLogger(EventServiceImpl.class.getName());
-    /** Is not the user deleted? */
-    protected static final Criterion<Event> crnActive = Criterion.where(Event.active, true);
 
     @Autowired
     private LiveEventService liveEventService;

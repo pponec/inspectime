@@ -12,4 +12,14 @@
                 <gwt.style>PRETTY</gwt.style>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-Install, NoTests</actionName>
+            <displayName>Install, NoTests</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </action>
     </actions>

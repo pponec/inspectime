@@ -28,9 +28,6 @@ public class AccountServiceImpl extends AbstractServiceImpl<Account> implements 
 
     static final private Logger LOGGER = Logger.getLogger(AccountServiceImpl.class.getName());
 
-    /** Is not the user deleted? */
-    protected static final Criterion<Account> crnActive = Criterion.where(Account.active, true);
-
     @Override
     public Class<Account> getDefaultClass() {
         return Account.class;

@@ -29,8 +29,6 @@ import org.ujorm.implementation.orm.OrmTable;
 public class ProductServiceImpl extends AbstractServiceImpl<Product> implements ProductService {
 
     static final private Logger LOGGER = Logger.getLogger(ProductServiceImpl.class.getName());
-    /** Is not the user deleted? */
-    protected static final Criterion<Product> crnActive = Criterion.where(Product.active, true);
 
     @Override
     public Class<Product> getDefaultClass() {

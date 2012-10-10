@@ -44,9 +44,6 @@ public class UserTaskServiceImpl extends AbstractServiceImpl<UserTask> implement
     @Autowired
     private AccountService accountService;
 
-    /** Is not the user deleted? */
-    protected static final Criterion<Task> crnActive = Criterion.where(Task.active, true);
-
     @Override
     public Class<UserTask> getDefaultClass() {
         return UserTask.class;
