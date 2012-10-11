@@ -4,14 +4,14 @@
     <groupId>com.inspectime</groupId>
     <artifactId>inspectime-application</artifactId>
     <packaging>war</packaging>
-    <version>1.00</version>
+    <version>1.01-SNAPSHOT</version>
     <name>Inspectime - application</name>
     <description>Time tracker</description>
 
     <parent>
         <groupId>com.inspectime</groupId>
         <artifactId>inspectime</artifactId>
-        <version>1.00</version>
+        <version>1.01-SNAPSHOT</version>
     </parent>
 
     <scm>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.inspectime</groupId>
             <artifactId>inspectime-commons</artifactId>
-            <version>1.00</version>
+            <version>1.01-SNAPSHOT</version>
        </dependency>
 
         <dependency>

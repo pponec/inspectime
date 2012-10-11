@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.inspectime</groupId>
     <artifactId>ujo</artifactId>
-    <version>1.00</version>
+    <version>1.01-SNAPSHOT</version>
     <name>Main UJO</name>
     <packaging>pom</packaging>
     <description>Ujorm common project</description>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>com.inspectime</groupId>
         <artifactId>inspectime</artifactId>
-        <version>1.00</version>
+        <version>1.01-SNAPSHOT</version>
     </parent>
 
     <scm>
