@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.inspectime</groupId>
     <artifactId>ujo-gxt-core</artifactId>
-    <version>1.00</version>
+    <version>1.01-SNAPSHOT</version>
     <name>ujo-gxt-core</name>
     <url>http://maven.apache.org</url>
 
     <parent>
         <groupId>com.inspectime</groupId>
         <artifactId>ujo</artifactId>
-        <version>1.00</version>
+        <version>1.01-SNAPSHOT</version>
     </parent>
     
     <licenses>

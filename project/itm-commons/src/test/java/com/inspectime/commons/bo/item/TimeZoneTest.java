@@ -6,6 +6,7 @@
 package com.inspectime.commons.bo.item;
 
 
+import com.inspectime.commons.bo.User_TEST;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,12 +19,13 @@ import org.junit.Test;
  * @author pavel
  */
 public class TimeZoneTest extends TestCase {
-
+    
     public TimeZoneTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+        new User_TEST();
     }
 
     @AfterClass

@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.inspectime</groupId>
     <artifactId>ujo-gxt-crud</artifactId>
-    <version>1.00</version>
+    <version>1.01-SNAPSHOT</version>
     <name>ujo-gxt-crud</name>
     <url>http://maven.apache.org</url>
 
     <parent>
         <groupId>com.inspectime</groupId>
         <artifactId>ujo</artifactId>
-        <version>1.00</version>
+        <version>1.01-SNAPSHOT</version>
     </parent>
     
     <licenses>
@@ -33,7 +33,6 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -57,10 +56,6 @@
                     <include>**/*.gwt.xml</include>
                 </includes>
                 <directory>src/main/java</directory>
-            </resource>
-            <resource>
-                <filtering>false</filtering>
-                <directory>src/main/resources</directory>
             </resource>
         </resources>
 
