@@ -12,7 +12,7 @@ import com.inspectime.commons.bo.User;
 import java.awt.Color;
 import java.util.Locale;
 import org.ujorm.Key;
-import org.ujorm.extensions.Property;
+import org.ujorm.core.KeyFactory;
 import org.ujorm.extensions.UjoMiddle;
 
 /**
@@ -21,40 +21,47 @@ import org.ujorm.extensions.UjoMiddle;
  */
 public interface ParamUserService extends UjoMiddle<ParamUserService> {
 
+    /** Key factory */
+    public static final KeyFactory $f = KeyFactory.Builder.get(ParamUserService.class);
+
     /** Pomodoro interval in [ms] */
-    public static final Property<ParamUserService, Integer> pomodoroInterval = Property.newInstance("PomodoroInterval", 20);
+    public static final Key<ParamUserService, Integer> pomodoroInterval = $f.newKey("PomodoroInterval", 20);
     /** Maximum number of hot event buttons. */
-    public static final Property<ParamUserService, Integer> myEventButtonMaxCount = Property.newInstance("HotEventButtonMaxCount", 16);
+    public static final Key<ParamUserService, Integer> myEventButtonMaxCount = $f.newKey("HotEventButtonMaxCount", 16);
 
     /** Locale Text lcalization */
-    public static final Property<ParamUserService,String> P_LANG = Property.newInstance("Language", Locale.ENGLISH.getLanguage());
+    public static final Key<ParamUserService,String> P_LANG = $f.newKey("Language", Locale.ENGLISH.getLanguage());
     /** Working Hours */
-    //public static final Property<ParamUserService,Float> P_WORKING_HOURS = Property.newInstance("WorkingHours", 8f);
+    //public static final Key<ParamUserService,Float> P_WORKING_HOURS = $f.newKey("WorkingHours", 8f);
     /** Decimal time format. */
-    //public static final Property<ParamUserService,Boolean> P_DECIMAL_TIME_FORMAT = Property.newInstance("DecimalTimeFormat", true);
+    //public static final Key<ParamUserService,Boolean> P_DECIMAL_TIME_FORMAT = $f.newKey("DecimalTimeFormat", true);
     /** The Main selecton format. */
-    //public static final Property<ParamUserService,String> P_DATE_MAIN_FORMAT = Property.newInstance("DateMainFormat", "EE, yyyy/MM/dd'  %s: 'ww");
+    //public static final Key<ParamUserService,String> P_DATE_MAIN_FORMAT = $f.newKey("DateMainFormat", "EE, yyyy/MM/dd'  %s: 'ww");
     /** The Export Date Selection. */
-    //public static final Property<ParamUserService,String> P_DATE_REPORT_FORMAT = Property.newInstance("DateReportFormat", P_DATE_MAIN_FORMAT.getDefault() );
+    //public static final Key<ParamUserService,String> P_DATE_REPORT_FORMAT = $f.newKey("DateReportFormat", P_DATE_MAIN_FORMAT.getDefault() );
     /** The Goto Date format. */
-    //public static final Property<ParamUserService,String> P_DATE_GOTO_FORMAT = Property.newInstance("DateGotoFormat", "yyyy/MM/dd");
+    //public static final Key<ParamUserService,String> P_DATE_GOTO_FORMAT = $f.newKey("DateGotoFormat", "yyyy/MM/dd");
     /** A Color of a private project. */
-    public static final Property<ParamUserService,Color> P_COLOR_PRIVATE = Property.newInstance("ColorOfPrivateProject", new Color(0x5DA158));
+    public static final Key<ParamUserService,Color> P_COLOR_PRIVATE = $f.newKey("ColorOfPrivateProject", new Color(0x5DA158));
     /** A Color of finished project. */
-    //public static final Property<ParamUserService,Color> P_COLOR_FINISHED_PROJ = Property.newInstance("ColorOfFinishedProject", new Color(0xA9AC88));
+    //public static final Key<ParamUserService,Color> P_COLOR_FINISHED_PROJ = $f.newKey("ColorOfFinishedProject", new Color(0xA9AC88));
     /** A Color of an editable area. */
-    //public static final Property<ParamUserService,Color> P_COLOR_EDITABLE = Property.newInstance("ColorOfEditableArea", new Color(0xFFFACD));
+    //public static final Key<ParamUserService,Color> P_COLOR_EDITABLE = $f.newKey("ColorOfEditableArea", new Color(0xFFFACD));
     /** Modify value of finished project or task. */
-    //public static final Property<ParamUserService,Boolean> P_MODIFY_FINESHED_PROJ = Property.newInstance("ModifyFinishedProject", false);
+    //public static final Key<ParamUserService,Boolean> P_MODIFY_FINESHED_PROJ = $f.newKey("ModifyFinishedProject", false);
     /** Create a new Event on an EXIT action. */
-    public static final Property<ParamUserService,Boolean> P_EXIT_EVENT_CREATE = Property.newInstance("ExitEventCreating", true);
+    public static final Key<ParamUserService,Boolean> P_EXIT_EVENT_CREATE = $f.newKey("ExitEventCreating", true);
     /** Description of an EXIT action. */
-    public static final Property<ParamUserService,String> P_EXIT_EVENT_DESCR = Property.newInstance("ExitEventDescription", "EXIT");
+    public static final Key<ParamUserService,String> P_EXIT_EVENT_DESCR = $f.newKey("ExitEventDescription", "EXIT");
     /** Create a new Event on an LOGIN action. */
-    public static final Property<ParamUserService,Boolean> P_LOGIN_EVENT_CREATE = Property.newInstance("LoginEventCreating", true);
+    public static final Key<ParamUserService,Boolean> P_LOGIN_EVENT_CREATE = $f.newKey("LoginEventCreating", true);
     /** Description of an ENTER action. */
-    public static final Property<ParamUserService,String> P_LOGIN_EVENT_DESCR = Property.newInstance("LoginEventDescription", "LOGIN");
-
+    public static final Key<ParamUserService,String> P_LOGIN_EVENT_DESCR = $f.newKey("LoginEventDescription", "LOGIN");
+    
+    /** Lock the Factory */
+    public static final boolean $locked = $f.lockAndSize()>=0;
+    
+    
     /** Return the logged user. */
     public User getUser();
 

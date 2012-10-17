@@ -21,6 +21,7 @@ import org.ujorm.core.UjoIterator;
 import org.ujorm.core.annot.Transient;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.implementation.orm.RelationToMany;
+import org.ujorm.orm.OrmKeyFactory;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -49,104 +50,106 @@ final public class User extends AbstractBo {
         cal.set(Calendar.MILLISECOND, 0);
         DEFAULT_LOCK_DATE = new java.sql.Date(cal.getTimeInMillis());
     }
+    
+    private static final OrmKeyFactory<User> f = new OrmKeyFactory(User.class);
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Key<User, Long> id = newKey($ID);
+    public static final Key<User, Long> id = f.newKey("id");
     
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(uniqueIndex = INDEX_NAME)
-    public static final Key<User, Boolean> active = newKey($ACTIVE);
+    public static final Key<User, Boolean> active = f.newKey("active"); // newKey($ACTIVE);
 
     /** Login must be an unique text in the all application */
     @Column(length = 80, mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Key<User, String> login = newKey();
+    public static final Key<User, String> login = f.newKey();
 
     /** Email */
     @Column(length = 80, mandatory = true)
-    public static final Key<User, String> email = newKey();
+    public static final Key<User, String> email = f.newKey();
 
     /** The Time Zone */
     @Comment("Time zone in [hours]")
     @Column(name="time_zone", length=1, mandatory=true)
-    public static final Key<User, TimeZone> timeZone = newKey(new TimeZone(0));
+    public static final Key<User, TimeZone> timeZone = f.newKeyDefault(new TimeZone(0));
 
     /** Company is not part of the unique constraint
      * @see #login
      */
     @Column(mandatory = true /*, uniqueIndex = INDEX_NAME */)
-    public static final Key<User, Company> company = newKey($COMPANY);
+    public static final Key<User, Company> company = f.newKey($COMPANY);
 
     /** Password hash */
     @Column(length = 50, mandatory = true, name="password")
-    public static final Key<User, String> passwordHash = newKey("passwordHash");
+    public static final Key<User, String> passwordHash = f.newKey("passwordHash");
 
     /** Password native */
     @Transient
-    public static final Key<User, String> passwordNative = newKey("password");
+    public static final Key<User, String> passwordNative = f.newKey("password");
 
     /** User's sure name and first name */
     @Comment("User's sure name and first name")
     @Column(name = "name", length = 100)
-    public static final Key<User, String> name = newKey();
+    public static final Key<User, String> name = f.newKey();
 
     /** User's personal id */
     @Column(name = "pid", length = 100)
-    public static final Key<User, String> pid = newKey($ID);
+    public static final Key<User, String> pid = f.newKey($ID);
 
     /** Work  fund staff per week. */
     @Comment("Work  fund staff per week")
     @Column(name = "work_fund", mandatory=true)
-    public static final Key<User, Short> workFundStafPerWeek = newKey((short)(8*5));
+    public static final Key<User, Short> workFundStafPerWeek = f.newKeyDefault((short)(8*5));
 
     /** Description */
     @Column(length = 250)
-    public static final Key<User, String> description = newKey();
+    public static final Key<User, String> description = f.newKey();
 
     /** Enabled */
-    public static final Key<User, Boolean> enabled = newKey();
+    public static final Key<User, Boolean> enabled = f.newKey();
 
     /** Account non expired */
     @Column(name = "account_non_expired")
-    public static final Key<User, Boolean> accountNonExpired = newKey();
+    public static final Key<User, Boolean> accountNonExpired = f.newKey();
 
     /** Credentials non expired */
     @Column(name = "credentials_non_expired")
-    public static final Key<User, Boolean> credentialsNonExpired = newKey();
+    public static final Key<User, Boolean> credentialsNonExpired = f.newKey();
 
     /** Account non locked */
     @Column(name = "account_non_locked")
-    public static final Key<User, Boolean> accountNonLocked = newKey();
+    public static final Key<User, Boolean> accountNonLocked = f.newKey();
 
     /** Date of confirmation with Term of use. The Date can be null if the useer has been created by an administrator. */
     @Comment("Date of confirmation of the contract")
     @Column(name = "contract_date", mandatory=false)
-    public static final Key<User, java.sql.Date> contractDate = newKey();
+    public static final Key<User, java.sql.Date> contractDate = f.newKey();
 
     /** The last login date. The Date can be null if the useer has been created by an administrator. */
     @Comment("The last login date")
     @Column(name = "login_date", mandatory=false)
-    public static final Key<User, java.sql.Date> lastLoginDate = newKey();
+    public static final Key<User, java.sql.Date> lastLoginDate = f.newKey();
 
     /** User group */
     @Column(mandatory = true)
-    public static final Key<User, UserGroup> userGroup = newKey();
+    public static final Key<User, UserGroup> userGroup = f.newKey();
 
     /** Relation to the User roles */
-    public static final RelationToMany<User, UserRole> userRoles = newRelation(UserRole.class);
+    public static final RelationToMany<User, UserRole> userRoles = f.newRelation();
 
     /** Transient user roles */
     @Transient
-    public static final Key<User, String> _userTextRoles = newKey("roles");
+    public static final Key<User, String> _userTextRoles = f.newKey("roles");
 
     /** Date of lock, the last value is relevant. Locked are all days to the required one, include. */
     @Column(mandatory=false)
-    public static final Key<User,java.sql.Date> lockDate = newKey(DEFAULT_LOCK_DATE);
+    public static final Key<User,java.sql.Date> lockDate = f.newKeyDefault(DEFAULT_LOCK_DATE);
 
     /** Property initialization */
     static {
-        init(User.class);
+        f.lock();
     }
 
     /** User Role Set */

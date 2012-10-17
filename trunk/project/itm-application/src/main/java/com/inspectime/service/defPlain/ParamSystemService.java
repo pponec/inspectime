@@ -5,7 +5,8 @@
 package com.inspectime.service.defPlain;
 
 import com.inspectime.application.client.gui.registration.RegistrationDialog;
-import org.ujorm.extensions.Property;
+import org.ujorm.Key;
+import org.ujorm.core.KeyFactory;
 import org.ujorm.extensions.UjoMiddle;
 
 /**
@@ -13,23 +14,29 @@ import org.ujorm.extensions.UjoMiddle;
  * @author Ponec
  */
 public interface ParamSystemService extends UjoMiddle<ParamSystemService> {
+    
+    /** Key factory */
+    public static final KeyFactory $f = KeyFactory.Builder.get(ParamSystemService.class);
 
     /** Is the Kasvig in a DEBUG mode? */
-    public static final Property<ParamSystemService, Boolean> debug = Property.newInstance("debug", false);
+    public static final Key<ParamSystemService, Boolean> debug = $f.newKey("debug", false);
     /** Generate Demo Data for a new company? */
-    public static final Property<ParamSystemService, Boolean> createCompanyDemoData = Property.newInstance("companyDemoData", true);
+    public static final Key<ParamSystemService, Boolean> createCompanyDemoData = $f.newKey("companyDemoData", true);
     /** Ujorm database configuration file (http) */
-    public static final Property<ParamSystemService, String> dbConfig = Property.newInstance("dbConfig", "");
+    public static final Key<ParamSystemService, String> dbConfig = $f.newKey("dbConfig", "");
     /** Salt for a password encoding */
-    public static final Property<ParamSystemService, String> salt = Property.newInstance("salt", "jws.salt.5697458");
+    public static final Key<ParamSystemService, String> salt = $f.newKey("salt", "jws.salt.5697458");
     /** Http link to a page of the Inspectime Terms of Use */
-    public static final Property<ParamSystemService, String> termsOfUseLink = Property.newInstance("termsOfUseLink", RegistrationDialog.DEFAULT_TERM_OF_USE_LINK);
+    public static final Key<ParamSystemService, String> termsOfUseLink = $f.newKey("termsOfUseLink", RegistrationDialog.DEFAULT_TERM_OF_USE_LINK);
 
     /** Database connection user */
-    public static final Property<ParamSystemService, String> dbUser = Property.newInstance("dbUser", "inspectime");
+    public static final Key<ParamSystemService, String> dbUser = $f.newKey("dbUser", "inspectime");
     /** Database connection user */
-    public static final Property<ParamSystemService, String> dbPassword = Property.newInstance("dbPassword", "inspectime");
+    public static final Key<ParamSystemService, String> dbPassword = $f.newKey("dbPassword", "inspectime");
     /** JDBC URL */
-    public static final Property<ParamSystemService, String> jdbcUrl = Property.newInstance("jdbcUrl", "jdbc:mysql://127.0.0.1:3306/");
+    public static final Key<ParamSystemService, String> jdbcUrl = $f.newKey("jdbcUrl", "jdbc:mysql://127.0.0.1:3306/");
+    
+    /** Lock the Factory */
+    public static final boolean $locked = $f.lockAndSize()>=0;
 
 }
