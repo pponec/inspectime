@@ -11,7 +11,7 @@ package com.inspectime.service.def;
 import com.inspectime.commons.bo.Company;
 import java.util.Calendar;
 import org.ujorm.Key;
-import org.ujorm.extensions.Property;
+import org.ujorm.core.KeyFactory;
 import org.ujorm.extensions.UjoMiddle;
 
 /**
@@ -20,16 +20,22 @@ import org.ujorm.extensions.UjoMiddle;
  */
 public interface ParamCompService extends UjoMiddle<ParamCompService> {
 
+    /** Key factory */
+    public static final KeyFactory $f = KeyFactory.Builder.get(ParamCompService.class);
+    
     /** Company Name */
-    public static final Property<ParamCompService, String> companyName = Property.newInstance("CompanyName", "My Company");
+    public static final Key<ParamCompService, String> companyName = $f.newKey("CompanyName", "My Company");
     /** Company Address */
-    public static final Property<ParamCompService, String> companyAddress = Property.newInstance("CompanyAddress", "");
+    public static final Key<ParamCompService, String> companyAddress = $f.newKey("CompanyAddress", "");
     /** Is supported the Product? */
-    public static final Property<ParamCompService, Boolean> productSupport = Property.newInstance("ProductSupport", true);
+    public static final Key<ParamCompService, Boolean> productSupport = $f.newKey("ProductSupport", true);
     /** The First Day of the Week Day. */
-    public static final Property<ParamCompService,Integer> firstDayOfWeek = Property.newInstance("FirstDayOfWeek", Calendar.getInstance().getFirstDayOfWeek());
+    public static final Key<ParamCompService,Integer> firstDayOfWeek = $f.newKey("FirstDayOfWeek", Calendar.getInstance().getFirstDayOfWeek());
     /** Show Private Events in Event Report */
-    public static final Property<ParamCompService,Boolean> reportShowsPrivateEvents = Property.newInstance("ReportShowsPrivateEvents", true);
+    public static final Key<ParamCompService,Boolean> reportShowsPrivateEvents = $f.newKey("ReportShowsPrivateEvents", true);
+    
+    /** Lock the Factory */
+    public static final boolean $locked = $f.lockAndSize()>=0;    
 
 
     /** Return company of the logged user. */

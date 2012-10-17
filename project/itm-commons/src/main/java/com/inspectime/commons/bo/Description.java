@@ -29,7 +29,7 @@ final public class Description extends AbstractBo {
     public static final Key<Description, Long> id = newKey($ID);
     /** Description content (text) */
     @Column(type=DbType.VARCHAR, length=CONTENT_LENGTH)
-    public static final Key<Description, String> content = newKey("");
+    public static final Key<Description, String> content = newKeyDefault("");
     /** Description content (text) */
     @Column(mandatory=false)
     public static final Key<Description, Description> more = newKey();

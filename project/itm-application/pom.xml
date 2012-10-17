@@ -13,17 +13,18 @@
         <artifactId>inspectime</artifactId>
         <version>1.01-SNAPSHOT</version>
     </parent>
-
+    
     <scm>
         <connection>scm:svn:file:///data/svn/inspectime/trunk</connection>
     </scm>
+    
 
     <dependencies>
         <dependency>
             <groupId>com.inspectime</groupId>
             <artifactId>inspectime-commons</artifactId>
             <version>1.01-SNAPSHOT</version>
-       </dependency>
+        </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
@@ -98,10 +99,11 @@
         </dependency>
         <!--konec  quartz-->
 
-
-
-
-
+        <!-- JTA (Java Transacton API) -->
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+        </dependency>            
 
         <!-- Database MySql -->
         <dependency>
@@ -191,91 +193,68 @@
 
     </dependencies>
 
-    <!-- http://java.dzone.com/articles/maven-profile-best-practices?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+javalobby%2Ffrontpage+%28Javalobby+%2F+Java+Zone%29  -->
-    <!--
-    <profiles>
-        <profile>
-            <id>deploy</id>
-            <properties>
-                <gxt.compile>compile</gxt.compile>
-            </properties>
-            <activation>
-                <property>
-                    <name>!develop</name>
-                </property>
-             </activation>
-        </profile>
-        <profile>
-            <id>develop</id>
-            <properties>
-                <gxt.compile></gxt.compile>
-            </properties>
-        </profile>
-    </profiles>
-     -->
-
     <build>
-        <outputDirectory>war/WEB-INF/classes</outputDirectory>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>gwt-maven-plugin</artifactId>
-                    <version>1.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.0.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <finalName>Inspectime</finalName>
+        <outputDirectory>target/Inspectime/WEB-INF/classes</outputDirectory>        
+        
         <plugins>
+                
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
+                <version>2.5.0-rc1</version>
                 <configuration>
                     <runTarget>com.inspectime.application.Application/Application.html</runTarget>
                     <servicePattern>**/client/controller/*Controller.java</servicePattern>
-                    <rpcPattern>controller/{0}.rpc</rpcPattern>
+                                            <rpcPattern>controller/{0}.rpc</rpcPattern>
+                    <!--                    <rpcPattern>controller/{0}.rpc</rpcPattern> -->
                     <disableCastChecking>true</disableCastChecking>
                     <disableClassMetadata>false</disableClassMetadata>
-                    <extraJvmArgs>-Xmx512m -Xss4024k</extraJvmArgs>
+                    <extraJvmArgs>-Xms1024m -Xmx1024m -XX:MaxPermSize=256m</extraJvmArgs>
+                    <localWorkers>2</localWorkers> <!-- Manuální omezení počtu workerů kvůli paměti. GWT se defaultně chová tak, že vytvoří workera pro každé volné jádro CPU. Pokud jeden worker sežere 1GB RAM, tak na serveru s 8 jádry to potřebuje 8GB !! -->
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <!-- =BUILD= -.->
+                            <!-- =BUILD= -->
                             <goal>compile</goal>
-                            <!-.- -->
-                            
-                            <!--  -.->
-                            <goal>generateAsync</goal>
+                            <!-- -->
+
+                            <!--
+                            <goal>generateAsync</goal> - je třeba počkat na novou verzi podporující generiky - http://mojo.codehaus.org/gwt-maven-plugin/issue-tracking.html
                             <goal>test</goal>
-                            <!-.-  -->
-                         </goals>
+                            -->
+                        </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.gwt</groupId>
+                        <artifactId>gwt-user</artifactId>
+                        <version>${gwt.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.google.gwt</groupId>
+                        <artifactId>gwt-dev</artifactId>
+                        <version>${gwt.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
-
 
             <!--oprava volani rpc v hosted mode !!-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <copy todir="war/WEB-INF" preservelastmodified="true">
                                     <fileset dir="src/main/webapp/WEB-INF"/>
                                 </copy>
-
-                                <echo message="=====adding inspectime-node to inspectime-console========"/>
-                                <echo message="(if there is error build inspectime-node or parent pom)"/>
-
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
@@ -283,23 +262,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-
-            <!--
-          If you want to use the target/web.xml file mergewebxml produces,
-          tell the war plugin to use it.
-          Also, exclude what you want from the final artifact here.
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <webXml>target/web.xml</webXml>
-                    <warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
-                </configuration>
-            </plugin>
-            -->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -336,8 +298,9 @@
             <url>file:///var/www/mavensites/inspectime</url>
         </site>
     </distributionManagement>
+
     <properties>
-        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
     </properties>
 </project>
 

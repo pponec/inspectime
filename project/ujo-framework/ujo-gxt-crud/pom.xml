@@ -28,8 +28,6 @@
     </licenses>
 
     <properties>
-        <gwt.version>1.7.0</gwt.version>
-        <gxt.version>2.1.1</gxt.version>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
@@ -44,7 +42,7 @@
         </contributor>
     </contributors>
 
-    <build>
+    <build>        
         <resources>
             <resource>
                 <filtering>true</filtering>
@@ -57,7 +55,12 @@
                 </includes>
                 <directory>src/main/java</directory>
             </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
         </resources>
+        
 
         <plugins>
             <plugin>

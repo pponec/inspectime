@@ -66,11 +66,10 @@ import org.ujorm.implementation.orm.OrmTable;
 @org.springframework.stereotype.Service("userService")
 public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
 
-    /** TODO: remove it */
-    public static final StringBuilder __$sb = new StringBuilder().append(User_TEST.ADMIN_LOGIN2); // TestCode
-
     /** Logger */
     static final private Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
+    /** Is not the user deleted? */
+    private static Criterion<User> crnActive_XXXX = Criterion.where(User.active, true);
     /** Is not the user deleted? */
     private static Criterion<User> crnActive = User.active.whereEq(true);
     /** Prohibited Login */
