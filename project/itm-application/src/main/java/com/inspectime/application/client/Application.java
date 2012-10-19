@@ -9,11 +9,11 @@ package com.inspectime.application.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.inspectime.application.client.gui.registration.LoginDialog;
 import com.inspectime.application.client.gui.UIManager;
-import org.ujorm.gxt.client.ClientClassConfig;
 import com.inspectime.application.client.gui.commons.Icons;
+import com.inspectime.application.client.gui.registration.LoginDialog;
 import org.ujorm.gxt.client.ClientCallback;
+import org.ujorm.gxt.client.ClientClassConfig;
 import org.ujorm.gxt.client.controller.TableControllerAsync;
 
 public class Application implements EntryPoint {

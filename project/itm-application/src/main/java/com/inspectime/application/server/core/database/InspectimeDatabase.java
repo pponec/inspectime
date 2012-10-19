@@ -16,7 +16,7 @@ import org.ujorm.orm.annot.Db;
  * @author Hampl
  */
 //@Db(jndi="jdbc/inspectime", dialect = org.ujorm.orm.dialect.MySqlDialect.class )
-@Db(schema = "inspectime", dialect = InspectimeDialect.class, user = "inspectime", password = "inspectime", jdbcUrl = "jdbc:mysql://127.0.0.1:3306/")
+@Db(schema = "jworksheet", dialect = InspectimeDialect.class, user = "jworksheet", password = "jworksheet", jdbcUrl = "jdbc:mysql://192.168.33.200:3306/")
 //@Db(schema = "inspectime", dialect = org.ujorm.orm.dialect.MySqlDialect.class, user = "root", password = "datamaster", jdbcUrl = "jdbc:mysql://localhost:3306/")
 //@Db(schema = "inspectime", dialect = org.ujorm.orm.dialect.MySqlDialect.class, user = "root", password = "tomasek", jdbcUrl = "jdbc:mysql://192.168.132.1:3306/")
 //@Db(schema = "inspectime", dialect = org.ujorm.orm.dialect.MySqlDialect.class, user = "inspectime", password = "datamaster", jdbcUrl = "jdbc:mysql://127.0.0.1:3306/")
