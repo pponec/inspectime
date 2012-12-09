@@ -17,6 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import org.ujorm.Key;
+import org.ujorm.core.KeyFactory;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.core.annot.Transient;
 import org.ujorm.criterion.Criterion;
