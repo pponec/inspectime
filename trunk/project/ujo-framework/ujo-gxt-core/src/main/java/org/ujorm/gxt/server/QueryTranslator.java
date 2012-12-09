@@ -116,7 +116,8 @@ public class QueryTranslator<UJO extends OrmUjo> {
             try {
                 p1 = manager.findIndirectProperty(type, c1.getName());
             } catch (IllegalArgumentException e) {
-                p1 = Property.newInstance("["+c1.getName()+"]\u0020", Object.class);
+                String propertyName = "[" + c1.getName().replace('.', ':') + "]\u0020";
+                p1 = Property.newInstance(propertyName, Object.class);
             }
             Object p2;
 

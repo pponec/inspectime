@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.util.Date;
 import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
-import org.ujorm.extensions.Property;
 import org.ujorm.implementation.orm.RelationToMany;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
@@ -29,7 +28,7 @@ final public class Project extends AbstractBo {
 
     /** Unique index name */
     private static final String INDEX_NAME = "idx_project";
-
+    
     /** Primary Key */
     @Column(pk = true)
     public static final Key<Project, Long> id = newKey($ID);
@@ -53,7 +52,7 @@ final public class Project extends AbstractBo {
 
     /** Product */
     @Column(name = "id_product", mandatory = true, uniqueIndex = INDEX_NAME)
-    public static final Key<Project, Product> product = newKey($ACTIVE);
+    public static final Key<Project, Product> product = newKey();
 
     /** Customer */
     @Column(name="id_customer", mandatory = true)
