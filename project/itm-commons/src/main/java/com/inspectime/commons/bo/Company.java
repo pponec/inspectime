@@ -10,6 +10,7 @@ package com.inspectime.commons.bo;
 
 import org.ujorm.Key;
 import org.ujorm.implementation.orm.RelationToMany;
+import org.ujorm.orm.OrmKeyFactory;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
 
@@ -22,36 +23,41 @@ final public class Company extends AbstractBo {
 
     //** Index name */
     //private static final String INDEX_NAME = "idx_company_name";
+    
+    /** Factory */
+    private static final OrmKeyFactory<Company> f = newFactory(Company.class);
 
     /** Primary Key */
     @Comment("Primary Key")
     @Column(pk=true)
-    public static final Key<Company,Long> id = newKey($ID);
+    public static final Key<Company,Long> id = f.newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
-    public static final Key<Company,Boolean> active = newKey($ACTIVE);
+    public static final Key<Company,Boolean> active = f.newKey($ACTIVE);
 
     /** Company name can't be unique. */
     @Comment("Company name can't be unique.")
     @Column(length=100, mandatory=true)
-    public static final Key<Company,String> name = newKey();
+    public static final Key<Company,String> name = f.newKey();
 
     /** Desccription */
     @Comment("Description")
     @Column(length=250)
-    public static final Key<Company,String> description = newKey();
+    public static final Key<Company,String> description = f.newKey();
 
     /** Task Code sequence contains the value to next assign. */
     @Comment("Task Code sequence contains the value to next assign")
     @Column(mandatory=true)
-    public static final Key<Company,Integer> taskCodeSeq = newKey(10000);
+    public static final Key<Company,Integer> taskCodeSeq = f.newKeyDefault(10000);
 
     /** All products of the Company */
-    public static final RelationToMany<Company,Product> products = newRelation();
+    public static final RelationToMany<Company,Product> products = f.newRelation();
 
     /** Property initialization */
-    static { init(Company.class); }
+    static {
+        f.lock();
+    }
 
     // ------------------------------------------
 

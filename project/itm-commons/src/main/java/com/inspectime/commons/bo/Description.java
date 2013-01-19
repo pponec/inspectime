@@ -10,6 +10,8 @@ package com.inspectime.commons.bo;
 
 import org.apache.log4j.Logger;
 import org.ujorm.Key;
+import org.ujorm.Validator;
+import org.ujorm.core.KeyFactory;
 import org.ujorm.orm.DbType;
 import org.ujorm.orm.annot.Column;
 import org.ujorm.orm.annot.Comment;
@@ -24,19 +26,22 @@ final public class Description extends AbstractBo {
     static final private Logger LOGGER = Logger.getLogger(Description.class.getName());
     public static final int CONTENT_LENGTH = 256;
 
+    /** Factory */
+    private static final KeyFactory<Description> f = newFactory(Description.class);
+    
     /** Primary Key */
     @Column(pk = true)
-    public static final Key<Description, Long> id = newKey($ID);
+    public static final Key<Description, Long> id = f.newKey($ID);
     /** Description content (text) */
     @Column(type=DbType.VARCHAR, length=CONTENT_LENGTH)
-    public static final Key<Description, String> content = newKeyDefault("");
+    public static final Key<Description, String> content = f.newKeyDefault("", Validator.Build.length(CONTENT_LENGTH));
     /** Description content (text) */
     @Column(mandatory=false)
-    public static final Key<Description, Description> more = newKey();
+    public static final Key<Description, Description> more = f.newKey();
 
     /** Property initialization */
     static {
-        init(Description.class);
+        f.lock();
     }
 
     // <editor-fold defaultstate="collapsed" desc="SET/GET">

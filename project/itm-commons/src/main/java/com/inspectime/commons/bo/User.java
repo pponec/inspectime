@@ -17,6 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import org.ujorm.Key;
+import org.ujorm.Validator;
 import org.ujorm.core.KeyFactory;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.core.annot.Transient;
@@ -56,7 +57,7 @@ final public class User extends AbstractBo {
 
     /** Primary Key */
     @Column(pk = true)
-    public static final Key<User, Long> id = f.newKey("id");
+    public static final Key<User, Long> id = f.newKey($ID);
     
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
@@ -97,7 +98,7 @@ final public class User extends AbstractBo {
 
     /** User's personal id */
     @Column(name = "pid", length = 100)
-    public static final Key<User, String> pid = f.newKey($ID);
+    public static final Key<User, String> pid = f.newKey(Validator.Build.length(100));
 
     /** Work  fund staff per week. */
     @Comment("Work  fund staff per week")

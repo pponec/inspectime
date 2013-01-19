@@ -4,13 +4,13 @@
  */
 package com.inspectime.commons.bo.enums;
 
-import org.ujorm.extensions.ValueExportable;
+import org.ujorm.extensions.StringWrapper;
 
 /**
- *
+ * TaskStateEnum
  * @author Ponec
  */
-public enum TaskStateEnum implements ValueExportable {
+public enum TaskStateEnum implements StringWrapper {
 
     NEW("NW"),
     ACCEPTED("AC"),

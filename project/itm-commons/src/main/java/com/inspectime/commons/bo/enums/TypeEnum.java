@@ -6,13 +6,13 @@
 package com.inspectime.commons.bo.enums;
 
 import java.io.Serializable;
-import org.ujorm.extensions.ValueExportable;
+import org.ujorm.extensions.StringWrapper;
 
 /**
- * User roles
+ * Feature
  * @author Pavel Ponec
  */
-public enum TypeEnum implements ValueExportable, Serializable {
+public enum TypeEnum implements StringWrapper, Serializable {
 
     FEATURE("F"),
     BUG("B"),
