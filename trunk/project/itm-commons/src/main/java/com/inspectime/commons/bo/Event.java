@@ -17,6 +17,8 @@ import com.inspectime.commons.bo.item.TimeZone;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import org.ujorm.Validator;
+import org.ujorm.core.KeyFactory;
 
 /**
  * User Event
@@ -31,51 +33,54 @@ final public class Event extends AbstractBo {
     /** UTC Date Index name */
     private static final String INDEX_UTC_DATE = "idx_utc_date_index";
 
+    /** Factory */
+    private static final KeyFactory<Event> f = newFactory(Event.class);
+    
     /** Primary Key */
     @Comment("Primary Key")
     @Column(pk = true)
-    public static final Key<Event, Long> id = newKey($ID);
+    public static final Key<Event, Long> id = f.newKey($ID);
 
     /** Not deleted. The null value means a logical deleted state. */
     @Comment("Not deleted. The null value means a logical deleted state")
     @Column(index=INDEX_NAME)
-    public static final Key<Event, Boolean> active = newKey($ACTIVE);
+    public static final Key<Event, Boolean> active = f.newKey($ACTIVE);
 
     /** Owner User of the Event */
     @Column(name = "id_user", mandatory = true, index=INDEX_NAME)
-    public static final Key<Event, User> user = newKey();
+    public static final Key<Event, User> user = f.newKey();
 
     /** Local Event day */
     @Column(name="day_value", mandatory=true, index=INDEX_NAME)
-    public static final Key<Event, java.sql.Date> day = newKey();
+    public static final Key<Event, java.sql.Date> day = f.newKey();
 
     /** Start time of the event */
     @Column(name="start_time", mandatory=true, index=INDEX_NAME)
-    public static final Key<Event, Short> startTime = newKey( (short) new Time("8:00").getMinutes() );
+    public static final Key<Event, Short> startTime = f.newKeyDefault( (short) new Time("8:00").getMinutes() );
 
     /** Period [min] : only the last period is editable. */
     @Column(mandatory=true)
-    public static final Key<Event, Short> period = newKey((short)0);
+    public static final Key<Event, Short> period = f.newKeyDefault((short)0);
 
     /** The Time Zone */
     @Column(name="time_zone", length=1, mandatory=true)
-    public static final Key<Event, TimeZone> timeZone = newKey(new TimeZone());
+    public static final Key<Event, TimeZone> timeZone = f.newKeyDefault(new TimeZone());
 
     /** UTC Event day and time */
     @Column(name="utc_day_time", mandatory=!true /*, index=INDEX_UTC_DATE*/) // TODO: create index (?), MANDATORY = true
-    public static final Key<Event, java.util.Date> utcDayTime = newKey();
+    public static final Key<Event, java.util.Date> utcDayTime = f.newKey();
 
     /** Project of tht task */
     @Transient
-    public static final Key<Event, Project> project = newKey();
+    public static final Key<Event, Project> project = f.newKey();
 
     /** Period [min] */
     @Column(mandatory=true)
-    public static final Key<Event, Task> task = newKey();
+    public static final Key<Event, Task> task = f.newKey();
 
     /** Event description */
     @Column(length = 256, mandatory = false)
-    public static final Key<Event, String> description = newKey();
+    public static final Key<Event, String> description = f.newKey(Validator.Build.length(256));
 
     /** Project of the task */
     public static final Key<Event, Project> _project = task.add(Task.project);
@@ -84,7 +89,7 @@ final public class Event extends AbstractBo {
 
     /** Property initialization */
     static {
-        init(Event.class);
+        f.lock();
     }
 
     public Event() {

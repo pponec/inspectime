@@ -31,6 +31,17 @@
                 
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-AS-Run</actionName>
+            <displayName>AS-Run</displayName>
+            <goals>
+                <goal>package</goal>
+            </goals>
+            <properties>
+                <skipTests>true</skipTests>
+                <netbeans.deploy>true</netbeans.deploy>
+            </properties>
+        </action>
         
         
         
