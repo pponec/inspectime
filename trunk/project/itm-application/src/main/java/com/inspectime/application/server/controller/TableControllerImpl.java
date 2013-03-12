@@ -59,6 +59,7 @@ import com.inspectime.service.def.ProjectService;
 import com.inspectime.service.def.ReleaseService;
 import com.inspectime.service.impl.MessageServiceImpl;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -485,5 +486,10 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
     @Override
     public ClientSerializableEnvelope typeWorkaround(ClientSerializableEnvelope o) {
         return o;
+    }
+    
+    @Override
+    public void initClientTime(Date clientTime) {
+        userService.getApplContext().setClientTimeOffset(clientTime);
     }
 }

@@ -12,6 +12,7 @@ import com.google.gwt.core.client.GWT;
 import com.inspectime.application.client.gui.UIManager;
 import com.inspectime.application.client.gui.commons.Icons;
 import com.inspectime.application.client.gui.registration.LoginDialog;
+import java.util.Date;
 import org.ujorm.gxt.client.ClientCallback;
 import org.ujorm.gxt.client.ClientClassConfig;
 import org.ujorm.gxt.client.controller.TableControllerAsync;
@@ -26,14 +27,23 @@ public class Application implements EntryPoint {
         ClientClassConfig ccc = ClientClassConfig.getInstance();
 
         TableControllerAsync service = TableControllerAsync.Util.getInstance();
-        ccc.startUp(service, new ClientCallback(UIManager.getInstance()) {
 
+        // HACK: nastavení času na serveru
+        service.initClientTime(new Date(), new ClientCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                // nothing to do
+            }
+        });
+
+        ccc.startUp(service, new ClientCallback(UIManager.getInstance()) {
             @Override
             public void onSuccess(Object result) {
-                
+
                 // Load The User Context:
                 LoginDialog.loadServerUserContext(new Runnable() {
-                    @Override public void run() {
+                    @Override
+                    public void run() {
                         UIManager.getInstance().startup();
                     }
                 });

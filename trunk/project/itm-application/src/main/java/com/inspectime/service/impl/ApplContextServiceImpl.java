@@ -126,11 +126,16 @@ public class ApplContextServiceImpl implements ApplContextService {
     /** The Client Time Offset  */
     @Override
     public void setClientTimeOffset(Date clientDate) {
+        LOGGER.info("Client date="+clientDate);
+        LOGGER.info(" * Old Client time offset="+clientTimeOffset);
+        LOGGER.info(" * Old Server time offset="+(getServerTimeOffset()/1000.0/60.0));
         clientTimeOffset = (short) Math.round((clientDate.getTime() - (System.currentTimeMillis() - getServerTimeOffset())) / 1000.0 / 60);
+        LOGGER.info(" * New Client time offset="+clientTimeOffset);
     }
 
     /** Get Current time on  Zone. */
-    private int getServerTimeOffset() {
+    @Override
+    public int getServerTimeOffset() {
         final TimeZone tz = TimeZone.getTimeZone("GMT");
         final long ct = System.currentTimeMillis();
         final int result = TimeZone.getDefault().getOffset(ct) - tz.getOffset(ct);

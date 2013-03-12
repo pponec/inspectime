@@ -109,7 +109,7 @@ public class EventServiceImpl extends AbstractServiceImpl<Event> implements Even
      */
     @Override
     public void save(Event bo) {
-
+        
         if (bo.get(Event.user)==null) {
             bo.set(Event.user, getApplContext().getUser());
         }
@@ -118,6 +118,10 @@ public class EventServiceImpl extends AbstractServiceImpl<Event> implements Even
         final TimeZone timeZone = new TimeZone(getApplContext().getClientTimeHoursOffset());
         bo.set(Event.timeZone, timeZone);
         bo.set(Event.utcDayTime, getUtcDateTime(bo));
+        
+        LOGGER.info("Saving new event: user="+bo.getUserId()+"("+bo.get(Event.user).getName()+"), locTime="+new Date()+", utcTime="+bo.get(Event.utcDayTime)+", timeZone="+bo.get(Event.timeZone)+", desc="+bo.get(Event.description));
+        LOGGER.info(" - Client time offset="+getApplContext().getClientTimeOffset());
+        LOGGER.info(" - Server time offset="+(getApplContext().getServerTimeOffset()/1000.0/60.0));
 
         assertUnlocked(bo);
         validateForInsert(bo);

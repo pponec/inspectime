@@ -10,6 +10,7 @@ package org.ujorm.gxt.client.controller;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.client.rpc.RemoteService;
+import java.util.Date;
 import java.util.List;
 import org.ujorm.gxt.client.CMessageException;
 import org.ujorm.gxt.client.Cujo;
@@ -58,5 +59,8 @@ public interface TableController extends RemoteService {
 
     /** Pink the server */
     public void pink();
+    
+    public void initClientTime(Date clientTime);
+    
 
 }
