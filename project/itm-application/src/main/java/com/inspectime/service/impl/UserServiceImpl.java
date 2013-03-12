@@ -401,10 +401,11 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 
     @Override
     public List<User> getUserListForCompany(Company myCompany) {
-        Criterion<User> crn1, crn2, criterion;
+        Criterion<User> crn1, crn2, crn3, criterion;
         crn1 = Criterion.where(User.company, myCompany);
         crn2 = Criterion.where(User.active, true);
-        criterion = crn1.and(crn2);
+        crn3 = Criterion.where(User.enabled, true);
+        criterion = crn1.and(crn2).and(crn3);
 
         List<User> users = getSession().createQuery(criterion).orderBy(User.login).list();
         return users;

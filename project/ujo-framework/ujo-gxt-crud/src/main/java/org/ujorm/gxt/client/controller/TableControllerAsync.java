@@ -7,13 +7,12 @@
  */
 package org.ujorm.gxt.client.controller;
 
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import org.ujorm.gxt.client.InitItems;
 import org.ujorm.gxt.client.PropertyMetadata;
-import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import java.util.Date;
 import org.ujorm.gxt.client.Cujo;
 import org.ujorm.gxt.client.ao.ValidationMessage;
 import org.ujorm.gxt.client.cquery.CQuery;
@@ -76,7 +75,9 @@ public interface TableControllerAsync extends MetaModelController
      */
     void pink(AsyncCallback<Void> callback);
 
+    void initClientTime(Date clientTime, AsyncCallback<Void> callback);
 
+    
     /**
      * Utility class to get the RPC Async interface from client-side code
      */

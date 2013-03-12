@@ -53,7 +53,6 @@ public class UserControllerImpl extends RemoteServiceServlet implements UserCont
 
     @Override
     public boolean isUserAgreemnt(Date clientDay) throws CMessageException {
-        userService.getApplContext().setClientTimeOffset(clientDay);
         boolean result = userService.isUserAgreemnt();
         userService.createFirstDayEvent(clientDay);
         initDataService.createDemoData();

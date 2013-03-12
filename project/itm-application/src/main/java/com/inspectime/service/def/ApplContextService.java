@@ -41,6 +41,8 @@ public interface ApplContextService  {
     /** The Client Time Offset [Minutes]  */
     public short getClientTimeOffset();
 
+    public int getServerTimeOffset();
+
     /** The Client Time Offset [Hours]  */
     public short getClientTimeHoursOffset();
 
