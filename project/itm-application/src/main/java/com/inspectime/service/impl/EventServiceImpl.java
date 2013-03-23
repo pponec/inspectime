@@ -109,6 +109,11 @@ public class EventServiceImpl extends AbstractServiceImpl<Event> implements Even
      */
     @Override
     public void save(Event bo) {
+
+        // update of time zone by actual client time (difference to server time)
+        if (bo.getActualClientLocalTime() != null) {
+            userService.getApplContext().setClientTimeOffset(bo.getActualClientLocalTime());
+        }
         
         if (bo.get(Event.user)==null) {
             bo.set(Event.user, getApplContext().getUser());

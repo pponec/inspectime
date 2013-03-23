@@ -30,9 +30,11 @@ public interface ParamCompService extends UjoMiddle<ParamCompService> {
     /** Is supported the Product? */
     public static final Key<ParamCompService, Boolean> productSupport = $f.newKey("ProductSupport", true);
     /** The First Day of the Week Day. */
-    public static final Key<ParamCompService,Integer> firstDayOfWeek = $f.newKey("FirstDayOfWeek", Calendar.getInstance().getFirstDayOfWeek());
+    public static final Key<ParamCompService, Integer> firstDayOfWeek = $f.newKey("FirstDayOfWeek", Calendar.getInstance().getFirstDayOfWeek());
     /** Show Private Events in Event Report */
-    public static final Key<ParamCompService,Boolean> reportShowsPrivateEvents = $f.newKey("ReportShowsPrivateEvents", true);
+    public static final Key<ParamCompService, Boolean> reportShowsPrivateEvents = $f.newKey("ReportShowsPrivateEvents", true);
+    /** Show Private Events in Event Report */
+    public static final Key<ParamCompService, String> jiraServerUrl = $f.newKey("JiraServerUrl", "");
     
     /** Lock the Factory */
     public static final boolean $locked = $f.lockAndSize()>=0;    
