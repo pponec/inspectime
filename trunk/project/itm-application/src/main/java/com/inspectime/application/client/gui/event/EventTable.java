@@ -5,7 +5,6 @@
  *          If you need a commercial license, please contact support@inspectime.com.
  * Support: support@ujorm.com - for both technical or business information
  */
-
 package com.inspectime.application.client.gui.event;
 
 import com.extjs.gxt.charts.client.Chart;
@@ -62,6 +61,7 @@ import com.inspectime.application.client.clientTools.AbstractEditDialog;
 import com.inspectime.application.client.controller.EventControllerAsync;
 import com.inspectime.application.client.gui.liveEvent.LiveEventPanel;
 import com.inspectime.application.client.gui.project.ProjectTable;
+import com.inspectime.application.client.service.CParam4Company;
 import com.inspectime.application.client.service.CParam4User;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -86,8 +86,8 @@ import org.ujorm.gxt.client.tools.MessageDialog;
  * @author Ponec
  */
 public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
-    public static final String CHART_TITLE_STYLE = "font-size: 12px; font-family: Verdana; text-align: center;";
 
+    public static final String CHART_TITLE_STYLE = "font-size: 12px; font-family: Verdana; text-align: center;";
     private static final long ONE_DAY = 24 * 60 * 60 * 1000;
     public static final DateTimeFormat DEFAULT_DAY_FORMAT = GWT.isClient()
             ? DateTimeFormat.getFormat("yyyy-MM-dd (EEE)")
@@ -117,7 +117,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
     private boolean enablePomodoroDialog = true;
     private ContentPanel cpInfo;
     private int MAX_INFO_ROWS = 3;
-    
+
     public EventTable(CQuery<CUJO> query) {
         super(query);
     }
@@ -125,7 +125,9 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
     public EventTable() {
     }
 
-    /** Create Chart Item */
+    /**
+     * Create Chart Item
+     */
     protected ChartItem createChartItem(final Long id, final String name, final ColorGxt color) {
         final boolean calcByTime = true;
         return new ChartItem(id, name, color, calcByTime);
@@ -139,8 +141,9 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
 //        }
 //        return this;
 //    }
-
-    /** Is today ? */
+    /**
+     * Is today ?
+     */
     public boolean isToday() {
         try {
             String d1 = DEFAULT_DAY_FORMAT.format(calendar.getValue());
@@ -151,13 +154,17 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         }
     }
 
-    /** Create a new instance of the Edit dialog, no initializaton. */
+    /**
+     * Create a new instance of the Edit dialog, no initializaton.
+     */
     @Override
     protected EventEditDialog createDialogInstance() {
         return new EventEditDialog();
     }
 
-    /** Create a new edit dialog. */
+    /**
+     * Create a new edit dialog.
+     */
     @Override
     @SuppressWarnings("unchecked")
     protected AbstractEditDialog<CUJO> createTableEditDialog(final CUJO selectedItem, boolean newState, boolean clone) {
@@ -171,31 +178,31 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
             cujo.set(CEvent.startTime_, getNextTime());
         }
 
-        dialog.init((CUJO)cujo, newState, getEditQuery(newState, selectedItem));
+        dialog.init((CUJO) cujo, newState, getEditQuery(newState, selectedItem));
         return dialog;
     }
 
-    /** Define a list of the Table columns */
+    /**
+     * Define a list of the Table columns
+     */
     @Override
     protected CujoProperty[] createTableColumns() {
-        return new CujoProperty[]
-          { CEvent.day
-          , CEvent.startTime_
-          , CEvent.period_
-          , CEvent.project.add(CProject.name)
-          , CEvent._task_code
-          , CEvent.description
-          , CEvent.user.add(CUser.login)
-          };
+        return new CujoProperty[]{CEvent.day, CEvent.startTime_, CEvent.period_, CEvent.project.add(CProject.name), CEvent._task_code, CEvent.description, CEvent.user.add(CUser.login)
+        };
     }
 
-    /** Returns selected day */
-    @Override protected Date getSelectedDay() {
-        final Date result = calendar!=null ? calendar.getValue() : null;
-        return result!=null ? result : new Date();
+    /**
+     * Returns selected day
+     */
+    @Override
+    protected Date getSelectedDay() {
+        final Date result = calendar != null ? calendar.getValue() : null;
+        return result != null ? result : new Date();
     }
 
-    /** Returns a default database query. */
+    /**
+     * Returns a default database query.
+     */
     @Override
     protected CQuery<? super CUJO> createDefaultQuery() {
         CQuery<CEvent> result = CQuery.newInstance(CEvent.class, createTableColumns());
@@ -233,15 +240,26 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         return result;
     }
 
-    /** Create table renderer */
+    /**
+     * Create table renderer
+     */
     public static GridCellRenderer<CEvent> createRenderer() {
         return new GridCellRenderer<CEvent>() {
-
             @Override
             public String render(CEvent event, String property, ColumnData config, int rowIndex, int colIndex, ListStore<CEvent> store, Grid<CEvent> grid) {
                 boolean priv = event.getTask().isPrivate();
-                boolean looong = event.getPeriod().getMinutes() > 12*60; // delsi jak 12h je podezřelé
+                boolean looong = event.getPeriod().getMinutes() > 12 * 60; // delsi jak 12h je podezřelé
                 Object val = event.get(property);
+                // jira regex :)
+                if ("description".equals(property) && val instanceof String) {
+                    final String jiraServerUrl = CParam4Company.getInstance().getJiraServerUrl();
+                    if (jiraServerUrl != null && jiraServerUrl.length() > 0) {
+                        String str = (String) val;
+                        str = str.replaceAll("([A-Z]{2}\\-[0-9]*)", "<a href=\"" + jiraServerUrl + "browse/$1\" style=\"color:#0000FF\" target=\"_blank\">$1</a>");
+                        val = str;
+                    }
+                }
+
                 String result = "";
                 if (looong) {
                     String color = "#808080";
@@ -253,7 +271,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                     result = val != null ? val.toString() : "";
                 }
                 if (event.getPeriod().isSecondsSupported()) {
-                    return "<b>"+result+"</b>";
+                    return "<b>" + result + "</b>";
                 } else {
                     return result;
                 }
@@ -264,7 +282,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
     @Override
     protected void createButtons(final LayoutContainer buttonContainer, final PagingToolBar toolBar) {
 
-        beforeCreateButtons(); 
+        beforeCreateButtons();
         LabelToolItem quickLabel = new LabelToolItem("Quick new event:");
         quickLabel.setStyleName("hotTaskLabel");
         buttonContainer.add(quickLabel, new VBoxLayoutData(new Margins(0, 0, 5, 0)));
@@ -272,14 +290,13 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         buttonContainer.add(taskBox, new VBoxLayoutData(new Margins(0, 0, 15, 0)));
 
         super.createButtons(buttonContainer, toolBar);
-        
+
         Button btnHelp = addButton(buttonHelp, Application.ICONS.help(), buttonContainer);
         Button btnActions = null; //addButton(buttonActions, Application.ICONS.list(), buttonContainer);
 
         // Instalations:
         if (btnHelp != null) {
             btnHelp.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
                 @Override
                 public void componentSelected(ButtonEvent ce) {
 
@@ -297,7 +314,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         // Action Steps:
         if (btnActions != null) {
             btnActions.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
                 @Override
                 public void componentSelected(ButtonEvent ce) {
                     final CUJO selectedItem = getFirstSelectedItem();
@@ -350,7 +366,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
 
         if (isToolBarEnabled()) {
             refreshTaskTime = new DelayedTask(new Listener<BaseEvent>() {
-
                 @Override
                 public void handleEvent(BaseEvent be) {
                     refreshLastTime();
@@ -364,14 +379,14 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         evTable.setHeaderVisible(false);
         evTable.setLayout(borderLayout);
         evTable.add(grid, new BorderLayoutData(LayoutRegion.CENTER, 0, 0, 0));
-        
-        if (this.isToolBarEnabled() && (CParam4User.getInstance() != null && CParam4User.getInstance().getRoles() != null && CParam4User.getInstance().getRoles().contains(CRoleEnum.MANAGER)) ) {
+
+        if (this.isToolBarEnabled() && (CParam4User.getInstance() != null && CParam4User.getInstance().getRoles() != null && CParam4User.getInstance().getRoles().contains(CRoleEnum.MANAGER))) {
             evTable.add(new LiveEventPanel().setRoles(CRoleEnum.MANAGER), new BorderLayoutData(LayoutRegion.SOUTH, 220, 0, 0));
         }
 
         grid.setAutoExpandColumn(getQuery().getColumnConfig(CEvent.description).getId());
         grid.setAutoExpandMax(Integer.MAX_VALUE);
-        
+
         cpTable.setHeaderVisible(false);
         borderLayout = new BorderLayout();
         cpTable.setLayout(borderLayout);
@@ -382,7 +397,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         final VBoxLayout vBoxLayout = new VBoxLayout();
         vBoxLayout.setVBoxLayoutAlign(VBoxLayoutAlign.STRETCH);
         cpInfo.setLayout(vBoxLayout);
-        
+
         BorderLayoutData left = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 250);
         left.setMargins(new Margins(5));
         cpTable.add(cpInfo, left);
@@ -399,7 +414,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         infoProjects = new LayoutContainer();
         infoAccounts = new LayoutContainer();
         infoCustomers = new LayoutContainer();
-        
+
         VBoxLayoutData dataf = new VBoxLayoutData();
         dataf.setFlex(1);
         VBoxLayoutData datad = new VBoxLayoutData();
@@ -416,7 +431,9 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         }
     }
 
-    /** Create Tool Bar */
+    /**
+     * Create Tool Bar
+     */
     protected void createToolBar(ContentPanel evTable) {
         ToolBar toolBar = new ToolBar();
         toolBar.setSpacing(5);
@@ -427,7 +444,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         btn.setBorders(true);
         toolBar.add(btn);
         btn.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
             @Override
             public void componentSelected(ButtonEvent ce) {
                 Date date = calendar.getValue();
@@ -443,7 +459,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         calendar.getPropertyEditor().setFormat(DEFAULT_DAY_FORMAT);
         toolBar.add(calendar);
         calendar.getDatePicker().addListener(Events.Select, new Listener() {
-
             //
             @Override
             public void handleEvent(BaseEvent be) {
@@ -455,7 +470,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         btn.setBorders(true);
         toolBar.add(btn);
         btn.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
             @Override
             public void componentSelected(ButtonEvent ce) {
                 Date date = calendar.getValue();
@@ -469,7 +483,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         btn.setBorders(true);
         toolBar.add(btn);
         btn.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
             @Override
             public void componentSelected(ButtonEvent ce) {
                 calendar.setValue(new Date());
@@ -482,7 +495,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         totalTime = new TextField<String>();
         totalTime.setWidth(40);
         toolBar.add(totalTime);
-        
+
         //            label = new LabelToolItem("QUICK new event:");
         //            label.setId("instantAddEvent");
         //            toolBar.add(new SeparatorToolItem());
@@ -496,14 +509,13 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         toolBar.add(lockButton);
         setLockState(false);
         lockButton.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
             @Override
             public void componentSelected(ButtonEvent ce) {
 
                 String currentUser = CParam4User.getInstance().getLogin();
                 if ("test@test.com".equals(currentUser)) {
                     // The common demo user case:
-                    String msg = "The common test user "+currentUser+" can't approve events. Create you own user, please.";
+                    String msg = "The common test user " + currentUser + " can't approve events. Create you own user, please.";
                     final MessageDialog d = new MessageDialog(msg);
                     d.setButtons(Dialog.OK);
                     d.show();
@@ -514,7 +526,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                 final MessageDialog d = new MessageDialog(message);
                 d.setButtons(Dialog.OKCANCEL);
                 d.addListener(Events.BeforeHide, new Listener<WindowEvent>() {
-
                     @Override
                     @SuppressWarnings("unchecked")
                     public void handleEvent(WindowEvent be) {
@@ -525,15 +536,15 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
 
                             // Call a service to Lock the current day;
                             EventControllerAsync.Util.getInstance().lockEventDay(selectedDay, new ClientCallback<String>(redir()) {
-                                    @Override
-                                    public void onSuccess(String result) {
-                                        if (result!=null && !result.isEmpty()) {
-                                             new MessageDialog("Error: " + result).show();
-                                        } else {
-                                             reloadTable();
-                                             ClientContext.getInstance().setRefreshLockRequest();
-                                        }
+                                @Override
+                                public void onSuccess(String result) {
+                                    if (result != null && !result.isEmpty()) {
+                                        new MessageDialog("Error: " + result).show();
+                                    } else {
+                                        reloadTable();
+                                        ClientContext.getInstance().setRefreshLockRequest();
                                     }
+                                }
                             });
                         }
                     }
@@ -558,10 +569,11 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
 
     }
 
-    /** Before create buttons */
+    /**
+     * Before create buttons
+     */
     private void beforeCreateButtons() {
         projectBox = new OldCujoBox<CProject>(CProject.name, redir()) {
-
             @Override
             public void onChange(CProject value) {
 //                    if (isDataLoadedToComponent()) {
@@ -597,7 +609,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         };
 
         taskBox = new OldCujoBox<CTask>(CTask.DISPLAY_PROPERTY, redir()) {
-
             @Override
             public CQuery<CTask> getDefaultCQuery() {
                 CQuery<CTask> projectQuery = new CQuery<CTask>(CTask.class);
@@ -635,18 +646,24 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         taskBox.setEnabled(false);
     }
 
-    /** Is the Tool Bar Enabled ? */
+    /**
+     * Is the Tool Bar Enabled ?
+     */
     protected boolean isToolBarEnabled() {
         return true;
     }
 
-    /** Get a date selected in Calendar */
+    /**
+     * Get a date selected in Calendar
+     */
     public java.sql.Date getSelectedDate() {
         Date date = calendar.getValue();
         return new java.sql.Date(date.getTime());
     }
 
-    /** Get a date selected in Calendar */
+    /**
+     * Get a date selected in Calendar
+     */
     public CEvent createEvent() {
         CEvent result = new CEvent().init();
 
@@ -657,10 +674,12 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         return result;
     }
 
-    /** Reload table */
+    /**
+     * Reload table
+     */
     @Override
     public void reloadTable() {
-        if (totalTime!=null) {
+        if (totalTime != null) {
             totalTime.setValue("wait ...");
         }
         super.reloadTable();
@@ -750,14 +769,18 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
     protected String getProjectsChartTitle() {
         return "Time by Project";
     }
+
     protected String getAccountsChartTitle() {
         return "Time by Account";
     }
+
     protected String getCustomersChartTitle() {
         return "Time by Customer";
     }
 
-    /** Returns a last time or 8:00 if no row was found */
+    /**
+     * Returns a last time or 8:00 if no row was found
+     */
     private WTime getLastTime() {
         int result = 8 * 60; // 8:00
 
@@ -771,14 +794,18 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         return new WTime((short) result);
     }
 
-    /** Returns a last time or 8:00 if no row was found */
+    /**
+     * Returns a last time or 8:00 if no row was found
+     */
     private WTime getNextTime() {
         return isToday()
                 ? new WTime().setCurrentTime()
                 : getLastTime();
     }
 
-    /** Notice time in [ms]. */
+    /**
+     * Notice time in [ms].
+     */
     public Integer getNoticeTime() {
         int result = CParam4User.getInstance().getPomodoroInterval() * 60 * 1000;
         return result;
@@ -796,11 +823,13 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         }
     }
 
-    /** Enable / disable buttons on a component panel */
+    /**
+     * Enable / disable buttons on a component panel
+     */
     private void enableActionPanel(boolean enable, LayoutContainer panel) {
         for (Component component : panel.getItems()) {
             if (component.getClass().equals(LayoutContainer.class)) {
-                enableActionPanel(enable, ((LayoutContainer)component));
+                enableActionPanel(enable, ((LayoutContainer) component));
             }
             if (!component.getClass().equals(Label.class)) {
                 component.setEnabled(enable);
@@ -808,15 +837,17 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         }
     }
 
-    /** Refresh last time and enable pomodoro dialog. */
+    /**
+     * Refresh last time and enable pomodoro dialog.
+     */
     private void refreshLastTime() {
         if (isToolBarEnabled() && isToday()) {
 
             ListStore<CUJO> store = grid.getStore();
-            int lastIndex = store.getCount()-1;
-            CUJO lastCujo = lastIndex>=0 ? store.getAt(lastIndex) : null;
-            enablePomodoroDialog = lastCujo==null || !lastCujo.isPrivate();
-            if (lastCujo==null || lastCujo.isPrivate()) {
+            int lastIndex = store.getCount() - 1;
+            CUJO lastCujo = lastIndex >= 0 ? store.getAt(lastIndex) : null;
+            enablePomodoroDialog = lastCujo == null || !lastCujo.isPrivate();
+            if (lastCujo == null || lastCujo.isPrivate()) {
                 return;
             }
 
@@ -829,7 +860,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                 lastPeriod.addOneSec();
                 if (lastPeriod.isZeroSec()) {
                     refreshTotalTime();
-                    switch(lastPeriod.getMinutes()) {
+                    switch (lastPeriod.getMinutes()) {
                         case (120):
                         case (60):
                         case (30):
@@ -839,11 +870,11 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                         case (5):
                         case (2):
                         case (1):
-                           refreshGraphs();
-                           break;
+                            refreshGraphs();
+                            break;
                     }
                 }
-            } else if (lastCujo!=null && lastCujo.getStartTime().compareTo(currentTime=new WTime(true))<1) {
+            } else if (lastCujo != null && lastCujo.getStartTime().compareTo(currentTime = new WTime(true)) < 1) {
                 int diff = currentTime.substract(lastTime);
                 lastPeriod.enableSec().setTime(diff);
                 lastCujo.set(lastCujo.period_, lastPeriod);
@@ -857,7 +888,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         ChartModel cm = new ChartModel(getProjectsChartTitle(), CHART_TITLE_STYLE);
         cm.setBackgroundColour("#fffff5");
         cm.setTitle(null);
-        
+
         //Legend lg = new Legend(Position.TOP, false);
         //lg.setPadding(10);
         //cm.setLegend(lg);
@@ -868,7 +899,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         pie.setTooltip("#label# #percent#");
         pie.setGradientFill(true);
 
-        Map unsortedMap = new LinkedHashMap<Long, ChartItem>();              
+        Map unsortedMap = new LinkedHashMap<Long, ChartItem>();
         List<String> colors = new ArrayList<String>(unsortedMap.size());
         ListStore<CUJO> store = grid.getStore();
         getProjectsChartData(store, unsortedMap);
@@ -899,7 +930,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         pie.setTooltip("#label# #percent#");
         pie.setGradientFill(true);
 
-        Map unsortedMap = new LinkedHashMap<Long, ChartItem>();              
+        Map unsortedMap = new LinkedHashMap<Long, ChartItem>();
         List<String> colors = new ArrayList<String>(unsortedMap.size());
         ListStore<CUJO> store = grid.getStore();
         getAccountsChartData(store, unsortedMap);
@@ -930,13 +961,13 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         pie.setTooltip("#label# #percent#");
         pie.setGradientFill(true);
 
-        Map unsortedMap = new LinkedHashMap<Long, ChartItem>();              
+        Map unsortedMap = new LinkedHashMap<Long, ChartItem>();
         ListStore<CUJO> store = grid.getStore();
         List<String> colors = new ArrayList<String>(unsortedMap.size());
         getCustomersChartData(store, unsortedMap);
         mapCustomers = new TreeMap(new ValueComparator(unsortedMap));
         mapCustomers.putAll(unsortedMap);
-        
+
         for (ChartItem item : mapCustomers.values()) {
             pie.addSlices(new PieChart.Slice(item.getPeriod(), item.getName(), item.getName()));
             colors.add(item.getColor());
@@ -953,15 +984,17 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         infoProjects.removeAll();
         int i = 0;
         StringBuilder table = new StringBuilder();
-        table.append("<table><tr><td width='115px' style='font-size:10px;color:black;font-weight:bold'> "+getProjectsChartTitle()+":</td><td></td></tr>");
+        table.append("<table><tr><td width='115px' style='font-size:10px;color:black;font-weight:bold'> " + getProjectsChartTitle() + ":</td><td></td></tr>");
         for (Iterator<ChartItem> it = mapProjects.values().iterator(); it.hasNext();) {
-            if (i++ > MAX_INFO_ROWS) break;
+            if (i++ > MAX_INFO_ROWS) {
+                break;
+            }
             table.append("<tr>");
             ChartItem ci = it.next();
             String key = ci.getName();
-            String value = new WTime((int)ci.getPeriod()).toString();
-            table.append("<td width='115px' style='font-size:10px;color:"+ci.getColor()+";'>"+key+"</td>");
-            table.append("<td style='font-size:10px;color:"+ci.getColor()+";'> "+value+"</td>");
+            String value = new WTime((int) ci.getPeriod()).toString();
+            table.append("<td width='115px' style='font-size:10px;color:" + ci.getColor() + ";'>" + key + "</td>");
+            table.append("<td style='font-size:10px;color:" + ci.getColor() + ";'> " + value + "</td>");
             table.append("</tr>");
         }
         table.append("</table>");
@@ -972,15 +1005,17 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         infoAccounts.removeAll();
         i = 0;
         table = new StringBuilder();
-        table.append("<table><tr><td width='115px' style='font-size:10px;color:black;font-weight:bold'> "+getAccountsChartTitle()+":</td><td></td></tr>");
+        table.append("<table><tr><td width='115px' style='font-size:10px;color:black;font-weight:bold'> " + getAccountsChartTitle() + ":</td><td></td></tr>");
         for (Iterator<ChartItem> it = mapAccounts.values().iterator(); it.hasNext();) {
-            if (i++ > MAX_INFO_ROWS) break;
+            if (i++ > MAX_INFO_ROWS) {
+                break;
+            }
             table.append("<tr>");
             ChartItem ci = it.next();
             String key = ci.getName();
-            String value = new WTime((int)ci.getPeriod()).toString();
-            table.append("<td width='115px' style='font-size:10px;color:"+ci.getColor()+";'>"+key+"</td>");
-            table.append("<td style='font-size:10px;color:"+ci.getColor()+";'> "+value+"</td>");
+            String value = new WTime((int) ci.getPeriod()).toString();
+            table.append("<td width='115px' style='font-size:10px;color:" + ci.getColor() + ";'>" + key + "</td>");
+            table.append("<td style='font-size:10px;color:" + ci.getColor() + ";'> " + value + "</td>");
             table.append("</tr>");
         }
         table.append("</table>");
@@ -992,15 +1027,17 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         infoCustomers.removeAll();
         i = 0;
         table = new StringBuilder();
-        table.append("<table><tr><td width='115px' style='font-size:10px;color:black;font-weight:bold'> "+getCustomersChartTitle()+":</td><td></td></tr>");
+        table.append("<table><tr><td width='115px' style='font-size:10px;color:black;font-weight:bold'> " + getCustomersChartTitle() + ":</td><td></td></tr>");
         for (Iterator<ChartItem> it = mapCustomers.values().iterator(); it.hasNext();) {
-            if (i++ > MAX_INFO_ROWS) break;
+            if (i++ > MAX_INFO_ROWS) {
+                break;
+            }
             table.append("<tr>");
             ChartItem ci = it.next();
             String key = ci.getName();
-            String value = new WTime((int)ci.getPeriod()).toString();
-            table.append("<td width='115px' style='font-size:10px;color:"+ci.getColor()+";'>"+key+"</td>");
-            table.append("<td style='font-size:10px;color:"+ci.getColor()+";'> "+value+"</td>");
+            String value = new WTime((int) ci.getPeriod()).toString();
+            table.append("<td width='115px' style='font-size:10px;color:" + ci.getColor() + ";'>" + key + "</td>");
+            table.append("<td style='font-size:10px;color:" + ci.getColor() + ";'> " + value + "</td>");
             table.append("</tr>");
         }
         table.append("</table>");
@@ -1009,7 +1046,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
 
         cpInfo.layout(true);
     }
-    
+
     class ValueComparator implements Comparator {
 
         Map base;
@@ -1030,5 +1067,4 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
             }
         }
     }
-    
 }

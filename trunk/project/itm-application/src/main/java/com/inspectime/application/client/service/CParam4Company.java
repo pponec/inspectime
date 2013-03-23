@@ -34,6 +34,8 @@ public class CParam4Company extends CAbstractParam implements Serializable {
     public static final CujoProperty<CParam4Company, Integer> firstDayOfWeek = pl.newPropertyDef("FirstDayOfWeek", 1);
     /** Show Private Events in Event Report */
     public static final CujoProperty<CParam4Company, Boolean> reportShowsPrivateEvents = pl.newPropertyDef("ReportShowsPrivateEvents", false);
+    /** */
+    public static final CujoProperty<CParam4Company, String> jiraServerUrl = pl.newPropertyDef("JiraServerUrl", "");
 
     /** Instance */
     private static final CParam4Company instance = new CParam4Company();
@@ -81,6 +83,17 @@ public class CParam4Company extends CAbstractParam implements Serializable {
     public String getCompanyAddress() {
 
         CujoProperty property = companyAddress;
+
+        AbstractCujo p = map.get(property.getName());
+        String result = p instanceof CSingleComParam
+                ? ((CSingleComParam)p).getTextValue()
+                : (String) property.getDefault();
+        return result;
+    }
+
+    /** Returns JIRA server url */
+    public String getJiraServerUrl() {
+        CujoProperty property = jiraServerUrl;
 
         AbstractCujo p = map.get(property.getName());
         String result = p instanceof CSingleComParam

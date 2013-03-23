@@ -101,6 +101,7 @@ public class HotButtons {
                     @Override public void componentSelected(ButtonEvent ce) {
                         CEvent event = eventTable.createEvent();
                         event.set(CEvent.task, task);
+                        event.timeSync();
                         TableControllerAsync.Util.getInstance().saveOrUpdate(event, true, new ClientCallback<ValidationMessage>(eventTable) {
 
                             @Override public void onSuccess(ValidationMessage result) {

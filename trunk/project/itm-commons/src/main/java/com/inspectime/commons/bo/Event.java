@@ -82,6 +82,9 @@ final public class Event extends AbstractBo {
     @Column(length = 256, mandatory = false)
     public static final Key<Event, String> description = f.newKey(Validator.Build.length(256));
 
+    @Transient
+    public static final Key<Event, Date> actualClientLocalTime = f.newKey();
+
     /** Project of the task */
     public static final Key<Event, Project> _project = task.add(Task.project);
     /** User's company */
@@ -158,4 +161,14 @@ final public class Event extends AbstractBo {
     }
 
     // </editor-fold>
+
+    public Date getActualClientLocalTime() {
+        return Event.actualClientLocalTime.of(this);
+    }
+
+    public void setActualClientLocalTime(Date actualClientLocalTime) {
+        Event.actualClientLocalTime.setValue(this, actualClientLocalTime);
+    }
+    
+    
 }

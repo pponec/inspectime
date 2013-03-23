@@ -13,6 +13,7 @@ import org.ujorm.gxt.client.AbstractCujo;
 import org.ujorm.gxt.client.CujoProperty;
 import org.ujorm.gxt.client.CujoPropertyList;
 import java.io.Serializable;
+import java.util.Date;
 import org.ujorm.gxt.client.CPathProperty;
 
 /**
@@ -47,6 +48,8 @@ final public class CEvent extends AbstractCujo implements Serializable {
     /** Event description */
     public static final CujoProperty<CEvent, String> description = pl.newProperty("description", String.class);
 
+    public static final CujoProperty<CEvent, Date> actualClientLocalTime = pl.newProperty("actualClientLocalTime", Date.class);
+    
     /** Owner User of the Event */
     public static final CujoProperty<CEvent, CUser> user = pl.newProperty("user", CUser.class);
 
@@ -57,6 +60,7 @@ final public class CEvent extends AbstractCujo implements Serializable {
 
     /** Period [min] : only the last period is editable. */
     public static final CujoProperty<CEvent, Short> period = pl.newPropertyDef("period", (short)0 );
+    
 
     // ---------------- COMPOSED PROPERTIES ------------------
 
@@ -81,6 +85,7 @@ final public class CEvent extends AbstractCujo implements Serializable {
         return pl;
     }
 
+    private Date dummyDate = null;
     private WTime __time__ = null;
 
     public CEvent() {
@@ -141,7 +146,8 @@ final public class CEvent extends AbstractCujo implements Serializable {
         if (time!=null) set(startTime.getName(), (short) time.getMinutes());
         //
         set(period.getName(), null); // reset the time period
-
+        // get client local time from browser
+        setActualClientLocalTime(new Date());
     }
 
     // --- SETTERS / GETTERS --------------------
@@ -173,5 +179,15 @@ final public class CEvent extends AbstractCujo implements Serializable {
     public String toString() {
         return description.getValue(this);
     }
+
+    public Date getActualClientLocalTime() {
+        return CEvent.actualClientLocalTime.getValue(this);
+    }
+
+    public void setActualClientLocalTime(Date actualClientLocalTime) {
+        CEvent.actualClientLocalTime.setValue(this, actualClientLocalTime);
+    }
+    
+    
 
 }
