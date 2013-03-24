@@ -627,7 +627,6 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                     CEvent event = createEvent();
                     event.set(CEvent.project, projectBox.getValue());
                     event.set(CEvent.task, selectedValue);
-
                     getService().saveOrUpdate(event, true, new ClientCallback<ValidationMessage>(redir()) {
                         @Override
                         public void onSuccess(ValidationMessage msg) {
@@ -671,6 +670,9 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         result.set(CEvent.startTime_, wTime);
         result.set(CEvent.startTime, wTime.getTimeMinutes());
         result.set(CEvent.day, getSelectedDate());
+        
+        result.timeSync();
+
         return result;
     }
 
