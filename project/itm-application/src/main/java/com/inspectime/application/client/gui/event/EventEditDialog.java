@@ -10,8 +10,13 @@ package com.inspectime.application.client.gui.event;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.KeyboardEvents;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.FormPanel.LabelAlign;
 import com.extjs.gxt.ui.client.widget.form.TextField;
@@ -36,6 +41,7 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
 
     private OldCujoBox<CTask> taskBox;
     private OldCujoBox<CProject> projectBox;
+    private Field descriptionField;
 
     @Override
     public CUJO createItem() {
@@ -62,7 +68,26 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
         if (newState && false) {
             createWidget(CEvent.day); // The day can not be modified.
         }
-        createWidget(CEvent.startTime_);
+        Field startTimeField = createWidget(CEvent.startTime_);
+        // special key listener - for letters it automatically transfer user focus to description text field
+        startTimeField.addListener(Events.OnKeyDown, new Listener<FieldEvent>() {
+            @Override
+            public void handleEvent(FieldEvent fe) {
+                int code = fe.getEvent().getKeyCode();
+                boolean letter = code >= 65 && code <= 90;
+                if (letter) {
+                    char ch = (char) fe.getEvent().getKeyCode();
+                    if (!fe.getEvent().getShiftKey()) {
+                        ch = Character.toLowerCase(ch);
+                    }
+                    TextField descriptionTextField = (TextField)descriptionField;
+                    descriptionTextField.setRawValue(Character.toString(ch));
+                    descriptionTextField.setSelectionRange(1, 0);
+                    descriptionTextField.focus();
+                    fe.stopEvent();
+                }
+            }
+        });
 
         projectBox = new OldCujoBox<CProject>(CProject.name, redir()) {
             @Override
@@ -113,7 +138,7 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
         };
 
         createWidget(CEvent.task, taskBox);
-        createWidget(CEvent.description);
+        descriptionField = createWidget(CEvent.description);
 
 
         // ------------------
