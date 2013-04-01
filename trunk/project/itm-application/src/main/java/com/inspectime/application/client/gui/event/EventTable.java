@@ -26,6 +26,9 @@ import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.Label;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
+import com.extjs.gxt.ui.client.widget.MessageBox;
+import static com.extjs.gxt.ui.client.widget.MessageBox.INFO;
+import static com.extjs.gxt.ui.client.widget.MessageBox.OK;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.button.ToggleButton;
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -75,6 +78,7 @@ import org.ujorm.gxt.client.CProperty;
 import org.ujorm.gxt.client.ClientCallback;
 import org.ujorm.gxt.client.CujoProperty;
 import org.ujorm.gxt.client.ao.ValidationMessage;
+import org.ujorm.gxt.client.commons.Icons;
 import org.ujorm.gxt.client.cquery.CCriterion;
 import org.ujorm.gxt.client.cquery.CQuery;
 import org.ujorm.gxt.client.gui.OldCujoBox;
@@ -117,7 +121,13 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
     private boolean enablePomodoroDialog = true;
     private ContentPanel cpInfo;
     private int MAX_INFO_ROWS = 3;
-
+    private EventEditDialog<CUJO> dialog;
+    //
+    static final String jiraIssueReplacement = CParam4Company.getInstance().getJiraIssueReplacement();
+    static final String jiraIssueRegex = CParam4Company.getInstance().getJiraIssueRegex();
+    static final String crucibleReviewReplacement = CParam4Company.getInstance().getCrucibleReviewReplacement();
+    static final String crucibleReviewRegex = CParam4Company.getInstance().getCrucibleReviewRegex();
+    
     public EventTable(CQuery<CUJO> query) {
         super(query);
     }
@@ -168,7 +178,7 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
     @Override
     @SuppressWarnings("unchecked")
     protected AbstractEditDialog<CUJO> createTableEditDialog(final CUJO selectedItem, boolean newState, boolean clone) {
-        final EventEditDialog<CUJO> dialog = createDialogInstance();
+        dialog = createDialogInstance();
         CEvent cujo = newState ? dialog.createItem() : selectedItem;
         if (clone) {
             copy(selectedItem, cujo);
@@ -252,10 +262,14 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                 Object val = event.get(property);
                 // jira regex :)
                 if ("description".equals(property) && val instanceof String) {
-                    final String jiraServerUrl = CParam4Company.getInstance().getJiraServerUrl();
-                    if (jiraServerUrl != null && jiraServerUrl.length() > 0) {
+                    if (crucibleReviewReplacement != null && crucibleReviewReplacement.length() > 0 && crucibleReviewRegex != null && crucibleReviewRegex.length() > 0) {
                         String str = (String) val;
-                        str = str.replaceAll("([A-Z]{2}\\-[0-9]*)", "<a href=\"" + jiraServerUrl + "browse/$1\" style=\"color:#0000FF\" target=\"_blank\">$1</a>");
+                        str = str.replaceAll(crucibleReviewRegex, crucibleReviewReplacement);
+                        val = str;
+                    }
+                    if (jiraIssueReplacement != null && jiraIssueReplacement.length() > 0 && jiraIssueRegex != null && jiraIssueRegex.length() > 0) {
+                        String str = (String) val;
+                        str = str.replaceAll(jiraIssueRegex, jiraIssueReplacement);
                         val = str;
                     }
                 }
@@ -337,6 +351,45 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
             });
         }
 
+        Label exportsLabel = new Label("Exports:");
+        exportsLabel.setStyleName("hotTaskLabel");
+        buttonContainer.add(exportsLabel, new VBoxLayoutData(new Margins(10, 0, 5, 0)));
+        // Exports
+        Button exportButton = new Button("Scrum");
+        buttonContainer.add(exportButton, new VBoxLayoutData(new Margins(0, 0, 5, 0)));
+        exportButton.setIcon(Icons.Pool.report());
+        exportButton.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                exportScrum();
+            }
+
+            private void exportScrum() {
+                final StringBuilder msg = new StringBuilder();
+                
+                msg.append("<ul>");
+                int count = grid.getStore().getCount();
+                for (int i = 0; i < count; i++) {
+                    CEvent event = grid.getStore().getAt(i);
+                    final String desc = event.get(CEvent.description);
+                    if (desc != null && desc.length() > 0) {
+                        msg.append("<li>");
+                        msg.append(desc);
+                        msg.append("</li>");
+                    }
+                }
+                msg.append("</ul>");
+                MessageBox box = new MessageBox();
+                box.setTitle("Scrum export");
+                box.setMessage(msg.toString());
+                box.setButtons(OK);
+                box.setIcon(INFO);
+                box.setModal(false);
+                box.show();
+            }
+        });
+
         // Show the hot task buttons:
         int buttonCount = CParam4User.getInstance().getHotEventButtonMaxCount();
         Label hotTaskLabel = new Label("Favourites:");
@@ -380,8 +433,8 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
         evTable.setLayout(borderLayout);
         evTable.add(grid, new BorderLayoutData(LayoutRegion.CENTER, 0, 0, 0));
 
-        if (this.isToolBarEnabled() && (CParam4User.getInstance() != null && CParam4User.getInstance().getRoles() != null && CParam4User.getInstance().getRoles().contains(CRoleEnum.MANAGER))) {
-            evTable.add(new LiveEventPanel().setRoles(CRoleEnum.MANAGER), new BorderLayoutData(LayoutRegion.SOUTH, 220, 0, 0));
+        if (this.isToolBarEnabled()) {
+            evTable.add(new LiveEventPanel(this), new BorderLayoutData(LayoutRegion.SOUTH, 220, 0, 0));
         }
 
         grid.setAutoExpandColumn(getQuery().getColumnConfig(CEvent.description).getId());
@@ -1068,5 +1121,9 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                 return -1;
             }
         }
+    }
+    
+    public boolean isEditDialogVisible() {
+        return dialog != null && dialog.isVisible();
     }
 }

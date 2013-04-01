@@ -108,29 +108,29 @@ public class EventServiceImpl extends AbstractServiceImpl<Event> implements Even
      * @see #list(org.ujorm.orm.Query)
      */
     @Override
-    public void save(Event bo) {
+    public void save(Event event) {
 
         // update of time zone by actual client time (difference to server time)
-        if (bo.getActualClientLocalTime() != null) {
-            userService.getApplContext().setClientTimeOffset(bo.getActualClientLocalTime());
+        if (event.getActualClientLocalTime() != null) {
+            userService.getApplContext().setClientTimeOffset(event.getActualClientLocalTime());
         }
         
-        if (bo.get(Event.user)==null) {
-            bo.set(Event.user, getApplContext().getUser());
+        if (event.get(Event.user)==null) {
+            event.set(Event.user, getApplContext().getUser());
         }
 
         // Save UTC time:
         final TimeZone timeZone = new TimeZone(getApplContext().getClientTimeHoursOffset());
-        bo.set(Event.timeZone, timeZone);
-        bo.set(Event.utcDayTime, getUtcDateTime(bo));
+        event.set(Event.timeZone, timeZone);
+        event.set(Event.utcDayTime, getUtcDateTime(event));
         
-        LOGGER.info("Saving new event: user="+bo.getUserId()+"("+bo.get(Event.user).getName()+"), locTime="+new Date()+", utcTime="+bo.get(Event.utcDayTime)+", timeZone="+bo.get(Event.timeZone)+", desc="+bo.get(Event.description));
+        LOGGER.info("Saving new event: user="+event.getUserId()+"("+event.get(Event.user).getName()+"), locTime="+new Date()+", utcTime="+event.get(Event.utcDayTime)+", timeZone="+event.get(Event.timeZone)+", desc="+event.get(Event.description));
         LOGGER.info(" - Client time offset="+getApplContext().getClientTimeOffset());
         LOGGER.info(" - Server time offset="+(getApplContext().getServerTimeOffset()/1000.0/60.0));
 
-        assertUnlocked(bo);
-        validateForInsert(bo);
-        super.save(bo);
+        assertUnlocked(event);
+        validateForInsert(event);
+        super.save(event);
     }
 
 

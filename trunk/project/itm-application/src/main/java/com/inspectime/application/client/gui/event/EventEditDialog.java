@@ -5,7 +5,6 @@
  *          If you need a commercial license, please contact support@inspectime.com.
  * Support: support@ujorm.com - for both technical or business information
  */
-
 package com.inspectime.application.client.gui.event;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -35,6 +34,7 @@ import org.ujorm.gxt.client.cquery.CQuery;
 
 /**
  * EventEditDialog
+ *
  * @author Ponec
  */
 public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJO> {
@@ -74,15 +74,20 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
             @Override
             public void handleEvent(FieldEvent fe) {
                 int code = fe.getEvent().getKeyCode();
-                boolean letter = code >= 65 && code <= 90;
+                boolean letter = code >= 65 && code <= 90 || code == 188; // 65-90 = a-z, 188 = ,
                 if (letter) {
+                    boolean append = code == 188;
                     char ch = (char) fe.getEvent().getKeyCode();
                     if (!fe.getEvent().getShiftKey()) {
                         ch = Character.toLowerCase(ch);
                     }
-                    TextField descriptionTextField = (TextField)descriptionField;
-                    descriptionTextField.setRawValue(Character.toString(ch));
-                    descriptionTextField.setSelectionRange(1, 0);
+                    TextField descriptionTextField = (TextField) descriptionField;
+                    if (append) {
+                        descriptionTextField.setRawValue(descriptionTextField.getRawValue() + ", ");
+                    } else {
+                        descriptionTextField.setRawValue(Character.toString(ch));
+                    }
+                    descriptionTextField.setSelectionRange(descriptionTextField.getRawValue().length(), 0);
                     descriptionTextField.focus();
                     fe.stopEvent();
                 }
@@ -148,7 +153,6 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
         final Button update = newOkButton(newState);
         panel.addButton(update);
         update.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
             @Override
             public void componentSelected(ButtonEvent ce) {
                 onSubmit();
@@ -184,6 +188,4 @@ public class EventEditDialog<CUJO extends CEvent> extends AbstractEditDialog<CUJ
         ((TextField)findField(CEvent.startTime_)).selectAll(); // TODO: Nefunguje při INSERT
         return result;
     }
-
-
 }
