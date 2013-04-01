@@ -35,7 +35,13 @@ public class CParam4Company extends CAbstractParam implements Serializable {
     /** Show Private Events in Event Report */
     public static final CujoProperty<CParam4Company, Boolean> reportShowsPrivateEvents = pl.newPropertyDef("ReportShowsPrivateEvents", false);
     /** */
-    public static final CujoProperty<CParam4Company, String> jiraServerUrl = pl.newPropertyDef("JiraServerUrl", "");
+    public static final CujoProperty<CParam4Company, String> jiraIssueRegex = pl.newPropertyDef("JiraIssueRegex", "");
+    /** */
+    public static final CujoProperty<CParam4Company, String> jiraIssueReplacement = pl.newPropertyDef("JiraIssueReplacement", "");
+    /** */
+    public static final CujoProperty<CParam4Company, String> crucibleReviewRegex = pl.newPropertyDef("CrucibleReviewRegex", "");
+    /** */
+    public static final CujoProperty<CParam4Company, String> crucibleReviewReplacement = pl.newPropertyDef("CrucibleReviewReplacement", "");
 
     /** Instance */
     private static final CParam4Company instance = new CParam4Company();
@@ -91,9 +97,38 @@ public class CParam4Company extends CAbstractParam implements Serializable {
         return result;
     }
 
-    /** Returns JIRA server url */
-    public String getJiraServerUrl() {
-        CujoProperty property = jiraServerUrl;
+    public String getJiraIssueReplacement() {
+        CujoProperty property = jiraIssueReplacement;
+
+        AbstractCujo p = map.get(property.getName());
+        String result = p instanceof CSingleComParam
+                ? ((CSingleComParam)p).getTextValue()
+                : (String) property.getDefault();
+        return result;
+    }
+
+    public String getJiraIssueRegex() {
+        CujoProperty property = jiraIssueRegex;
+
+        AbstractCujo p = map.get(property.getName());
+        String result = p instanceof CSingleComParam
+                ? ((CSingleComParam)p).getTextValue()
+                : (String) property.getDefault();
+        return result;
+    }
+
+    public String getCrucibleReviewReplacement() {
+        CujoProperty property = crucibleReviewReplacement;
+
+        AbstractCujo p = map.get(property.getName());
+        String result = p instanceof CSingleComParam
+                ? ((CSingleComParam)p).getTextValue()
+                : (String) property.getDefault();
+        return result;
+    }
+
+    public String getCrucibleReviewRegex() {
+        CujoProperty property = crucibleReviewRegex;
 
         AbstractCujo p = map.get(property.getName());
         String result = p instanceof CSingleComParam

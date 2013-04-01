@@ -11,16 +11,12 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.GridEvent;
-import com.extjs.gxt.ui.client.event.KeyEvent;
 import com.extjs.gxt.ui.client.event.Listener;
-import com.extjs.gxt.ui.client.event.WidgetListener;
 import com.extjs.gxt.ui.client.util.DelayedTask;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
-import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
-import com.google.gwt.user.client.Event;
 import com.inspectime.application.client.cbo.CEvent;
 import com.inspectime.application.client.gui.event.EventEditDialog;
 import java.util.Date;
@@ -42,19 +38,15 @@ public class LiveEventPanel<CUJO extends CEvent> extends AbstractEventTable<CUJO
 
     /**
      * Value 0 means OFF, other values means an auto refresh interval in
-     * minutes.
+     * seconds.
      */
-    private static final int AUTO_REFRESH_INTERVAL = 1;
+    private static final int AUTO_REFRESH_INTERVAL = 30;
     private DelayedTask autoRefreshTask;
-    private boolean reloadRequest = false;
+    private EventTable parentEventTable;
 
-    public LiveEventPanel(CQuery<CUJO> query) {
-        super(query);
+    public LiveEventPanel(EventTable parentEventTable) {
         embedded = true;
-    }
-
-    public LiveEventPanel() {
-        embedded = true;
+        this.parentEventTable = parentEventTable;
     }
 
     @Override
@@ -67,16 +59,12 @@ public class LiveEventPanel<CUJO extends CEvent> extends AbstractEventTable<CUJO
         autoRefreshTask = new DelayedTask(new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-                if (AUTO_REFRESH_INTERVAL > 0) {
-                    if (isVisible()) {
-                        reloadTable();
-                    } else {
-                        reloadRequest = true;
-                    }
-                }
+                doRefreshLiveTable();
             }
         });
-
+        if (AUTO_REFRESH_INTERVAL > 0) {
+            autoRefreshTask.delay(AUTO_REFRESH_INTERVAL * 1000);
+        }
 
         grid.addListener(Events.OnKeyDown, new Listener<GridEvent>() {
             @Override
@@ -87,34 +75,6 @@ public class LiveEventPanel<CUJO extends CEvent> extends AbstractEventTable<CUJO
                 ge.stopEvent();
             }
         });
-
-        /*        
-
-         BorderLayout borderLayout = new BorderLayout();
-
-         ContentPanel evTable = new ContentPanel();
-         evTable.setHeaderVisible(false);
-         evTable.setLayout(borderLayout);
-         evTable.add(grid, new BorderLayoutData(LayoutRegion.CENTER, 0, 0, 0));
-        
-         cpTable.setHeaderVisible(false);
-         borderLayout = new BorderLayout();
-         cpTable.setLayout(borderLayout);
-         cpTable.add(evTable, new BorderLayoutData(LayoutRegion.CENTER, 0, 0, 0));
-         autoRefreshTask = new DelayedTask(new Listener<BaseEvent>() {
-         @Override
-         public void handleEvent(BaseEvent be) {
-         if (AUTO_REFRESH_INTERVAL>0) {
-         if (isVisible()) {
-         reloadTable();
-         } else {
-         reloadRequest = true;
-         }
-         }
-         }
-         });
-         * 
-         */
     }
 
     /**
@@ -177,18 +137,24 @@ public class LiveEventPanel<CUJO extends CEvent> extends AbstractEventTable<CUJO
         return null;
     }
 
-    @Override
-    protected void onTableLoad(PagingLoadResult<CUJO> result) {
-        super.onTableLoad(result);
-        if (AUTO_REFRESH_INTERVAL > 0) {
-            autoRefreshTask.delay(AUTO_REFRESH_INTERVAL * 60 * 1000);
+    protected void doRefreshLiveTable() {
+        try {
+            if (parentEventTable.isEditDialogVisible()) {
+                // Skipping refresh because of editing
+            } else {
+                if (AUTO_REFRESH_INTERVAL > 0) {
+                    if (isVisible()) {
+                        reloadTable();
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            // nothing
+        } finally {
+            if (AUTO_REFRESH_INTERVAL > 0) {
+                autoRefreshTask.delay(AUTO_REFRESH_INTERVAL * 1000);
+            }
         }
-    }
-
-    @Override
-    public void reloadTable() {
-        this.reloadRequest = false;
-        super.reloadTable();
     }
 
     @Override

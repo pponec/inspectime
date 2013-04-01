@@ -136,15 +136,19 @@ final public class Event extends AbstractBo {
 
     /** Set the Day and Time. */
     public void setDayTime(Date dayTime) {
-
         final Calendar c = GregorianCalendar.getInstance();
+        
         c.setTime(dayTime);
         final int minutes = c.get(Calendar.MINUTE);
         final int hours = c.get(Calendar.HOUR_OF_DAY);
         final short result = (short)(minutes + hours * 60);
-
         startTime.setValue(this, result);
-        day.setValue(this, new java.sql.Date(dayTime.getTime()));
+        
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        day.setValue(this, new java.sql.Date(c.getTime().getTime()));
     }
 
     // --- SETTERS / GETTERS --------------------

@@ -33,8 +33,14 @@ public interface ParamCompService extends UjoMiddle<ParamCompService> {
     public static final Key<ParamCompService, Integer> firstDayOfWeek = $f.newKey("FirstDayOfWeek", Calendar.getInstance().getFirstDayOfWeek());
     /** Show Private Events in Event Report */
     public static final Key<ParamCompService, Boolean> reportShowsPrivateEvents = $f.newKey("ReportShowsPrivateEvents", true);
-    /** Show Private Events in Event Report */
-    public static final Key<ParamCompService, String> jiraServerUrl = $f.newKey("JiraServerUrl", "");
+    /** */
+    public static final Key<ParamCompService, String> jiraIssueRegex = $f.newKey("JiraIssueRegex", "");
+    /** */
+    public static final Key<ParamCompService, String> jiraIssueReplacement = $f.newKey("JiraIssueReplacement", "");
+    /** */
+    public static final Key<ParamCompService, String> crucibleReviewRegex = $f.newKey("CrucibleReviewRegex", "");
+    /** */
+    public static final Key<ParamCompService, String> crucibleReviewReplacement = $f.newKey("CrucibleReviewReplacement", "");
     
     /** Lock the Factory */
     public static final boolean $locked = $f.lockAndSize()>=0;    

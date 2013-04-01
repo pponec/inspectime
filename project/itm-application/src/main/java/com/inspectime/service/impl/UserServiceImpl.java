@@ -535,7 +535,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
             privateEvent.set(Event.description, ParamUserServiceImpl.P_EXIT_EVENT_DESCR.getValue(paramUserService));
             privateEvent.set(Event.active, true);
             privateEvent.set(Event.user, getApplContext().getUser());
-            privateEvent.set(Event.timeZone, getApplContext().getUser().get(User.timeZone));
+            privateEvent.set(Event.actualClientLocalTime, localDate);
             eventService.save(privateEvent);
 
             return true;
@@ -567,7 +567,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
                 privateEvent.set(Event.description, ParamUserServiceImpl.P_LOGIN_EVENT_DESCR.getValue(paramUserService));
                 privateEvent.set(Event.active, true);
                 privateEvent.set(Event.user, getApplContext().getUser());
-                privateEvent.set(Event.timeZone, getApplContext().getUser().get(User.timeZone));
+                privateEvent.set(Event.actualClientLocalTime, localDate);
                 eventService.save(privateEvent);
             }
 
