@@ -50,6 +50,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.inspectime.application.client.Application;
 import com.inspectime.application.client.ClientContext;
 import com.inspectime.application.client.ao.CRoleEnum;
@@ -67,6 +68,7 @@ import com.inspectime.application.client.gui.project.ProjectTable;
 import com.inspectime.application.client.service.CParam4Company;
 import com.inspectime.application.client.service.CParam4User;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
@@ -500,8 +502,12 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
             @Override
             public void componentSelected(ButtonEvent ce) {
                 Date date = calendar.getValue();
-                date = date != null ? new Date(date.getTime() - ONE_DAY) : new Date();
-                calendar.setValue(date);
+                if (date != null) {
+                    CalendarUtil.addDaysToDate(date, -1);
+                    calendar.setValue(date);
+                } else {
+                    calendar.setValue(new Date());
+                }
                 reloadTable();
             }
         });
@@ -526,8 +532,12 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
             @Override
             public void componentSelected(ButtonEvent ce) {
                 Date date = calendar.getValue();
-                date = date != null ? new Date(date.getTime() + ONE_DAY) : new Date();
-                calendar.setValue(date);
+                if (date != null) {
+                    CalendarUtil.addDaysToDate(date, +1);
+                    calendar.setValue(date);
+                } else {
+                    calendar.setValue(new Date());
+                }
                 reloadTable();
             }
         });
