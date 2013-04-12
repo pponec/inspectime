@@ -69,6 +69,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.ujorm.Ujo;
 import org.ujorm.Key;
 import org.ujorm.core.UjoManager;
@@ -87,6 +88,7 @@ import org.ujorm.orm.metaModel.MetaColumn;
  * @author Ponec
  */
 @org.springframework.stereotype.Controller("tableController")
+@Transactional
 public class TableControllerImpl extends RemoteServiceServlet implements TableController, BeanFactoryAware {
 
     final static private Logger LOGGER = Logger.getLogger(TableControllerImpl.class.getName());
@@ -145,7 +147,7 @@ public class TableControllerImpl extends RemoteServiceServlet implements TableCo
         }
         return serviceMap.get(type);
     }
-
+    
     protected void saveOrUpdate(AbstractBo ujo) {
         AbstractService service = getService(ujo.getClass());
         if (service != null) {

@@ -11,8 +11,11 @@ package com.inspectime.service.impl;
 import com.inspectime.application.server.core.ServerClassConfig;
 import com.inspectime.commons.WQuery;
 import com.inspectime.commons.bo.AbstractBo;
+import com.inspectime.commons.bo.Company;
+import com.inspectime.service.def.AbstractService;
 import com.inspectime.service.def.ApplContextService;
 import com.inspectime.service.def.CommonService;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.BeansException;
@@ -22,15 +25,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.ujorm.Key;
 import org.ujorm.core.UjoIterator;
 import org.ujorm.criterion.Criterion;
+import org.ujorm.extensions.Property;
+import org.ujorm.gxt.client.CMessageException;
 import org.ujorm.implementation.orm.OrmTable;
 import org.ujorm.orm.Query;
 import org.ujorm.orm.Session;
-import org.ujorm.orm.support.UjoSessionFactory;
-import com.inspectime.commons.bo.Company;
-import com.inspectime.service.def.AbstractService;
-import java.util.List;
-import org.ujorm.extensions.Property;
-import org.ujorm.gxt.client.CMessageException;
+import org.ujorm.spring.UjormTransactionManager;
 
 /**
  * predek sluzeb
@@ -43,7 +43,7 @@ abstract public class AbstractServiceImpl<BO extends AbstractBo> implements Abst
     @Autowired
     protected CommonService commonService;
     @Autowired
-    private UjoSessionFactory ujoSessionFactory;
+    private UjormTransactionManager ujoSessionFactory;
     @Autowired
     private ServerClassConfig serverClassConfig;
 
@@ -55,13 +55,13 @@ abstract public class AbstractServiceImpl<BO extends AbstractBo> implements Abst
     protected Key<BO,Company> propertyCompany = PROPERTY_COMPANY_UNDEFINED;
 
 
-    public UjoSessionFactory getUjoSessionFactory() {
+    protected UjormTransactionManager getUjoSessionFactory() {
         return ujoSessionFactory;
     }   
 
     /** Returns the default session */
-    public Session getSession() {
-        return getUjoSessionFactory().getDefaultSession();
+    protected Session getSession() {
+        return getUjoSessionFactory().getLocalSession();
     }
 
     /** Returns a default class for the company */
