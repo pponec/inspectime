@@ -10,10 +10,17 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-
-    <context:component-scan base-package="com.inspectime.service.impl, com.inspectime.application.server.controller">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-    </context:component-scan>
+    <context:annotation-config /> 
+    <context:component-scan base-package="com.inspectime.service.impl, 
+                                          com.inspectime.application.server.controller,
+                                          com.inspectime.application.jobs.impl" />                                          
+                
+    <!-- ORM Ujorm config -->
+    <tx:annotation-driven transaction-manager="ujormTransactionManager"/>
+    <bean id="ormHandler" class="org.ujorm.orm.OrmHandler"></bean>
+    <bean id="ujormTransactionManager" class="org.ujorm.spring.UjormTransactionManager">
+        <property name="ormHandler" ref="ormHandler"/>
+    </bean>    
 
     <!-- Service configurations -->
     <bean id="appParamService" class="com.inspectime.service.impl.ParamCompServiceImpl">

@@ -27,7 +27,8 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
 public class UserDetailsServiceImpl implements UserDetailsService, BeanFactoryAware {
 
     static final private Logger LOGGER = Logger.getLogger(UserDetailsServiceImpl.class.getName());
-
+    
+    /** Service is injected by Spring */
     private UserService userService;
 
     /** Spring bean factory */
@@ -83,14 +84,14 @@ public class UserDetailsServiceImpl implements UserDetailsService, BeanFactoryAw
         return userDetails;
     }
 
-    /**
+    /** Service is injected by Spring
      * @return the userService
      */
     public UserService getUserService() {
         return userService;
     }
 
-    /**
+    /** Service is injected by Spring
      * @param userService the userService to set
      */
     public void setUserService(UserService userService) {

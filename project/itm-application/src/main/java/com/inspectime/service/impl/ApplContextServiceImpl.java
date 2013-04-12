@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.Transactional;
-import org.ujorm.orm.support.UjoSessionFactory;
+import org.ujorm.spring.UjormTransactionManager;
 
 /**
  * User application context
@@ -36,7 +36,7 @@ public class ApplContextServiceImpl implements ApplContextService {
     static final private Logger LOGGER = Logger.getLogger(ApplContextServiceImpl.class.getName());
 
     @Autowired
-    protected UjoSessionFactory ujoSessionFactory;
+    protected UjormTransactionManager ujoSessionFactory;
 
     @Autowired
     private UserService userService;
@@ -70,7 +70,7 @@ public class ApplContextServiceImpl implements ApplContextService {
 
         // Assign a default session:
         if (user!=null) {
-            user.writeSession(ujoSessionFactory.getDefaultSession());
+            user.writeSession(ujoSessionFactory.getLocalSession());
         }
 
         return user;

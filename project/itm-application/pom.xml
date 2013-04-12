@@ -71,16 +71,12 @@
             <artifactId>spring-webmvc</artifactId>
         </dependency>
 
-
-        <!--ws-->
+        <!--ws-.->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-remoting</artifactId>
         </dependency>
-
-
-        <!--konec-ws-->
-
+        <!-.-konec-ws-->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -92,12 +88,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!--quartz-->
+        <!--quartz-.->
         <dependency>
             <groupId>quartz</groupId>
             <artifactId>quartz</artifactId>
         </dependency>
-        <!--konec  quartz-->
+        <!-.-konec  quartz-->
 
         <!-- JTA (Java Transacton API) -->
         <dependency>
@@ -149,7 +145,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core-tiger</artifactId>
-
         </dependency>
 
         <dependency>
@@ -167,9 +162,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+        </dependency>        
+        <dependency>
             <groupId>aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-        </dependency>
+        </dependency>        
 
         <dependency>
             <groupId>org.ujorm</groupId>
@@ -178,6 +181,32 @@
         <dependency>
             <groupId>org.ujorm</groupId>
             <artifactId>ujo-spring</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aspects</artifactId>
+                </exclusion>                   
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>                   
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-orm</artifactId>
+                </exclusion>                   
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>                   
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>                         
+                <exclusion>
+                    <groupId>aspectj</groupId>
+                    <artifactId>aspectjweaver</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         
         <dependency>
@@ -205,7 +234,7 @@
                 <configuration>
                     <runTarget>com.inspectime.application.Application/Application.html</runTarget>
                     <servicePattern>**/client/controller/*Controller.java</servicePattern>
-                                            <rpcPattern>controller/{0}.rpc</rpcPattern>
+                    <rpcPattern>controller/{0}.rpc</rpcPattern>
                     <!--                    <rpcPattern>controller/{0}.rpc</rpcPattern> -->
                     <disableCastChecking>true</disableCastChecking>
                     <disableClassMetadata>false</disableClassMetadata>
@@ -291,7 +320,7 @@
 
     <distributionManagement>
         <!-- Cilove umisteni pro vygenerovane www stranky projektu.
-             Maven target "site:deploy" prekopiruje vygenerovane stranky do tohoto adresare -->
+        Maven target "site:deploy" prekopiruje vygenerovane stranky do tohoto adresare -->
         <site>
             <id>local-site</id>
             <url>file:///var/www/mavensites/inspectime</url>

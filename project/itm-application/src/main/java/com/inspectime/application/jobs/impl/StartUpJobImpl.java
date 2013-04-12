@@ -24,14 +24,16 @@ import com.inspectime.service.def.UserService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.ujorm.orm.OrmHandler;
 import org.ujorm.orm.metaModel.MetaParams;
+import org.ujorm.spring.OrmHandlerProvider;
 
 /**
  *
  * @author Hampl
  */
-public class StartUpJobImpl implements StartUpJob {
+public class StartUpJobImpl implements StartUpJob, OrmHandlerProvider {
 
     private BeanFactory beanFactory;
     @Autowired
@@ -55,6 +57,11 @@ public class StartUpJobImpl implements StartUpJob {
     }
 
     @Override
+    public OrmHandler getOrmHandler() {
+        return handler;
+    }
+    
+    @Override
     public void init() {
         
         // Store database configuration:
@@ -75,11 +82,9 @@ public class StartUpJobImpl implements StartUpJob {
     }
 
     @Override
+    @Transactional
     public void instalDefaultValues() {
-       //maybe junit test change versiun in compilation time
         instalAdmin();
-
-        // ...
     }
 
     private void instalAdmin() {

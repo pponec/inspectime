@@ -25,8 +25,8 @@ import org.ujorm.gxt.server.IServerClassConfig;
 import org.ujorm.implementation.orm.OrmTable;
 import org.ujorm.orm.Query;
 import org.ujorm.orm.Session;
-import org.ujorm.orm.support.UjoSessionFactory;
 import org.ujorm.orm.utility.OrmTools;
+import org.ujorm.spring.UjormTransactionManager;
 
 
 /**
@@ -40,20 +40,20 @@ public class CommonServiceImpl implements CommonService {
     private static final Logger LOGGER = Logger.getLogger(CommonServiceImpl.class.getName());
 
     @Autowired
-    protected UjoSessionFactory ujoSessionFactory;
+    protected UjormTransactionManager ujoSessionFactory;
     @Autowired
     protected UserService userService;
     @Autowired
     protected IServerClassConfig serverClassConfig;
 
-    public UjoSessionFactory getUjoSessionFactory() {
+    public UjormTransactionManager getUjoSessionFactory() {
         return ujoSessionFactory;
     }
 
     /** Returns a default session */
     @Override
     public Session getSession() {
-        return getUjoSessionFactory().getDefaultSession();
+        return getUjoSessionFactory().getLocalSession();
     }
 
     @Override

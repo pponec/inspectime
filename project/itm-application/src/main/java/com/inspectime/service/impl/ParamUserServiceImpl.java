@@ -27,7 +27,7 @@ import org.ujorm.core.UjoManager;
 import org.ujorm.criterion.Criterion;
 import org.ujorm.implementation.map.MapUjo;
 import org.ujorm.orm.Session;
-import org.ujorm.orm.support.UjoSessionFactory;
+import org.ujorm.spring.UjormTransactionManager;
 
 /**
  * Services for reading and writting parameters
@@ -40,7 +40,7 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
     static final private Logger LOGGER = Logger.getLogger(ParamUserServiceImpl.class.getName());
     static final private UjoPropertyList propertyList = UjoManager.getInstance().readProperties(ParamUserService.class);
     @Autowired
-    private UjoSessionFactory ujoSessionFactory;
+    private UjormTransactionManager ujoSessionFactory;
     /** Spring bean factory */
     protected BeanFactory beanFactory;
     //temporary property do not use it
@@ -49,7 +49,7 @@ public class ParamUserServiceImpl extends MapUjo implements ParamUserService, Be
 
 
     public Session getSession() {
-        return ujoSessionFactory.getDefaultSession();
+        return ujoSessionFactory.getLocalSession();
     }
 
     /** Make validation and encode an object into String */

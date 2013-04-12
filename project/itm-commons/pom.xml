@@ -69,11 +69,6 @@
             <artifactId>log4j</artifactId>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <type>jar</type>
-        </dependency>
     </dependencies>
     <description>Time tracker</description>
     <build>
