@@ -72,19 +72,26 @@ public class UjormTransactionManager extends AbstractPlatformTransactionManager 
     /** Begin a new transaction with semantics according to the given transaction */
     protected void doEnd(boolean commit, Session localSession) throws TransactionException {
         if (localSession.isClosed()) {
-            throw new TransactionException("Transaction is closed") {};
+            final String msg = "Transaction is closed, can't be " + (commit ? "commited" : "rollbacked");
+            throw new TransactionException(msg) {
+                private static final long serialVersionUID = 1L;
+            };
         }
         try {
             if (commit) {
                LOGGER.log(Level.FINEST, "Auto transaction ending with the Commit");
                localSession.commitTransaction();
-            } else {
+            } else try {
                LOGGER.log(Level.FINEST, "Auto transaction ending with the Rollback");
                localSession.rollbackTransaction();
+            } catch (Exception e) {
+               // The rollback exception must not be thrown, because the original one could be overlapped.
+               LOGGER.log(Level.SEVERE, "Rollback failed", e);
             }
         } finally {
             if (localSession.getTransaction() == null) {
                 session.remove();
+                localSession.close();
             }
         }
     }
