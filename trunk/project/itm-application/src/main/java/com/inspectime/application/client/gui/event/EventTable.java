@@ -63,6 +63,7 @@ import com.inspectime.application.client.cbo.CTask;
 import com.inspectime.application.client.cbo.CUser;
 import com.inspectime.application.client.clientTools.AbstractEditDialog;
 import com.inspectime.application.client.controller.EventControllerAsync;
+import com.inspectime.application.client.gui.commons.FormattedMessageDialog;
 import com.inspectime.application.client.gui.liveEvent.LiveEventPanel;
 import com.inspectime.application.client.gui.project.ProjectTable;
 import com.inspectime.application.client.service.CParam4Company;
@@ -382,13 +383,10 @@ public class EventTable<CUJO extends CEvent> extends AbstractEventTable<CUJO> {
                     }
                 }
                 msg.append("</ul>");
-                MessageBox box = new MessageBox();
-                box.setTitle("Scrum export");
-                box.setMessage(msg.toString());
-                box.setButtons(OK);
-                box.setIcon(INFO);
-                box.setModal(false);
-                box.show();
+                
+                FormattedMessageDialog dialog = new FormattedMessageDialog("Scrum export", msg.toString(), null);
+                dialog.setModal(false);
+                dialog.show();
             }
         });
 
